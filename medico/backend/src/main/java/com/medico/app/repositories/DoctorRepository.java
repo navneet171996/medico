@@ -1,5 +1,9 @@
 package com.medico.app.repositories;
 
-public interface DoctorRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.medico.app.entities.Doctor;
+
+public interface DoctorRepository extends JpaRepository<Doctor, Integer>{
     
 }
