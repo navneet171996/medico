@@ -1,5 +1,6 @@
 package com.medico.app.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -32,6 +33,7 @@ public class Hospital {
     @OneToOne(mappedBy = "hospital")
     private Admin admin;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "hospitals")
     private Set<Doctor> doctors;
 

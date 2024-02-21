@@ -3,14 +3,8 @@ package com.medico.app.entities;
 import java.util.Date;
 import java.util.Set;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,10 +19,10 @@ import lombok.Setter;
 public class Doctor {
 
     @Id
-    @Column(name = "id")
+    @Column(name = "doctor_id")
     private Integer docId;
 
-    @Column(name = "name")
+    @Column(name = "doctor_name")
     private String docName;
 
     @Column(name = "date_of_birth")
@@ -62,4 +56,8 @@ public class Doctor {
     @ManyToOne
     @JoinColumn(name = "hospital", referencedColumnName = "hospital_id")
     private Hospital hospitals;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "doctor")
+    private Set<Consultation> consultation;
 }

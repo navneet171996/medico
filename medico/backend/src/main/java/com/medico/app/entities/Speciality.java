@@ -1,5 +1,6 @@
 package com.medico.app.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -27,6 +28,7 @@ public class Speciality {
     @Column(name = "name")
     private String specialityName;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "speciality")
     private Set<Doctor> doctors;
 }
