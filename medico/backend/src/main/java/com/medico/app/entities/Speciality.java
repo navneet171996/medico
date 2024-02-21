@@ -10,6 +10,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Set;
+
 @Entity
 @Table(name = "speciality")
 @Getter
@@ -19,10 +21,12 @@ import lombok.Setter;
 public class Speciality {
 
     @Id
-    @Column(name = "specialityId")
+    @Column(name = "speciality_id")
     private Integer specialityId;
 
-//     @Column()
-//     @OneToMany
-//     private String specialityName;
+    @Column(name = "name")
+    private String specialityName;
+
+    @OneToMany(mappedBy = "speciality")
+    private Set<Doctor> doctors;
 }

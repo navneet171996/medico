@@ -1,5 +1,6 @@
 package com.medico.app.entities;
 
+import java.util.Date;
 import java.util.Set;
 
 import jakarta.persistence.Column;
@@ -27,14 +28,38 @@ public class Doctor {
     @Column(name = "id")
     private Integer docId;
 
-    @Column(name = "doctor_name")
+    @Column(name = "name")
     private String docName;
 
-    // @Column(name = "doctor_speciality")
-    // @ManyToOne()
-    // private Speciality speciality;
+    @Column(name = "date_of_birth")
+    private Date docDob;
 
-    // @ManyToMany()
-    // @JoinTable(joinColumns = @JoinColumn())
-    // private Set<Hospital> hospitals;
+    @Column(name = "phone_no")
+    private String phoneNo;
+
+    @Column(name = "gender")
+    private char gender;
+
+    @Column(name = "rate")
+    private Float rate;
+
+    @Column(name = "rating")
+    private Float rating;
+
+    @Column(name = "is_senior")
+    private Boolean srDoctor;
+
+    @Column(name = "email_id")
+    private String email;
+
+    @Column(name = "password")
+    private String password;
+
+    @ManyToOne
+    @JoinColumn(name = "speciality", referencedColumnName = "speciality_id")
+    private Speciality speciality;
+
+    @ManyToOne
+    @JoinColumn(name = "hospital", referencedColumnName = "hospital_id")
+    private Hospital hospitals;
 }

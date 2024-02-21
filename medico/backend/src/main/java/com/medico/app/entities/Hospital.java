@@ -1,14 +1,12 @@
 package com.medico.app.entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.Set;
 
 @Entity
 @Table(name = "hospitals")
@@ -25,7 +23,16 @@ public class Hospital {
     @Column(name = "hospital_name")
     private String hospitalName;
 
-    // @ManyToMany()
-    // private Set<Doctor> doctors;
+    @Column(name = "Address")
+    private String hospitalAddress;
+
+    @Column(name = "phone_no")
+    private String phoneNo;
+
+    @OneToOne(mappedBy = "hospital")
+    private Admin admin;
+
+    @OneToMany(mappedBy = "hospitals")
+    private Set<Doctor> doctors;
 
 }
