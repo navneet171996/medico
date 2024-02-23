@@ -1,5 +1,6 @@
 package com.medico.app.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -10,6 +11,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Set;
+
 @Entity
 @Table(name = "speciality")
 @Getter
@@ -19,10 +22,13 @@ import lombok.Setter;
 public class Speciality {
 
     @Id
-    @Column()
+    @Column(name = "speciality_id")
     private Integer specialityId;
 
-    @Column()
-    @OneToMany
+    @Column(name = "name")
     private String specialityName;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "speciality")
+    private Set<Doctor> doctors;
 }
