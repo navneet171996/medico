@@ -39,7 +39,7 @@ const getUserRole = () =>{
     // if(token){
         // const payLoad = jwt_decode(token)
         // console.log(payLoad?.role);
-        return "ADMIN"
+        return "DOCTOR"
     //}
     
 }

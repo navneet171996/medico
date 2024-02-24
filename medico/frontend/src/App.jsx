@@ -10,6 +10,7 @@ import Doctor_Home from './components/Doctor/Doctor_Home'
 import DoctorRoutes from '../routes/DoctorRoutes'
 import AdminRoutes from '../routes/AdminRoutes'
 import PatientRoutes from '../routes/PatientRoutes'
+import Register from './components/General/Register'
 
 
 function App() {
@@ -21,8 +22,9 @@ function App() {
         <Route path="/" element={<Layout/>}  >
 
           {/* public routes */}
-          <Route path="/landing" element={<Landing/>}  />
+          <Route path="/" element={<Landing/>}  />
           <Route path="/login" element={<Login/>}  />
+          <Route path="/register" element={<Register/>}  />
 
           {/* protected Routes */}
             
