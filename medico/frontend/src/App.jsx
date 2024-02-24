@@ -11,6 +11,7 @@ import DoctorRoutes from '../routes/DoctorRoutes'
 import AdminRoutes from '../routes/AdminRoutes'
 import PatientRoutes from '../routes/PatientRoutes'
 import Register from './components/General/Register'
+import Patient_History from './components/Patient/Patient_History'
 
 
 function App() {
@@ -30,8 +31,9 @@ function App() {
             
           <Route path='/admin' element={  <AdminRoutes>  <Admin_Home />  </AdminRoutes> }> </Route>
           <Route path='/patient' element={  <PatientRoutes>  <Patient_Home />  </PatientRoutes> }> </Route>
+          <Route path='/patient_History' element={  <PatientRoutes>  <Patient_History />  </PatientRoutes> }> </Route>
           <Route path='/doctor' element={  <DoctorRoutes>  <Doctor_Home />  </DoctorRoutes> }> </Route>
-
+          
 
           {/* 404 page  */}
           <Route path="*" element={<Missing/>} />
