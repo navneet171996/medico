@@ -10,8 +10,9 @@ import Doctor_Home from './components/Doctor/Doctor_Home'
 import DoctorRoutes from '../routes/DoctorRoutes'
 import AdminRoutes from '../routes/AdminRoutes'
 import PatientRoutes from '../routes/PatientRoutes'
-import Register from './components/General/Register'
-
+import Register_patient from './components/General/Register_patient'
+import Regiester_doctor from './components/General/Regiester_doctor'
+import Register_admin from './components/General/Register_admin'
 
 function App() {
  
@@ -24,8 +25,10 @@ function App() {
           {/* public routes */}
           <Route path="/" element={<Landing/>}  />
           <Route path="/login" element={<Login/>}  />
-          <Route path="/register" element={<Register/>}  />
-
+          <Route path="/register_patient" element={<Register_patient/>}  />
+          <Route path="/register_doctor" element={<Regiester_doctor/>}  />
+          <Route path="/register_admin" element={<Register_admin/>}  />
+          
           {/* protected Routes */}
             
           <Route path='/admin' element={  <AdminRoutes>  <Admin_Home />  </AdminRoutes> }> </Route>
