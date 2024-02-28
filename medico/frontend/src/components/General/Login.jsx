@@ -2,13 +2,15 @@ import React from 'react'
 import { Link,useLocation,useNavigate} from 'react-router-dom'
 import { useRef,useState,useEffect,useContext} from 'react'
 import { authService } from '../../../services/authService'
+import AuthContext from '../../../Context/AuthContext'
 
 const Login = () => {
-    
+ 
     
     const navigate = useNavigate()
     const location = useLocation()
-   
+    const {loginApiCall} = useContext(AuthContext)
+
     const [user,setUser]=useState('');
     const [pwd,setPwd]=useState('');
     
@@ -16,7 +18,7 @@ const Login = () => {
    const handleSubmit=async (e)=>{
       e.preventDefault();
       console.log(user,pwd);
-      const userData = { user, password}
+     
     //   const response =  await authService.login(userData);
     //   console.log(response?.data);
       
@@ -25,17 +27,14 @@ const Login = () => {
     //     navigate('/doctor');
     // }
     // authService.setToken('eyJhbGciOiJIUzI1NiJ9.eyJSb2xlIjoiQURNSU4iLCJJc3N1ZXIiOiJJc3N1ZXIiLCJleHAiOjE3MDg0NDY1ODIsImlhdCI6MTcwODQ0NjU4MiwiZW1haWwiOiJKYXZhSW5Vc2UifQ.jN92cyKxuhE39u9xeit-yGRQQAAY5xm3lsIGyslsiM0');
-      if(authService.getUserRole() === 'DOCTOR'){
-        navigate('/doctor');}
-        else if(authService.getUserRole() === 'PATIENT'){
-            navigate('/patient')
-        }
-        else if(authService.getUserRole() === 'ADMIN'){
-            navigate('/admin')
-        }
-        else{
-            navigate('/login')
-        }
+      
+     let payload={
+      email:user,
+      password:pwd
+     }
+     
+     await loginApiCall(payload)
+    
    }
 
   return (
@@ -79,7 +78,7 @@ const Login = () => {
       />
 
 
-     <form  onSubmit={handleSubmit} className="m-0 w-[670px] rounded-6xl bg-gainsboro flex flex-col items-center justify-start pt-[5px] pb-[49px] pr-[63px] pl-[76px] box-border gap-[4px] min-w-[670px] max-w-full mq800:pl-[38px] mq800:pr-[31px] mq800:box-border mq800:min-w-full mq450:pb-[21px] mq450:box-border mq1125:pt-5 mq1125:pb-8 mq1125:box-border mq1325:flex-1">
+     <form   className="m-0 w-[670px] rounded-6xl bg-gainsboro flex flex-col items-center justify-start pt-[5px] pb-[49px] pr-[63px] pl-[76px] box-border gap-[4px] min-w-[670px] max-w-full mq800:pl-[38px] mq800:pr-[31px] mq800:box-border mq800:min-w-full mq450:pb-[21px] mq450:box-border mq1125:pt-5 mq1125:pb-8 mq1125:box-border mq1325:flex-1">
       <div className="w-[670px] h-[813px] relative rounded-6xl bg-gainsboro hidden max-w-full" />
       <div className="self-stretch flex flex-col items-center justify-start pt-0 px-0 pb-[61px] gap-[1px_0px]">
         <div className="w-[237px] flex flex-row items-start justify-start py-0 pr-0 pl-[35px] box-border">
@@ -147,6 +146,7 @@ const Login = () => {
                     id="password"
                     onChange={(e) => setPwd(e.target.value)}
                     value={pwd}
+                   
                     required className="outline-none relative text-5xl  font-inter text-gray-300 text-left z-[2] mq450:text-lgi mq450:leading-[80px]"/>
             
         </div>
@@ -162,7 +162,7 @@ const Login = () => {
       <div className="self-stretch flex flex-row items-start justify-start py-0 pr-0 pl-[13px] box-border max-w-full">
         <div className="flex-1 flex flex-row items-center justify-start max-w-full">
           <div className="h-[72px] w-[518px] relative rounded-6xl bg-mediumpurple-100 max-w-full z-[1]" />
-          <button className="relative text-17xl bg-transparent font-inter text-neutral-colors-white text-left z-[2] ml-[-321px]">
+          <button onClick={handleSubmit} className="relative text-17xl bg-transparent font-inter text-neutral-colors-white text-left z-[2] ml-[-321px]">
             Login
           </button>
         </div>
