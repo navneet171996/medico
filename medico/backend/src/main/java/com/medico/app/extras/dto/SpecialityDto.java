@@ -1,4 +1,4 @@
-package com.medico.app.aux.dto;
+package com.medico.app.extras.dto;
 
 public class SpecialityDto {
 

@@ -1,4 +1,4 @@
-package com.medico.app.aux;
+package com.medico.app.extras;
 
 import org.springframework.stereotype.Service;
 
