@@ -21,7 +21,7 @@ export const AuthContextProvider = ({children}) =>{
     localStorage.setItem("userProfile", JSON.stringify(apiResponse.data));
     setUser(apiResponse.data);
     console.log("user check"+user);
-    navigate('/patient')
+    navigate('/admin')
   };
 
   const logoutAPICall = async () => {
