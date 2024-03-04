@@ -23,7 +23,7 @@ public class Speciality {
 
     @Id
     @Column(name = "speciality_id")
-    private Integer specialityId;
+    private Long specialityId;
 
     @Column(name = "name")
     private String specialityName;
