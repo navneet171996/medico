@@ -1,9 +1,17 @@
 import { Navigate } from "react-router-dom"
-import { authService } from "../services/authService"
-
+import { useContext } from "react";
+import AuthContext from "../Context/AuthContext";
 const PatientRoutes = ({children}) => {
     
-   return (authService.getUserRole() === 'PATIENT') ? children : <Navigate to="/login" />
+   const {user} = useContext(AuthContext)    
+    
+    if(user){
+         
+            return children;
+          
+    }
+   
+    return <Navigate to="/login"> </Navigate>
 }
 
 export default PatientRoutes

@@ -1,74 +1,15 @@
 import React from 'react'
-import { Link,useLocation,useNavigate} from 'react-router-dom'
-import { useRef,useState,useEffect,useContext} from 'react'
-import { authService } from '../../../services/authService'
-import AuthContext from '../../../Context/AuthContext'
-
-const Login = () => {
- 
-    
+import { Link,useNavigate,useLocation } from 'react-router-dom'
+import { useState } from 'react'
+const Register_admin = () => {
     const navigate = useNavigate()
     const location = useLocation()
-    const {loginApiCall} = useContext(AuthContext)
-
+   
     const [user,setUser]=useState('');
     const [pwd,setPwd]=useState('');
-    
-
-   const handleSubmit=async (e)=>{
-      e.preventDefault();
-      console.log(user,pwd);
-     
-    //   const response =  await authService.login(userData);
-    //   console.log(response?.data);
-      
-    //   if(response?.data?.accessToken){
-    //     authService.setToken(response?.data?.accessToken);
-    //     navigate('/doctor');
-    // }
-    // authService.setToken('eyJhbGciOiJIUzI1NiJ9.eyJSb2xlIjoiQURNSU4iLCJJc3N1ZXIiOiJJc3N1ZXIiLCJleHAiOjE3MDg0NDY1ODIsImlhdCI6MTcwODQ0NjU4MiwiZW1haWwiOiJKYXZhSW5Vc2UifQ.jN92cyKxuhE39u9xeit-yGRQQAAY5xm3lsIGyslsiM0');
-      
-     let payload={
-      email:user,
-      password:pwd
-     }
-     
-     await loginApiCall(payload)
-    
-   }
-
   return (
-
-    <>        
-        {/* <section>
-          
-            <h1>Sign In</h1>
-            <form onSubmit={handleSubmit}>
-
-                <label htmlFor="username">Username:</label>
-                <input
-                    type="text"
-                    id="username"
-                   
-                    autoComplete="off"
-                    onChange={(e) => setUser(e.target.value)}
-                    value={user}
-                    required
-                />
-
-                <label htmlFor="password">Password:</label>
-                <input
-                    type="password"
-                    id="password"
-                    onChange={(e) => setPwd(e.target.value)}
-                    value={pwd}
-                    required
-                />
-                <button>Log In </button>
-            </form>
-           
-        </section> */}
-
+    
+  <>
   <div className="w-full relative bg-whitesmoke-100 overflow-hidden flex flex-row items-center justify-start pt-[67px] px-0 pb-36 box-border [row-gap:20px] tracking-[normal] mq1325:flex-wrap">
       <img
         className="h-[607.4px] w-[726px] relative max-w-full mq1325:flex-1"
@@ -92,20 +33,21 @@ const Login = () => {
 
         
         <div className="self-stretch rounded-11xl bg-mediumblue overflow-hidden flex flex-row items-start justify-between py-0 pr-[61px] pl-[81px] gap-[20px] z-[1] mq800:pl-10 mq800:pr-[30px] mq800:box-border mq450:flex-wrap">
-          <div className="h-[74px] w-[74px] flex flex-col items-start justify-end pt-0 px-0 pb-0 box-border">
-            <div className="mt-[-8px] self-stretch h-[82px] flex flex-col items-start justify-start pt-0 px-0 pb-0 box-border">
-              <div className="self-stretch flex flex-row items-start justify-start relative">
-                <div className="h-[60px] w-[263px] absolute my-0 mx-[!important] top-[15px] right-[-119px] rounded-26xl bg-gray-100" />
-                <div className="mb-[-26px] flex-1 relative text-5xl left-[20px] leading-[90px] font-semibold font-inter text-black text-left z-[1] mq450:text-lgi mq450:leading-[100px]">
-                 <Link className='no-underline text-black'>Login</Link> 
-                </div>
-              </div>
-            </div>
-          </div>
+        
           <div className="h-[74px] w-[131px] flex flex-col items-start justify-end pt-0 px-0 pb-0 box-border">
             <div className="mt-[-8px] self-stretch h-[82px] flex flex-col items-start justify-start pt-0 px-0 pb-0 box-border">
               <div className="mb-[-26px] self-stretch h-[108px] relative text-5xl leading-[125px] font-semibold font-inter text-black text-left flex items-end shrink-0 mq450:text-lgi mq450:leading-[100px]">
-              <Link to="/register_patient" className='no-underline'> Register</Link> 
+              <Link to="/login" className='no-underline'> Login</Link> 
+              </div>
+            </div>
+          </div>
+          <div className="h-[74px] w-[74px] flex flex-col items-start justify-end pt-0 px-0 pb-0 box-border">
+            <div className="mt-[-8px] self-stretch h-[82px] flex flex-col items-start justify-start pt-0 px-0 pb-0 box-border">
+              <div className="self-stretch flex flex-row items-start justify-start relative">
+                <div className="h-[60px] w-[263px] absolute my-0 mx-[!important] top-[15px] right-[-49px] rounded-26xl bg-gray-100" />
+                <div className="mb-[-80px] flex-1 relative right-[30px] text-5xl leading-[90px] font-semibold font-inter text-black text-left z-[1] mq450:text-lgi mq450:leading-[100px]">
+                 <Link className='no-underline text-black '>Register</Link> 
+                </div>
               </div>
             </div>
           </div>
@@ -128,6 +70,7 @@ const Login = () => {
                     onChange={(e) => setUser(e.target.value)}
                     value={user}
                     required className="outline-none relative text-5xl  font-inter text-gray-300 text-left z-[2] mq450:text-lgi mq450:leading-[80px]"/>
+            
         </div>
       </div>
 
@@ -146,34 +89,28 @@ const Login = () => {
                     id="password"
                     onChange={(e) => setPwd(e.target.value)}
                     value={pwd}
-                   
                     required className="outline-none relative text-5xl  font-inter text-gray-300 text-left z-[2] mq450:text-lgi mq450:leading-[80px]"/>
             
         </div>
+        <Link to="/register_doctor" className='py-3 mt-7 text-black no-underline'>Register as Doctor</Link>
+        <Link to="/register_patient" className='text-black no-underline'>Register as a Patinet</Link>
       </div>
 
-
-        <div className="absolute top-[178px] left-[200px] text-xl leading-[125%] font-inter text-black text-left z-[1] mq450:text-base mq450:leading-[20px]">
-          Forgot password?
-        </div>
       </div>
 
 
       <div className="self-stretch flex flex-row items-start justify-start py-0 pr-0 pl-[13px] box-border max-w-full">
         <div className="flex-1 flex flex-row items-center justify-start max-w-full">
           <div className="h-[72px] w-[518px] relative rounded-6xl bg-mediumpurple-100 max-w-full z-[1]" />
-          <button onClick={handleSubmit} className="relative text-17xl bg-transparent font-inter text-neutral-colors-white text-left z-[2] ml-[-321px]">
+          <button className="relative text-17xl bg-transparent font-inter text-neutral-colors-white text-left z-[2] ml-[-321px]">
             Login
           </button>
         </div>
       </div>
     </form>
     </div>
-       
-           
-     </>
-   
+  </>
   )
 }
 
-export default Login
+export default Register_admin
