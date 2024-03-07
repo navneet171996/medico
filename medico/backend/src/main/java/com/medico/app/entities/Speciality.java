@@ -1,11 +1,7 @@
 package com.medico.app.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,11 +18,15 @@ import java.util.Set;
 public class Speciality {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "speciality_id")
     private Long specialityId;
 
-    @Column(name = "name")
+    @Column(name = "speciality_name")
     private String specialityName;
+
+    @Column(name = "speciality_image")
+    private String specialityImage;
 
     @JsonIgnore
     @OneToMany(mappedBy = "speciality")

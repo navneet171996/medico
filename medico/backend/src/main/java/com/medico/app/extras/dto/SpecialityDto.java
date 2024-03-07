@@ -1,7 +1,14 @@
 package com.medico.app.extras.dto;
 
-public class SpecialityDto {
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-    private Long specialityId;
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+public class SpecialityDto {
     private String specialityName;
 }

@@ -18,7 +18,7 @@ public class HomeController {
     @Autowired
     private SpecialityService specialityService;
 
-    @GetMapping(path = "/allSpecializations")
+    @GetMapping(path = "/allSpecialities")
     public ResponseEntity<List<Speciality>> getAllSpecializations(){
         return new ResponseEntity<>(specialityService.getAllSpecialities(), HttpStatus.OK);
     }

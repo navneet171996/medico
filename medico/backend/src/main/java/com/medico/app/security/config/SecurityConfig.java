@@ -38,7 +38,9 @@ public class SecurityConfig{
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
         RequestMatcher[] requestMatchers = new RequestMatcher[]{
                 new AntPathRequestMatcher("/api/auth/login/**"),
-                new AntPathRequestMatcher("/api/auth/register/**")
+                new AntPathRequestMatcher("/api/auth/register/**"),
+                new AntPathRequestMatcher("/api/home/allSpecialities"),
+                new AntPathRequestMatcher("/api/aux/addSpecialities")
         };
         return http
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
@@ -75,7 +77,7 @@ public class SecurityConfig{
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(Arrays.asList("http://localhost:5173"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST"));
-        configuration.setAllowedHeaders(Arrays.asList("Authorization"));
+        configuration.setAllowedHeaders(Arrays.asList("*"));
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
