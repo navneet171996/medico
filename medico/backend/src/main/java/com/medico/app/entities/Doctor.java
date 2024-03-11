@@ -21,7 +21,7 @@ public class Doctor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "doctor_id")
-    private Integer docId;
+    private Long docId;
 
     @Column(name = "doctor_name")
     private String docName;
@@ -33,7 +33,7 @@ public class Doctor {
     private String phoneNo;
 
     @Column(name = "gender")
-    private char gender;
+    private Character gender;
 
     @Column(name = "rate")
     private Float rate;
@@ -56,7 +56,7 @@ public class Doctor {
 
     @ManyToOne
     @JoinColumn(name = "hospital", referencedColumnName = "hospital_id")
-    private Hospital hospitals;
+    private Hospital hospital;
 
     @JsonIgnore
     @OneToMany(mappedBy = "doctor")

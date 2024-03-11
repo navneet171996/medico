@@ -10,9 +10,17 @@ import com.medico.app.repositories.DoctorRepository;
 @Service
 public class DoctorService {
     
-    private DoctorRepository doctorRepository;
-    
+    private final DoctorRepository doctorRepository;
+
+    public DoctorService(DoctorRepository doctorRepository) {
+        this.doctorRepository = doctorRepository;
+    }
+
     public List<Doctor> getAllDoctor(){
         return doctorRepository.findAll();
+    }
+
+    public List<Doctor> getDoctorsBySpeciality(Long specialityId) {
+        return this.doctorRepository.findBySpeciality_SpecialityId(specialityId).orElseThrow();
     }
 }

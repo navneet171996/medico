@@ -37,10 +37,9 @@ public class SecurityConfig{
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
         RequestMatcher[] requestMatchers = new RequestMatcher[]{
-                new AntPathRequestMatcher("/api/auth/login/**"),
-                new AntPathRequestMatcher("/api/auth/register/**"),
-                new AntPathRequestMatcher("/api/home/allSpecialities"),
-                new AntPathRequestMatcher("/api/aux/addSpecialities")
+                new AntPathRequestMatcher("/api/auth/**"),
+                new AntPathRequestMatcher("/api/home/**"),
+                new AntPathRequestMatcher("/api/aux/**")
         };
         return http
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
