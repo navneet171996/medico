@@ -22,7 +22,7 @@ public class AuxController {
 
 
     @PostMapping(path = "/startup")
-    public ResponseEntity<?> addSpeciality(@RequestBody StartupDto startupDto){
+    public ResponseEntity<?> startup(@RequestBody StartupDto startupDto){
         this.auxService.startup(startupDto);
         return new ResponseEntity<>(HttpStatus.OK);
     }

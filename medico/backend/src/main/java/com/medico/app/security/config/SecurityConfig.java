@@ -39,7 +39,8 @@ public class SecurityConfig{
         RequestMatcher[] requestMatchers = new RequestMatcher[]{
                 new AntPathRequestMatcher("/api/auth/**"),
                 new AntPathRequestMatcher("/api/home/**"),
-                new AntPathRequestMatcher("/api/aux/**")
+                new AntPathRequestMatcher("/api/aux/**"),
+                new AntPathRequestMatcher("/api/patient/**")
         };
         return http
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))

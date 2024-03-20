@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(path = "api/patient")
+@RequestMapping(path = "/api/patient")
 public class PatientController {
 
     private final PatientService patientService;
@@ -22,8 +22,8 @@ public class PatientController {
     }
 
     @PostMapping(path = "/bookConsultation")
-    public ResponseEntity<?> bookConsultation(@RequestBody ConsultationDto consultationDto){
+    public ResponseEntity<Consultation> bookConsultation(@RequestBody ConsultationDto consultationDto){
         Consultation consultation = patientService.bookConsultation(consultationDto);
-        return new ResponseEntity<>(consultation , HttpStatus.OK);
+        return new ResponseEntity<>(consultation, HttpStatus.OK);
     }
 }

@@ -2,13 +2,12 @@ package com.medico.app.extras;
 
 import com.medico.app.entities.Doctor;
 import com.medico.app.entities.Hospital;
+import com.medico.app.entities.Patient;
 import com.medico.app.entities.Speciality;
-import com.medico.app.extras.dto.DoctorDto;
-import com.medico.app.extras.dto.HospitalDto;
-import com.medico.app.extras.dto.SpecialityDto;
-import com.medico.app.extras.dto.StartupDto;
+import com.medico.app.extras.dto.*;
 import com.medico.app.repositories.DoctorRepository;
 import com.medico.app.repositories.HospitalRepository;
+import com.medico.app.repositories.PatientRepository;
 import com.medico.app.repositories.SpecialityRepository;
 import org.springframework.stereotype.Service;
 
@@ -20,11 +19,13 @@ public class AuxService {
     private final SpecialityRepository specialityRepository;
     private final HospitalRepository hospitalRepository;
     private final DoctorRepository doctorRepository;
+    private final PatientRepository patientRepository;
 
-    public AuxService(SpecialityRepository specialityRepository, HospitalRepository hospitalRepository, DoctorRepository doctorRepository) {
+    public AuxService(SpecialityRepository specialityRepository, HospitalRepository hospitalRepository, DoctorRepository doctorRepository,PatientRepository patientRepository) {
         this.specialityRepository = specialityRepository;
         this.hospitalRepository = hospitalRepository;
         this.doctorRepository = doctorRepository;
+        this.patientRepository = patientRepository;
     }
 
 
@@ -63,10 +64,24 @@ public class AuxService {
             this.hospitalRepository.save(hospital);
         });
     }
-
+    private void addPatients(List<PatientDto> patientDtos){
+        patientDtos.forEach(dto ->{
+            Patient patient = new Patient();
+            patient.setPatName(dto.getPatName());
+            patient.setPatDob(dto.getPatDob());
+            patient.setPatBloodGroup(dto.getBloodGroup());
+            patient.setPatPhoneNo(dto.getPhoneNo());
+            patient.setPatGender(dto.getGender());
+            patient.setPatEmail(dto.getEmail());
+            patient.setPatPassword(dto.getPassword());
+            this.patientRepository.save(patient);
+        });
+    }
     public void startup(StartupDto startupDto){
         this.addSpeciality(startupDto.getSpecialities());
         this.addHospitals(startupDto.getHospitals());
         this.addDoctors(startupDto.getDoctors());
+        this.addPatients(startupDto.getPatients());
     }
+
 }

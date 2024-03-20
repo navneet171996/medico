@@ -15,4 +15,5 @@ public class StartupDto {
     private List<SpecialityDto> specialities;
     private List<HospitalDto> hospitals;
     private List<DoctorDto> doctors;
+    private List<PatientDto> patients;
 }
