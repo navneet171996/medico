@@ -7,7 +7,13 @@ import ContentCardsV from './ContentCardsV';
 import FrameComponent from './FrameComponent'
 import FooterContainer from './FooterContainer'
 import FootersV from './FootersV'
+import AuthContext from '../../../Context/AuthContext';
+import { useContext } from 'react';
+import { useEffect } from 'react';
+
 const Landing = () => {
+  const {getSpecialization} = useContext(AuthContext)
+ 
   return (
     <>
      <div className="w-full relative bg-whitesmoke-300 overflow-hidden flex flex-col items-end justify-start pt-[26px] px-0 pb-0 box-border gap-[120px_0px] tracking-[normal] mq750:gap-[120px_0px] mq450:gap-[120px_0px]">

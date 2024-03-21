@@ -11,8 +11,7 @@ const Patient_Home = () => {
   const [patient, setPatient] = useState([]);
  const {logoutAPICall} = useContext(AuthContext)
   useEffect(() => {
-  
-      jwtInterceptor.get("http://localhost:4000/user-profile", { withCredentials: true })
+      jwtInterceptor.get("http://localhost:4000/user-profile")
       .then((response) => {
         setPatient(response.data);
       });

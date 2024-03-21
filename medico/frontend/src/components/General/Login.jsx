@@ -29,8 +29,8 @@ const Login = () => {
     // authService.setToken('eyJhbGciOiJIUzI1NiJ9.eyJSb2xlIjoiQURNSU4iLCJJc3N1ZXIiOiJJc3N1ZXIiLCJleHAiOjE3MDg0NDY1ODIsImlhdCI6MTcwODQ0NjU4MiwiZW1haWwiOiJKYXZhSW5Vc2UifQ.jN92cyKxuhE39u9xeit-yGRQQAAY5xm3lsIGyslsiM0');
       
      let payload={
-      email:user,
-      password:pwd
+      adminEmail:user,
+      adminPassword:pwd
      }
      
      await loginApiCall(payload)

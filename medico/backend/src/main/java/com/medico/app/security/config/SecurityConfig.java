@@ -39,8 +39,13 @@ public class SecurityConfig{
         RequestMatcher[] requestMatchers = new RequestMatcher[]{
                 new AntPathRequestMatcher("/api/auth/login/**"),
                 new AntPathRequestMatcher("/api/auth/register/**"),
+<<<<<<< Updated upstream
                 new AntPathRequestMatcher("/api/home/allSpecialities"),
                 new AntPathRequestMatcher("/api/aux/addSpecialities")
+
+=======
+                new AntPathRequestMatcher("/api/home/allSpecializations")
+>>>>>>> Stashed changes
         };
         return http
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
