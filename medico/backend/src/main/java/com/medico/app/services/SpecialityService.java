@@ -1,5 +1,6 @@
 package com.medico.app.services;
 
+import com.medico.app.entities.Doctor;
 import com.medico.app.entities.Speciality;
 import com.medico.app.repositories.SpecialityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,4 +18,5 @@ public class SpecialityService {
     public List<Speciality> getAllSpecialities(){
         return specialityRepository.findAll();
     }
+
 }

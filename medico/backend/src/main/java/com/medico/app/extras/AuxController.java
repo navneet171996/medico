@@ -1,6 +1,6 @@
 package com.medico.app.extras;
 
-import com.medico.app.extras.dto.SpecialityDto;
+import com.medico.app.extras.dto.StartupDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,9 +21,10 @@ public class AuxController {
     }
 
 
-    @PostMapping(path = "/addSpecialities")
-    public ResponseEntity<?> addSpeciality(@RequestBody List<SpecialityDto> specialityDtos){
-        this.auxService.addSpeciality(specialityDtos);
+    @PostMapping(path = "/startup")
+    public ResponseEntity<?> startup(@RequestBody StartupDto startupDto){
+        this.auxService.startup(startupDto);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
 }
