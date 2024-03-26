@@ -1,10 +1,7 @@
 import axios from "axios";
 
 
-<<<<<<< Updated upstream
 
-=======
->>>>>>> Stashed changes
 const jwtInterceptor = axios.create({});
 
 

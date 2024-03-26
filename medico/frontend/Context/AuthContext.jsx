@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useState,useEffect } from "react";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 const AuthContext = createContext({})
@@ -6,11 +6,9 @@ import { useNavigate } from "react-router-dom";
 
 export const AuthContextProvider = ({children}) =>{
     const navigate = useNavigate()
-<<<<<<< Updated upstream
-    const [specialization,setSpecialization] = useState()
-=======
-    const [specialization,setSpecialization] = useState(null)
->>>>>>> Stashed changes
+
+    const [specialization,setSpecialization] = useState([])
+   
    const [user, setUser] = useState(() => {
     let userProfle = localStorage.getItem("userProfile");
     if (userProfle) {
@@ -31,7 +29,7 @@ export const AuthContextProvider = ({children}) =>{
   };
 
   const logoutAPICall = async () => {
-<<<<<<< Updated upstream
+
     // await axios.get("http://localhost:4000/logout");
     // localStorage.removeItem("userProfile");
     // setUser(null);
@@ -43,32 +41,40 @@ export const AuthContextProvider = ({children}) =>{
     const token = localStorage.getItem('token')
     const headers = { Authorization: `Bearer ${token}`};
     const specializationDetails =await  axios.get("http://localhost:8081/api/home/allSpecialities", {headers:headers})
-    setSpecialization(specializationDetails.data)
-    console.log(specialization[0]);
-  } 
-    
-
-=======
-    await axios.get("http://localhost:4000/logout");
-    localStorage.removeItem("userProfile");
-    setUser(null);
-    navigate("/login");
-  };
-
-  const getSpecialization = async () =>{
-      let specializationDetails = await axios.get("");
-      setSpecialization(jwtDecode(specializationDetails))
+    console.log(specializationDetails.data);
+ 
+    if (Array.isArray(specializationDetails.data) && specializationDetails.data.length > 0) {
+      setSpecialization(specializationDetails.data);
+  } else {
+      console.error("Invalid data format or empty array received");
   }
->>>>>>> Stashed changes
+
+
+    console.log(specialization);
+    // console.log(specialization[0]);
+  } 
+
+
+
+  //   await axios.get("http://localhost:4000/logout");
+  //   localStorage.removeItem("userProfile");
+  //   setUser(null);
+  //   navigate("/login");
+  // };
+
+  // const getSpecialization = async () =>{
+  //     let specializationDetails = await axios.get("");
+  //     setSpecialization(jwtDecode(specializationDetails))
+  //}
+
 
 
     
     
-<<<<<<< Updated upstream
+
     return <AuthContext.Provider value={{loginApiCall,user,logoutAPICall,getSpecialization,specialization}}>{children}</AuthContext.Provider>
-=======
-    return <AuthContext.Provider value={{loginApiCall,user,logoutAPICall,specialization}}>{children}</AuthContext.Provider>
->>>>>>> Stashed changes
+
+   
 }
 
 export default AuthContext
