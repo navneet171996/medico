@@ -1,10 +1,13 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
+import ContentCardsV from '../General/ContentCardsV'
+import Header from './Header'
 
-const Patient_History = () => {
+const Patient_View = () => {
   return (
     <>
      <div className="w-full relative bg-whitesmoke-400 overflow-hidden flex flex-row items-start justify-start gap-[0px_32px] tracking-[normal] mq750:gap-[0px_32px] mq1025:pl-5 mq1025:pr-5 mq1025:box-border">
-      <div className="h-[1186px] flex flex-col items-center justify-center py-0 pr-0 pl-1 box-border mq1025:hidden">
+      <div className=" h-[1186px] flex flex-col items-center justify-center py-0 pr-0 pl-1 box-border mq1025:hidden">
         <div className="flex-1 flex flex-row items-start justify-start relative">
           <div className="h-12 w-[82px] absolute my-0 mx-[!important] top-[234px] left-[-4px]">
             <div className="absolute top-[0px] left-[0px] rounded-tl-none rounded-tr-8xs rounded-br-8xs rounded-bl-none [background:linear-gradient(90deg,_rgba(236,_13,_255,_0.2)_60%,_rgba(255,_255,_255,_0))] w-full h-full z-[1]" />
@@ -15,8 +18,8 @@ const Patient_History = () => {
               src="/person.svg"
             />
           </div>
-          <nav className="m-0 self-stretch bg-mediumpurple-200 flex flex-col items-center justify-start py-[193px] pr-[92px] pl-[37px] gap-[33px_0px] text-left text-base text-gray-1100 font-nunito mq750:pt-[125px] mq750:pb-[125px] mq750:box-border">
-      <div className="w-[218px] h-[1186px] relative bg-mediumpurple-200 hidden" />
+          <nav className=" m-0 self-stretch bg-mediumpurple-200 flex flex-col items-center justify-start py-[193px] pr-[92px] pl-[37px] gap-[33px_0px] text-left text-base text-gray-1100 font-nunito mq750:pt-[125px] mq750:pb-[125px] mq750:box-border">
+      <div className="w-[218px] h-screen relative bg-mediumpurple-200 hidden" />
       <div className="flex flex-row items-start justify-start py-0 pr-2 pl-1">
         <div className="flex flex-row items-start justify-start gap-[0px_13px]">
           <img
@@ -43,10 +46,21 @@ const Patient_History = () => {
     </nav>
         </div>
       </div>
-      
+      <main className="flex-1 flex flex-col items-start justify-start pt-5 px-0 pb-0 box-border max-w-[calc(100%_-_254px)] mq1025:max-w-full">
+      <section className="self-stretch flex flex-col items-start justify-start gap-[30px_0px] max-w-full">
+      <div className="self-stretch flex flex-col items-start justify-start gap-[22px_0px] max-w-full text-left text-xs text-navy-100 font-nunito">
+     
+     {/* Header section */}
+     <Header/>
+        
+        <ContentCardsV/>
+
+        </div>
+        </section>
+        </main>
       </div>
     </>
   )
 }
 
-export default Patient_History
+export default Patient_View

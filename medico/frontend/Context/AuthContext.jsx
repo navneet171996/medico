@@ -16,7 +16,7 @@ export const AuthContextProvider = ({children}) =>{
     }
     return null;
   });
-   const loginApiCall = async (payload) => {
+   const loginApiCallAdmin = async (payload) => {
     // await axios.post("http://localhost:8081/api/auth/login", payload);
     let apiResponse = await axios.post("http://localhost:8081/api/auth/login",payload);
     console.log("Api response "+apiResponse);
@@ -24,17 +24,42 @@ export const AuthContextProvider = ({children}) =>{
     localStorage.setItem('token', (apiResponse.data.token))
     console.log("The token is "+localStorage.getItem('token'));
     setUser(apiResponse.data);
-    console.log("user check"+user);
+    navigate('/admin')
+  };
+  const loginApiCallPatient = async (payload) => {
+    // await axios.post("http://localhost:8081/api/auth/login", payload);
+    let apiResponse = await axios.post("http://localhost:8081/api/auth/login",payload);
+    console.log("Api response "+apiResponse);
+    localStorage.setItem("userProfile", JSON.stringify(apiResponse.data));
+    localStorage.setItem('token', (apiResponse.data.token))
+    console.log("The token is "+localStorage.getItem('token'));
+    setUser(apiResponse.data);
     navigate('/patient')
   };
+  const loginApiCallDoctor = async (payload) => {
+    // await axios.post("http://localhost:8081/api/auth/login", payload);
+    let apiResponse = await axios.post("http://localhost:8081/api/auth/login",payload);
+    console.log("Api response "+apiResponse);
+    localStorage.setItem("userProfile", JSON.stringify(apiResponse.data));
+    localStorage.setItem('token', (apiResponse.data.token))
+    console.log("The token is "+localStorage.getItem('token'));
+    setUser(apiResponse.data);
+    navigate('/doctor')
+  };
+
+  const registerAdmin = async(payload) =>{
+    console.log(payload);
+        let apiResponse = await axios.post("http://localhost:8081/api/auth/register",payload);
+        console.log(apiResponse);
+  }
 
   const logoutAPICall = async () => {
-
-    // await axios.get("http://localhost:4000/logout");
-    // localStorage.removeItem("userProfile");
-    // setUser(null);
-    // navigate("/login");
+    localStorage.removeItem("userProfile");
+    setUser(null);
+    navigate("/login");
   };
+
+
 
   const getSpecialization = async () =>{
     console.log("I am called");
@@ -72,7 +97,7 @@ export const AuthContextProvider = ({children}) =>{
     
     
 
-    return <AuthContext.Provider value={{loginApiCall,user,logoutAPICall,getSpecialization,specialization}}>{children}</AuthContext.Provider>
+    return <AuthContext.Provider value={{loginApiCallAdmin,loginApiCallDoctor,loginApiCallPatient,user,logoutAPICall,getSpecialization,specialization,registerAdmin}}>{children}</AuthContext.Provider>
 
    
 }

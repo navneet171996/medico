@@ -41,6 +41,7 @@ const Card = ({ container, imageIcon, cardHeading, propWidth }) => {
               Lorem ipsum dolor sit amet consecte tur adipiscing elit semper
               dalaracc lacus vel facilisis volutpat est velitolm.
             </div>
+            <button className="cursor-pointer">
             <div className="flex flex-row items-center justify-start gap-[0px_5px] text-center text-mediumpurple-200">
               <b className="relative leading-[18px] whitespace-nowrap z-[1]">
                 Learn more
@@ -52,6 +53,7 @@ const Card = ({ container, imageIcon, cardHeading, propWidth }) => {
                 src="/line-roundedarrow-right.svg"
               />
             </div>
+            </button>
           </div>
         </div>
       </div>

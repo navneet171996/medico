@@ -1,12 +1,37 @@
 import React from 'react'
 import { Link,useNavigate,useLocation } from 'react-router-dom'
+
 import { useState } from 'react'
+import AuthContext from '../../../Context/AuthContext';
+import { useContext } from 'react';
+
 const Register_admin = () => {
     const navigate = useNavigate()
     const location = useLocation()
    
-    const [user,setUser]=useState('');
-    const [pwd,setPwd]=useState('');
+
+    const [adminName,setAdminName]=useState('');
+    const [adminEmail,setAdminEmail] = useState('');
+    const [adminPassword,setAdminPassword] = useState('');
+    const {registerAdmin} = useContext(AuthContext)
+
+    
+
+    const handleRegisterAdmin=async (e)=>{
+           e.preventDefault();
+           console.log(adminName);
+           console.log(adminEmail);
+           console.log(adminPassword);
+           let payload={
+            adminName:adminName,
+            adminEmail:adminEmail,
+            adminPassword:adminPassword,
+            role:'ADMIN'
+           }
+           await registerAdmin(payload)
+
+    }
+
   return (
     
   <>
@@ -19,9 +44,9 @@ const Register_admin = () => {
       />
 
 
-     <form   className="m-0 w-[670px] rounded-6xl bg-gainsboro flex flex-col items-center justify-start pt-[5px] pb-[49px] pr-[63px] pl-[76px] box-border gap-[4px] min-w-[670px] max-w-full mq800:pl-[38px] mq800:pr-[31px] mq800:box-border mq800:min-w-full mq450:pb-[21px] mq450:box-border mq1125:pt-5 mq1125:pb-8 mq1125:box-border mq1325:flex-1">
-      <div className="w-[670px] h-[813px] relative rounded-6xl bg-gainsboro hidden max-w-full" />
-      <div className="self-stretch flex flex-col items-center justify-start pt-0 px-0 pb-[61px] gap-[1px_0px]">
+<form   className="m-0 w-[670px]  overflow-visible rounded-6xl bg-gainsboro flex flex-col items-center justify-start pt-[5px] pb-[388px] pr-[63px] pl-[66px] box-border gap-[4px] min-w-[370px] max-w-full mq800:pl-[38px] mq800:pr-[31px] mq800:box-border mq800:min-w-full mq450:pb-[21px] mq450:box-border mq1125:pt-5 mq1125:pb-8 mq1125:box-border mq1325:flex-1">
+      <div className="w-[670px]  relative rounded-6xl  hidden max-w-full" />
+      <div className="self-stretch flex flex-col items-center justify-start pt-0 px-0 pb-[21px] gap-[1px_0px]">
         <div className="w-[237px] flex flex-row items-start justify-start py-0 pr-0 pl-[35px] box-border">
           <img
             className="h-[115px] flex-1 relative max-w-full overflow-hidden object-cover z-[1]"
@@ -57,19 +82,17 @@ const Register_admin = () => {
 
       <div className="self-stretch flex flex-col  items-center justify-center max-w-full">
         <div className="flex flex-row items-start justify-start py-0 px-[11px]">
-          <div className="relative text-5xl leading-[100px] font-inter text-black text-left z-[1] mq450:text-lgi mq450:leading-[80px]">
-            Mobile Number / Email Id
+          <div className="relative text-3xl leading-[100px] font-inter text-black text-left z-[1] mq450:text-lgi mq450:leading-[80px]">
+                Admin Name
           </div>
         </div>
-        <div className=" rounded-3xs bg-white box-border flex flex-row items-center justify-start py-0 px-[19px] max-w-full z-[1] mt-[-30px] border-[2px] border-solid border-neutral-colors-white">
-          <div className="h-[95px] w-[531px] relative rounded-3xs bg-gray-500 box-border hidden max-w-full border-[2px] border-solid border-neutral-colors-white" />
+        <div className="  bg-white box-border flex flex-row items-center justify-start py-0 px-[19px] max-w-full z-[1] mt-[-30px] border-[2px] border-solid border-neutral-colors-white">
+          <div className="h-[95px] w-[531px] relative rounded-3xs bg-gray-500 box-border hidden max-w-full border-[1px] border-solid border-neutral-colors-white" />
           <input  type="text"
-                    id="username"
-                   
-                    autoComplete="off"
-                    onChange={(e) => setUser(e.target.value)}
-                    value={user}
-                    required className="outline-none relative text-5xl  font-inter text-gray-300 text-left z-[2] mq450:text-lgi mq450:leading-[80px]"/>
+          autoComplete="off"
+          onChange={(e) => setAdminName(e.target.value)}
+          value={adminName}
+                    className="outline-none relative text-lg  font-inter text-gray-300 text-left z-[2] mq450:text-lgi mq450:leading-[80px]"/>
             
         </div>
       </div>
@@ -79,34 +102,106 @@ const Register_admin = () => {
 
       <div className="self-stretch flex flex-col items-center justify-center max-w-full">
         <div className="flex flex-row items-start justify-start py-0 px-[11px]">
-          <div className="relative text-5xl leading-[100px] font-inter text-black text-left z-[1] mq450:text-lgi mq450:leading-[80px]">
-            Password
+          <div className="relative text-3xl leading-[100px] font-inter text-black text-left z-[1] mq450:text-lgi mq450:leading-[80px]">
+               Contact Number
           </div>
         </div>
-        <div className=" rounded-3xs bg-white box-border flex flex-row items-center justify-start py-0 px-[19px] max-w-full z-[1] mt-[-30px] border-[2px] border-solid border-neutral-colors-white">
-          <div className="h-[95px] w-[531px] relative rounded-3xs bg-gray-500 box-border hidden max-w-full border-[2px] border-solid border-neutral-colors-white" />
-          <input   type="password"
-                    id="password"
-                    onChange={(e) => setPwd(e.target.value)}
-                    value={pwd}
-                    required className="outline-none relative text-5xl  font-inter text-gray-300 text-left z-[2] mq450:text-lgi mq450:leading-[80px]"/>
+        <div className="  bg-white box-border flex flex-row items-center justify-start py-0 px-[19px] max-w-full z-[1] mt-[-30px] border-[2px] border-solid border-neutral-colors-white">
+          <div className="h-[95px] w-[531px] relative rounded-3xs bg-gray-500 box-border hidden max-w-full border-[1px] border-solid border-neutral-colors-white" />
+          <input   type="tel"
+                    required className="outline-none relative text-lg  font-inter text-gray-300 text-left z-[2] mq450:text-lgi mq450:leading-[80px]"/>
             
         </div>
+        
+      
+       <div className='flex flex-row h-[30px] mt-10'>
+        <div className="flex flex-row items-center justify-start py-0 px-[11px]">
+          <div className="relative text-3xl leading-[100px] font-inter text-black text-left z-[1] mq450:text-lgi mq450:leading-[80px]">
+               Email ID
+          </div>
+        </div>
+        <div className="   bg-white border-white  flex flex-row items-center justify-start py-[-20px] px-[19px] max-w-full z-[1] border-[1px] border-solid ">
+          <div className="w-[531px] h-[20px] relative bg-gray-500 box-border hidden max-w-full border-[1px] border-solid " />
+          <input   type="email"
+          autoComplete="off"
+          onChange={(e) => setAdminEmail(e.target.value)}
+          value={adminEmail}
+                    required className="outline-none  text-lg  font-inter text-gray-300 text-left z-[2] mq450:text-lgi mq450:leading-[80px]"/>
+            
+        </div>
+        </div>
+
+        <div className='flex flex-row h-[30px] py-3'>
+        <div className="flex flex-row items-center justify-start py-0 px-[11px]">
+          <div className="relative text-3xl leading-[100px] font-inter text-black text-left z-[1] mq450:text-lgi mq450:leading-[80px]">
+                Password
+          </div>
+        </div>
+        <div className="   bg-white border-white  flex flex-row items-center justify-start py-[-20px] px-[19px] max-w-full z-[1] border-[1px] border-solid ">
+          <div className="w-[531px] h-[20px] relative bg-gray-500 box-border hidden max-w-full border-[1px] border-solid " />
+          <input   type="email"
+          autoComplete="off"
+          onChange={(e) => setAdminPassword(e.target.value)}
+          value={adminPassword}
+                    required className="outline-none  text-lg  font-inter text-gray-300 text-left z-[2] mq450:text-lgi mq450:leading-[80px]"/>
+            
+        </div>
+        </div>
+
+        <div className='flex flex-row h-[30px]  relative right-[40px] '>
+        <div className="flex  flex-row items-center justify-start py-0 px-[11px]">
+          <div className="relative text-3xl leading-[100px] font-inter text-black text-left z-[1] mq450:text-lgi mq450:leading-[80px]">
+                Confirm Password
+          </div>
+        </div>
+        <div className="  border-white bg-white  flex flex-row items-center justify-start py-[-20px] px-[19px] max-w-full z-[1] border-[1px] border-solid ">
+          <div className="w-[531px] h-[20px] relative bg-gray-500 box-border hidden max-w-full border-[1px] border-solid " />
+          <input   type="email"
+                    required className="outline-none  text-lg  font-inter text-gray-300 text-left z-[2] mq450:text-lgi mq450:leading-[80px]"/>
+            
+        </div>
+        </div>
+
+        {/* <div className='flex flex-row h-[30px]  relative right-[40px] '>
+        <div className="flex  flex-row items-center justify-start py-0 px-[11px]">
+          <div className="relative text-3xl leading-[100px] font-inter text-black text-left z-[1] mq450:text-lgi mq450:leading-[80px]">
+                Confirm Password
+          </div>
+        </div>
+        <Flex vertical gap="middle">
+    <Radio.Group onChange={onChange} defaultValue="a" className='mt-2'>
+      <Radio.Button value="a">Hangzhou</Radio.Button>
+      <Radio.Button value="b">Shanghai</Radio.Button>
+      <Radio.Button value="c">Beijing</Radio.Button>
+      <Radio.Button value="d">Chengdu</Radio.Button>
+    </Radio.Group>
+    </Flex>
+        </div> */}
+        
+
+
+        
         <Link to="/register_doctor" className='py-3 mt-7 text-black no-underline'>Register as Doctor</Link>
-        <Link to="/register_patient" className='text-black no-underline'>Register as a Patinet</Link>
+        <Link to="/register_admin" className='text-black no-underline'>Register as a Admin</Link>
       </div>
 
-      </div>
 
+        {/* <div className="absolute top-[178px] left-[200px] text-xl leading-[125%] font-inter text-black text-left z-[1] mq450:text-base mq450:leading-[20px]">
+          Forgot password?
+        </div> */}
 
-      <div className="self-stretch flex flex-row items-start justify-start py-0 pr-0 pl-[13px] box-border max-w-full">
+<div className="self-stretch flex flex-row items-start justify-start py-10 pr-0 pl-[13px] box-border max-w-full">
         <div className="flex-1 flex flex-row items-center justify-start max-w-full">
           <div className="h-[72px] w-[518px] relative rounded-6xl bg-mediumpurple-100 max-w-full z-[1]" />
-          <button className="relative text-17xl bg-transparent font-inter text-neutral-colors-white text-left z-[2] ml-[-321px]">
-            Login
+          <button onClick={handleRegisterAdmin} className="relative text-17xl bg-transparent font-inter text-neutral-colors-white text-left z-[2] ml-[-321px]">
+            Register
           </button>
         </div>
       </div>
+      </div>
+
+
+    
     </form>
     </div>
   </>

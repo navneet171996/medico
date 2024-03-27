@@ -4,12 +4,10 @@ import { useRef,useState,useEffect,useContext} from 'react'
 import { authService } from '../../../services/authService'
 import AuthContext from '../../../Context/AuthContext'
 
-const Login = () => {
- 
-    
+const Login_Doctor = () => {
     const navigate = useNavigate()
     const location = useLocation()
-    const {loginApiCallAdmin} = useContext(AuthContext)
+    const {loginApiCallDoctor} = useContext(AuthContext)
 
     const [user,setUser]=useState('');
     const [pwd,setPwd]=useState('');
@@ -33,43 +31,11 @@ const Login = () => {
       adminPassword:pwd
      }
      
-     await loginApiCallAdmin(payload)
+     await loginApiCallDoctor(payload)
     
    }
-
   return (
-
-    <>        
-        {/* <section>
-          
-            <h1>Sign In</h1>
-            <form onSubmit={handleSubmit}>
-
-                <label htmlFor="username">Username:</label>
-                <input
-                    type="text"
-                    id="username"
-                   
-                    autoComplete="off"
-                    onChange={(e) => setUser(e.target.value)}
-                    value={user}
-                    required
-                />
-
-                <label htmlFor="password">Password:</label>
-                <input
-                    type="password"
-                    id="password"
-                    onChange={(e) => setPwd(e.target.value)}
-                    value={pwd}
-                    required
-                />
-                <button>Log In </button>
-            </form>
-           
-        </section> */}
-
-  <div className="w-full relative bg-whitesmoke-100 overflow-hidden flex flex-row items-center justify-start pt-[67px] px-0 pb-36 box-border [row-gap:20px] tracking-[normal] mq1325:flex-wrap">
+    <div className="w-full relative bg-whitesmoke-100 overflow-hidden flex flex-row items-center justify-start pt-[67px] px-0 pb-36 box-border [row-gap:20px] tracking-[normal] mq1325:flex-wrap">
       <img
         className="h-[607.4px] w-[726px] relative max-w-full mq1325:flex-1"
         loading="eager"
@@ -170,10 +136,7 @@ const Login = () => {
     </form>
     </div>
        
-           
-     </>
-   
   )
 }
 
-export default Login
+export default Login_Doctor
