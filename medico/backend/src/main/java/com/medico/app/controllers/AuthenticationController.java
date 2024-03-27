@@ -1,9 +1,6 @@
 package com.medico.app.controllers;
 
-import com.medico.app.dto.DoctorRegisterDto;
-import com.medico.app.dto.LoginRequest;
-import com.medico.app.dto.LoginResponse;
-import com.medico.app.dto.PatientRegisterDto;
+import com.medico.app.dto.*;
 import com.medico.app.entities.Admin;
 import com.medico.app.services.AuthenticationService;
 import org.springframework.http.HttpStatus;
@@ -25,7 +22,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/registerAdmin")
-    public ResponseEntity<LoginResponse> registerAdmin(@RequestBody Admin admin){
+    public ResponseEntity<RegisterResponse> registerAdmin(@RequestBody Admin admin){
         return new ResponseEntity<>(authenticationService.registerAdmin(admin), HttpStatus.OK);
     }
 
@@ -35,7 +32,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/registerDoctor")
-    public ResponseEntity<LoginResponse> registerDoctor(@RequestBody DoctorRegisterDto doctorRegisterDto){
+    public ResponseEntity<RegisterResponse> registerDoctor(@RequestBody DoctorRegisterDto doctorRegisterDto){
         return new ResponseEntity<>(authenticationService.registerDoctor(doctorRegisterDto), HttpStatus.OK);
     }
 
@@ -45,7 +42,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/registerPatient")
-    public ResponseEntity<LoginResponse> registerPatient(@RequestBody PatientRegisterDto patientRegisterDto){
+    public ResponseEntity<RegisterResponse> registerPatient(@RequestBody PatientRegisterDto patientRegisterDto){
         return new ResponseEntity<>(authenticationService.registerPatient(patientRegisterDto), HttpStatus.OK);
     }
 

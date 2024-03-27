@@ -8,6 +8,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -54,43 +55,15 @@ public class JwtUtil {
                 .parseSignedClaims(token)
                 .getPayload();
     }
-    public String generateAdminToken(Admin admin){
-        String token = Jwts
+    public String generateToken(Authentication authentication, String role){
+        return Jwts
                 .builder()
-                .subject(admin.getAdminEmail())
-                .claim("role", admin.getRole())
+                .subject(authentication.getName())
+                .claim("role", role)
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + VALIDITY*1000))
                 .signWith(getSigningKey())
                 .compact();
-
-        return token;
-    }
-
-    public String generateDoctorToken(Doctor doctor){
-        String token = Jwts
-                .builder()
-                .subject(doctor.getEmail())
-                .claim("role", doctor.getRole())
-                .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(System.currentTimeMillis() + VALIDITY*1000))
-                .signWith(getSigningKey())
-                .compact();
-
-        return token;
-    }
-
-    public String generatePatientToken(Patient patient){
-        String token = Jwts
-                .builder()
-                .subject(patient.getPatEmail())
-                .claim("role", patient.getRole())
-                .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(System.currentTimeMillis() + VALIDITY*1000))
-                .signWith(getSigningKey())
-                .compact();
-
-        return token;
     }
     private SecretKey getSigningKey(){
         byte[] keyBytes = Decoders.BASE64URL.decode(SECRET_KEY);

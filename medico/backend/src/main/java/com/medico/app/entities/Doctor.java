@@ -67,7 +67,7 @@ public class Doctor implements UserDetails {
     private Boolean isActive;
 
     @Enumerated(value = EnumType.STRING)
-    private Role role = Role.DOCTOR;
+    private Role role;
 
     @JsonIgnore
     @OneToMany(mappedBy = "doctor")
