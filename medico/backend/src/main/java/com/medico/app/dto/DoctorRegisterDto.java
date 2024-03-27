@@ -1,6 +1,5 @@
-package com.medico.app.extras.dto;
+package com.medico.app.dto;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -10,9 +9,7 @@ import java.util.Date;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
-public class DoctorDto {
-
+public class DoctorRegisterDto {
     private String docName;
     private Date docDob;
     private String phoneNo;
@@ -22,5 +19,4 @@ public class DoctorDto {
     private String password;
     private Long specialityId;
     private Long hospitalId;
-
 }

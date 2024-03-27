@@ -1,7 +1,7 @@
 package com.medico.app.entities;
 
 public enum Role {
-    USER,
+    PATIENT,
     ADMIN,
     DOCTOR,
     SR_DOCTOR
