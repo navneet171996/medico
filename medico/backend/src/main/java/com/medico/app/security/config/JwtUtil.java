@@ -1,6 +1,8 @@
 package com.medico.app.security.config;
 
 import com.medico.app.entities.Admin;
+import com.medico.app.entities.Doctor;
+import com.medico.app.entities.Patient;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
@@ -21,6 +23,10 @@ public class JwtUtil {
 
     public String extractEmailFromToken(String token){
         return extractClaim(token, Claims::getSubject);
+    }
+
+    public String extractRoleFromToken(String token){
+        return extractClaim(token, claims -> claims.get("role", String.class));
     }
 
     public boolean isValid(String token, UserDetails userDetails){
@@ -48,10 +54,11 @@ public class JwtUtil {
                 .parseSignedClaims(token)
                 .getPayload();
     }
-    public String generateToken(Admin admin){
+    public String generateAdminToken(Admin admin){
         String token = Jwts
                 .builder()
                 .subject(admin.getAdminEmail())
+                .claim("role", admin.getRole())
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + VALIDITY*1000))
                 .signWith(getSigningKey())
@@ -60,6 +67,31 @@ public class JwtUtil {
         return token;
     }
 
+    public String generateDoctorToken(Doctor doctor){
+        String token = Jwts
+                .builder()
+                .subject(doctor.getEmail())
+                .claim("role", doctor.getRole())
+                .issuedAt(new Date(System.currentTimeMillis()))
+                .expiration(new Date(System.currentTimeMillis() + VALIDITY*1000))
+                .signWith(getSigningKey())
+                .compact();
+
+        return token;
+    }
+
+    public String generatePatientToken(Patient patient){
+        String token = Jwts
+                .builder()
+                .subject(patient.getPatEmail())
+                .claim("role", patient.getRole())
+                .issuedAt(new Date(System.currentTimeMillis()))
+                .expiration(new Date(System.currentTimeMillis() + VALIDITY*1000))
+                .signWith(getSigningKey())
+                .compact();
+
+        return token;
+    }
     private SecretKey getSigningKey(){
         byte[] keyBytes = Decoders.BASE64URL.decode(SECRET_KEY);
         return Keys.hmacShaKeyFor(keyBytes);

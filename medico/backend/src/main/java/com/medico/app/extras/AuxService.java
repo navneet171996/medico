@@ -1,9 +1,6 @@
 package com.medico.app.extras;
 
-import com.medico.app.entities.Doctor;
-import com.medico.app.entities.Hospital;
-import com.medico.app.entities.Patient;
-import com.medico.app.entities.Speciality;
+import com.medico.app.entities.*;
 import com.medico.app.extras.dto.*;
 import com.medico.app.repositories.DoctorRepository;
 import com.medico.app.repositories.HospitalRepository;
@@ -77,11 +74,24 @@ public class AuxService {
             this.patientRepository.save(patient);
         });
     }
+
+    private void addAdmins(List<AdminDto> adminDtos) {
+        adminDtos.forEach(dto -> {
+            Admin admin = new Admin();
+            admin.setAdminName(dto.getAdminName());
+            admin.setAdminEmail(dto.getAdminEmail());
+            admin.setAdminPassword(dto.getAdminPassword());
+
+        });
+    }
     public void startup(StartupDto startupDto){
         this.addSpeciality(startupDto.getSpecialities());
         this.addHospitals(startupDto.getHospitals());
         this.addDoctors(startupDto.getDoctors());
         this.addPatients(startupDto.getPatients());
+        //this.addAdmins(startupDto.getAdmins());
     }
+
+
 
 }

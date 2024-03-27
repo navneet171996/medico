@@ -39,7 +39,7 @@ public class Admin implements UserDetails {
     private Hospital hospital;
 
     @Enumerated(value = EnumType.STRING)
-    private Role role;
+    private Role role = Role.ADMIN;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

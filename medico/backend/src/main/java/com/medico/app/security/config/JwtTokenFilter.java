@@ -2,6 +2,8 @@ package com.medico.app.security.config;
 
 import com.medico.app.repositories.AdminRepository;
 import com.medico.app.security.services.AdminDetailsService;
+import com.medico.app.security.services.DoctorDetailsService;
+import com.medico.app.security.services.PatientDetailsService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -19,15 +21,17 @@ import java.io.IOException;
 public class JwtTokenFilter extends OncePerRequestFilter {
 
     private final JwtUtil jwtUtil;
-    private final AdminRepository adminRepository;
     private final AdminDetailsService adminDetailsService;
+    private final DoctorDetailsService doctorDetailsService;
+    private final PatientDetailsService patientDetailsService;
 
 
 
-    public JwtTokenFilter(JwtUtil jwtUtil, AdminRepository adminRepository, AdminDetailsService adminDetailsService){
+    public JwtTokenFilter(JwtUtil jwtUtil, AdminDetailsService adminDetailsService, DoctorDetailsService doctorDetailsService, PatientDetailsService patientDetailsService){
         this.jwtUtil = jwtUtil;
-        this.adminRepository = adminRepository;
         this.adminDetailsService = adminDetailsService;
+        this.doctorDetailsService = doctorDetailsService;
+        this.patientDetailsService = patientDetailsService;
     }
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -39,10 +43,19 @@ public class JwtTokenFilter extends OncePerRequestFilter {
 
         String token = authHeader.substring(7);
         String email = jwtUtil.extractEmailFromToken(token);
+        String role = jwtUtil.extractRoleFromToken(token);
 
         if(email != null && SecurityContextHolder.getContext().getAuthentication() == null){
-            UserDetails userDetails = this.adminDetailsService.loadUserByUsername(email);
-            if(this.jwtUtil.isValid(token, userDetails)){
+            UserDetails userDetails = null;
+            if (role.equals("ADMIN")) {
+                userDetails = this.adminDetailsService.loadUserByUsername(email);
+            } else if (role.equals("DOCTOR")) {
+                userDetails = this.doctorDetailsService.loadUserByUsername(email);
+            } else if (role.equals("PATIENT")) {
+                userDetails = this.patientDetailsService.loadUserByUsername(email);
+            }
+
+            if (userDetails != null && this.jwtUtil.isValid(token, userDetails)) {
                 UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                 authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(authenticationToken);

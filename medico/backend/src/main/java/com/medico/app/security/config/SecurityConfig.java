@@ -40,8 +40,8 @@ public class SecurityConfig{
                 new AntPathRequestMatcher("/api/auth/**"),
                 new AntPathRequestMatcher("/api/home/**"),
                 new AntPathRequestMatcher("/api/aux/**"),
-                new AntPathRequestMatcher("/api/patient/**")
-
+                new AntPathRequestMatcher("/api/patient/**"),
+                new AntPathRequestMatcher("/api/admin/**")
         };
         return http
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
@@ -57,8 +57,6 @@ public class SecurityConfig{
                        sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                .addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class)
                .build();
-
-
    }
 
 

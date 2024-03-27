@@ -1,6 +1,9 @@
 package com.medico.app.controllers;
 
+import com.medico.app.dto.DoctorRegisterDto;
+import com.medico.app.dto.LoginRequest;
 import com.medico.app.dto.LoginResponse;
+import com.medico.app.dto.PatientRegisterDto;
 import com.medico.app.entities.Admin;
 import com.medico.app.services.AuthenticationService;
 import org.springframework.http.HttpStatus;
@@ -21,13 +24,33 @@ public class AuthenticationController {
         this.authenticationService = authenticationService;
     }
 
-    @PostMapping("/register")
-    public ResponseEntity<LoginResponse> register(@RequestBody Admin admin){
-        return new ResponseEntity<>(authenticationService.register(admin), HttpStatus.OK);
+    @PostMapping("/registerAdmin")
+    public ResponseEntity<LoginResponse> registerAdmin(@RequestBody Admin admin){
+        return new ResponseEntity<>(authenticationService.registerAdmin(admin), HttpStatus.OK);
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<LoginResponse> login(@RequestBody Admin admin){
-        return new ResponseEntity<>(authenticationService.authenticate(admin), HttpStatus.OK);
+    @PostMapping("/loginAdmin")
+    public ResponseEntity<LoginResponse> loginAdmin(@RequestBody LoginRequest loginRequest){
+        return new ResponseEntity<>(authenticationService.authenticateAdmin(loginRequest), HttpStatus.OK);
+    }
+
+    @PostMapping("/registerDoctor")
+    public ResponseEntity<LoginResponse> registerDoctor(@RequestBody DoctorRegisterDto doctorRegisterDto){
+        return new ResponseEntity<>(authenticationService.registerDoctor(doctorRegisterDto), HttpStatus.OK);
+    }
+
+    @PostMapping("/loginDoctor")
+    public ResponseEntity<LoginResponse> loginDoctor(@RequestBody LoginRequest loginRequest){
+        return new ResponseEntity<>(authenticationService.authenticateDoctor(loginRequest), HttpStatus.OK);
+    }
+
+    @PostMapping("/registerPatient")
+    public ResponseEntity<LoginResponse> registerPatient(@RequestBody PatientRegisterDto patientRegisterDto){
+        return new ResponseEntity<>(authenticationService.registerPatient(patientRegisterDto), HttpStatus.OK);
+    }
+
+    @PostMapping("/loginPatient")
+    public ResponseEntity<LoginResponse> loginPatient(@RequestBody LoginRequest loginRequest){
+        return new ResponseEntity<>(authenticationService.authenticatePatient(loginRequest), HttpStatus.OK);
     }
 }
