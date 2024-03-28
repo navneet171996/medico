@@ -66,4 +66,8 @@ public class PatientController {
         return new ResponseEntity<>(patient, HttpStatus.OK);
     }
 
+    @GetMapping(path = "/getAllConsultationsOfPat/{patientId}")
+    public ResponseEntity<List<Consultation>> getAllConsultationOfPat(@PathVariable Long patientId){
+        return new ResponseEntity<>(patientService.getAllConsultationOfPat(patientId),HttpStatus.OK);
+    }
 }

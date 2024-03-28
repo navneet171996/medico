@@ -1,8 +1,11 @@
 package com.medico.app.services;
 
+import java.util.ConcurrentModificationException;
 import java.util.List;
 
 import com.medico.app.dto.DoctorDTO;
+import com.medico.app.entities.Consultation;
+import com.medico.app.repositories.ConsultationRepository;
 import org.springframework.stereotype.Service;
 
 import com.medico.app.entities.Doctor;
@@ -12,9 +15,12 @@ import com.medico.app.repositories.DoctorRepository;
 public class DoctorService {
     
     private final DoctorRepository doctorRepository;
+    private final ConsultationRepository consultationRepository;
 
-    public DoctorService(DoctorRepository doctorRepository) {
+    public DoctorService(DoctorRepository doctorRepository,ConsultationRepository consultationRepository) {
+
         this.doctorRepository = doctorRepository;
+        this.consultationRepository = consultationRepository;
     }
 
     public List<Doctor> getAllDoctor(){
@@ -46,12 +52,16 @@ public class DoctorService {
     public Doctor editDoctorDetails(DoctorDTO doctorDTO){
         Doctor doctor = doctorRepository.findById(doctorDTO.getDocId()).orElseThrow();
         doctor.setEmail(doctorDTO.getEmail());
-        doctor.setRating(doctorDTO.getRating());
         doctor.setPhoneNo(doctorDTO.getPhoneNo());
+        doctor.setRate(doctorDTO.getRate());
 
         doctor = doctorRepository.save(doctor);
 
         return doctor;
+    }
+
+    public List<Consultation> getAllConsultationOfDoc(Long docId){
+        return this.consultationRepository.findConsultationByDoctor_DocId(docId).orElseThrow();
     }
 
 }

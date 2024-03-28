@@ -10,6 +10,7 @@ import com.medico.app.repositories.DoctorRepository;
 import com.medico.app.repositories.PatientRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -64,6 +65,9 @@ public class PatientService {
 
         return patient;
 
-
     }
+    public List<Consultation> getAllConsultationOfPat(Long patientId){
+        return this.consultationRepository.findConsultationByPatient_PatientID(patientId).orElseThrow();
+    }
+
 }

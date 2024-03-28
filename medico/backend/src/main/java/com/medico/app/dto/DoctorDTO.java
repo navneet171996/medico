@@ -23,4 +23,5 @@ public class DoctorDTO {
     private Speciality speciality;
     private Date docDob;
     private String hospitalName;
+    private Float rate;
 }
