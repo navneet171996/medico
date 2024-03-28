@@ -1,6 +1,5 @@
 package com.medico.app.security.config;
 
-import com.medico.app.security.services.AdminDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -25,11 +24,9 @@ import java.util.Arrays;
 @EnableWebSecurity
 public class SecurityConfig{
 
-    private final AdminDetailsService adminDetailsService;
     private final JwtTokenFilter jwtTokenFilter;
 
-    public SecurityConfig(AdminDetailsService adminDetailsService, JwtTokenFilter jwtTokenFilter) {
-        this.adminDetailsService = adminDetailsService;
+    public SecurityConfig(JwtTokenFilter jwtTokenFilter) {
         this.jwtTokenFilter = jwtTokenFilter;
     }
 
@@ -52,7 +49,6 @@ public class SecurityConfig{
                                .permitAll()
                                .anyRequest()
                                .authenticated())
-               .userDetailsService(adminDetailsService)
                .sessionManagement(
                        sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                .addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class)

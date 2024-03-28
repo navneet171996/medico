@@ -1,13 +1,12 @@
 package com.medico.app.security.config;
 
-import com.medico.app.repositories.AdminRepository;
-import com.medico.app.security.services.AdminDetailsService;
-import com.medico.app.security.services.DoctorDetailsService;
-import com.medico.app.security.services.PatientDetailsService;
+import com.medico.app.entities.Role;
+import com.medico.app.security.services.CustomUserDetailsService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,20 +20,16 @@ import java.io.IOException;
 public class JwtTokenFilter extends OncePerRequestFilter {
 
     private final JwtUtil jwtUtil;
-    private final AdminDetailsService adminDetailsService;
-    private final DoctorDetailsService doctorDetailsService;
-    private final PatientDetailsService patientDetailsService;
+    private final CustomUserDetailsService userDetailsService;
 
-
-
-    public JwtTokenFilter(JwtUtil jwtUtil, AdminDetailsService adminDetailsService, DoctorDetailsService doctorDetailsService, PatientDetailsService patientDetailsService){
+    public JwtTokenFilter(JwtUtil jwtUtil, CustomUserDetailsService userDetailsService) {
         this.jwtUtil = jwtUtil;
-        this.adminDetailsService = adminDetailsService;
-        this.doctorDetailsService = doctorDetailsService;
-        this.patientDetailsService = patientDetailsService;
+        this.userDetailsService = userDetailsService;
     }
+
+
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain) throws ServletException, IOException {
         String authHeader = request.getHeader("Authorization");
         if(authHeader == null || !authHeader.startsWith("Bearer ")){
             filterChain.doFilter(request, response);
@@ -48,11 +43,14 @@ public class JwtTokenFilter extends OncePerRequestFilter {
         if(email != null && SecurityContextHolder.getContext().getAuthentication() == null){
             UserDetails userDetails = null;
             if (role.equals("ADMIN")) {
-                userDetails = this.adminDetailsService.loadUserByUsername(email);
+                userDetailsService.setRole(Role.ADMIN);
+                userDetails = this.userDetailsService.loadUserByUsername(email);
             } else if (role.equals("DOCTOR")) {
-                userDetails = this.doctorDetailsService.loadUserByUsername(email);
+                userDetailsService.setRole(Role.DOCTOR);
+                userDetails = this.userDetailsService.loadUserByUsername(email);
             } else if (role.equals("PATIENT")) {
-                userDetails = this.patientDetailsService.loadUserByUsername(email);
+                userDetailsService.setRole(Role.PATIENT);
+                userDetails = this.userDetailsService.loadUserByUsername(email);
             }
 
             if (userDetails != null && this.jwtUtil.isValid(token, userDetails)) {
