@@ -27,8 +27,8 @@ const Login_Doctor = () => {
     // authService.setToken('eyJhbGciOiJIUzI1NiJ9.eyJSb2xlIjoiQURNSU4iLCJJc3N1ZXIiOiJJc3N1ZXIiLCJleHAiOjE3MDg0NDY1ODIsImlhdCI6MTcwODQ0NjU4MiwiZW1haWwiOiJKYXZhSW5Vc2UifQ.jN92cyKxuhE39u9xeit-yGRQQAAY5xm3lsIGyslsiM0');
       
      let payload={
-      adminEmail:user,
-      adminPassword:pwd
+      email:user,
+      password:pwd
      }
      
      await loginApiCallDoctor(payload)
@@ -115,17 +115,22 @@ const Login_Doctor = () => {
                    
                     required className="outline-none relative text-5xl  font-inter text-gray-300 text-left z-[2] mq450:text-lgi mq450:leading-[80px]"/>
             
+            
         </div>
       </div>
 
-
+        <div className='flex justify-center text-center mt-8'>
+      <Link to="/loginPatient" className='  text-black no-underline '>Login as Patient</Link>
+      </div>
         <div className="absolute top-[178px] left-[200px] text-xl leading-[125%] font-inter text-black text-left z-[1] mq450:text-base mq450:leading-[20px]">
+          
           Forgot password?
+        
         </div>
       </div>
 
 
-      <div className="self-stretch flex flex-row items-start justify-start py-0 pr-0 pl-[13px] box-border max-w-full">
+      <div cursor-pointer className="self-stretch flex flex-row items-start justify-start py-0 pr-0 pl-[13px] box-border max-w-full">
         <div className="flex-1 flex flex-row items-center justify-start max-w-full">
           <div className="h-[72px] w-[518px] relative rounded-6xl bg-mediumpurple-100 max-w-full z-[1]" />
           <button onClick={handleSubmit} className="relative text-17xl bg-transparent font-inter text-neutral-colors-white text-left z-[2] ml-[-321px]">

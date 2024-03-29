@@ -1,5 +1,5 @@
 import { useContext, useState,useEffect } from 'react'
-import {Routes,Route,Link} from 'react-router-dom'
+import {Routes,Route,Link,useLocation} from 'react-router-dom'
 import Layout from './Layout'
 import Landing from './components/General/Landing'
 import Login from './components/General/Login'
@@ -18,15 +18,16 @@ import AuthContext, { AuthContextProvider } from '../Context/AuthContext'
 import Session_Out from './components/Session_out/Session_Out'
 import { PrivateRoute } from '../routes/PrivateRoutes'
 import Patient_View from './components/Patient/Patient_View'
+import Login_Patient from './components/General/Login_Patient'
+import Login_Doctor from './components/General/Login_Doctor'
 
 function App() {
  
-  const [user,setUser] = useState()
-  useEffect(() => {
-      setUser(localStorage.getItem("userProfile"))
-      console.log("user is")
-      console.log(user);
-  }, []);
+ 
+  const {user} = useContext(AuthContext)
+  const location = useLocation();
+  
+
   return (
     <>
      <AuthContextProvider>
@@ -35,11 +36,13 @@ function App() {
 
         
             <>
-              <Route path="/" element={<Landing />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/register_patient" element={<Register_patient />} />
-              <Route path="/register_doctor" element={<Regiester_doctor />} />
-              <Route path="/register_admin" element={<Register_admin />} />
+            <Route path="/" element={ <PrivateRoute  accessBy="non-authenticated"><Landing /></PrivateRoute>} />
+              <Route path="/login" element={<PrivateRoute  accessBy="non-authenticated"><Login /></PrivateRoute>} />
+              <Route path="/loginPatient" element={<PrivateRoute  accessBy="non-authenticated"><Login_Patient /></PrivateRoute>} />
+              <Route path="/loginDoctor" element={<PrivateRoute  accessBy="non-authenticated"><Login_Doctor /></PrivateRoute>} />
+              <Route path="/register_patient" element={<PrivateRoute  accessBy="non-authenticated"><Register_patient /></PrivateRoute>} />
+              <Route path="/register_doctor" element={<PrivateRoute  accessBy="non-authenticated"><Regiester_doctor /></PrivateRoute>} />
+              <Route path="/register_admin" element={<PrivateRoute  accessBy="non-authenticated"><Register_admin /></PrivateRoute>} />
             </>
         
           {/* protected Routes */}

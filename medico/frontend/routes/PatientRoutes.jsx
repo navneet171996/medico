@@ -5,13 +5,17 @@ const PatientRoutes = ({children}) => {
     
    const {user} = useContext(AuthContext)    
     
-    if(user){
+    if(user && user.role=="PATIENT"){
          
             return children;
           
     }
+    else{
+        localStorage.clear();
+        return <Navigate to="/login" />
+    }
    
-    return <Navigate to="/login"> </Navigate>
+   
 }
 
 export default PatientRoutes

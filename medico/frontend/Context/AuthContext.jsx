@@ -12,13 +12,15 @@ export const AuthContextProvider = ({children}) =>{
    const [user, setUser] = useState(() => {
     let userProfle = localStorage.getItem("userProfile");
     if (userProfle) {
-      return JSON.parse(userProfle);
+      const decodedToken = jwtDecode(JSON.parse(userProfle).token);
+      return decodedToken;
     }
     return null;
   });
    const loginApiCallAdmin = async (payload) => {
     // await axios.post("http://localhost:8081/api/auth/login", payload);
-    let apiResponse = await axios.post("http://localhost:8081/api/auth/login",payload);
+    console.log(payload);
+    let apiResponse = await axios.post("http://localhost:8081/api/auth/loginAdmin",payload);
     console.log("Api response "+apiResponse);
     localStorage.setItem("userProfile", JSON.stringify(apiResponse.data));
     localStorage.setItem('token', (apiResponse.data.token))
@@ -28,7 +30,7 @@ export const AuthContextProvider = ({children}) =>{
   };
   const loginApiCallPatient = async (payload) => {
     // await axios.post("http://localhost:8081/api/auth/login", payload);
-    let apiResponse = await axios.post("http://localhost:8081/api/auth/login",payload);
+    let apiResponse = await axios.post("http://localhost:8081/api/auth/loginPatient",payload);
     console.log("Api response "+apiResponse);
     localStorage.setItem("userProfile", JSON.stringify(apiResponse.data));
     localStorage.setItem('token', (apiResponse.data.token))
@@ -38,7 +40,7 @@ export const AuthContextProvider = ({children}) =>{
   };
   const loginApiCallDoctor = async (payload) => {
     // await axios.post("http://localhost:8081/api/auth/login", payload);
-    let apiResponse = await axios.post("http://localhost:8081/api/auth/login",payload);
+    let apiResponse = await axios.post("http://localhost:8081/api/auth/loginDoctor",payload);
     console.log("Api response "+apiResponse);
     localStorage.setItem("userProfile", JSON.stringify(apiResponse.data));
     localStorage.setItem('token', (apiResponse.data.token))
@@ -53,7 +55,7 @@ export const AuthContextProvider = ({children}) =>{
         console.log(apiResponse);
   }
 
-  const logoutAPICall = async () => {
+  const logoutAPICall = () => {
     localStorage.removeItem("userProfile");
     setUser(null);
     navigate("/login");
