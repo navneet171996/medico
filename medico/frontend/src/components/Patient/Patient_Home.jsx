@@ -1,9 +1,21 @@
 import React from 'react'
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import { Link } from 'react-router-dom';
-
-const Patient_Home = () => {const [messageIconChecked, setMessageIconChecked] = useState(true);
-
+import { useContext } from 'react';
+import AuthContext from '../../../Context/AuthContext';
+import axios from 'axios';
+import jwtInterceptor from '../../../helper/jwtInterceptor';
+const Patient_Home = () => {
+  const [messageIconChecked, setMessageIconChecked] = useState(true);
+  
+  const [patient, setPatient] = useState([]);
+ const {logoutAPICall} = useContext(AuthContext)
+  useEffect(() => {
+      jwtInterceptor.get("http://localhost:4000/user-profile")
+      .then((response) => {
+        setPatient(response.data);
+      });
+  }, []);
   return (
     <>
     
@@ -30,7 +42,7 @@ const Patient_Home = () => {const [messageIconChecked, setMessageIconChecked] = 
             alt=""
             src="/home.svg"
           />
-          <Link to="/" className="relative font-semibold z-[1] no-underline text-black">Home</Link>
+          <Link to="/patient_View" className="relative font-semibold z-[1] no-underline text-black">Home</Link>
         </div>
       </div>
       <div className="flex flex-row items-start justify-start py-0 pr-1 pl-[37px] text-text">
@@ -79,12 +91,12 @@ const Patient_Home = () => {const [messageIconChecked, setMessageIconChecked] = 
             <div className="absolute top-[20px] left-[0px] w-[82px] flex flex-col items-start justify-start">
               <div className="self-stretch h-[17px] flex flex-row items-start justify-start pt-0 px-0 pb-0 box-border">
                 <b className="mb-[-3px] h-[19.5px] flex-1 relative inline-block whitespace-nowrap">
-                  Charles Deo
+                  {patient.firstName} <span> </span> {patient.lastName}
                 </b>
               </div>
-              <div className="w-16 relative text-3xs font-light inline-block box-border whitespace-nowrap pr-5">
+              <button onClick={()=>{logoutAPICall()}} className="bg-white cursor-pointer w-16 relative text-3xs font-light inline-block box-border whitespace-nowrap pr-5">
                 Log out
-              </div>
+              </button>
             </div>
           </div>
           <div className="flex flex-col items-start justify-start pt-[9px] pb-0 pr-px pl-0">
@@ -122,7 +134,7 @@ const Patient_Home = () => {const [messageIconChecked, setMessageIconChecked] = 
         </div>
         <div className="absolute top-[308px] left-[215px] w-[882px] flex flex-row items-center justify-between gap-[20px] max-w-full mq450:flex-wrap">
           <h2 className="m-0 h-[61.7px] w-[238.9px] relative text-inherit font-bold font-inherit inline-block shrink-0 z-[1] mq1025:text-5xl mq450:text-lg">
-            Charles Deo
+          {patient.firstName} <span> </span> {patient.lastName}
           </h2>
           <div className="flex flex-col items-start justify-start pt-[5px] px-0 pb-0">
             <button className="cursor-pointer py-3 pr-[42px] pl-[45px] bg-[transparent] rounded-3xs flex flex-row items-center justify-center whitespace-nowrap z-[1] border-[1px] border-solid border-mediumpurple-200 hover:bg-slateblue-200 hover:box-border hover:border-[1px] hover:border-solid hover:border-slateblue-100">

@@ -2,21 +2,33 @@ import React from 'react'
 import { Link,useNavigate,useLocation } from 'react-router-dom'
 import { useState } from 'react'
 import { Checkbox } from 'antd';
+import { DatePicker, Space } from 'antd';
 import { Flex, Radio } from 'antd';
+import { Select } from 'antd';
+
 
 const Register_patient = () => {
+  const { Option } = Select;
   const navigate = useNavigate()
     const location = useLocation()
    
     const [user,setUser]=useState('');
     const [pwd,setPwd]=useState('');
-    const plainOptions = ['Male', 'Female', 'Other'];
+    const plainOptions = ['M', 'F', 'O'];
+    
+   
+      function handleChange(value) {
+        console.log(`Selected: ${value}`);
+      }
     
 
     const onChange = (e) => {
       console.log(`radio checked:${e.target.value}`);
     };
     
+    const dob = (date, dateString) => {
+      console.log(date, dateString);
+    };
   return (
    <>
       <div className="w-full relative bg-whitesmoke-100 overflow-hidden flex flex-row items-center justify-start pt-[67px] px-0 pb-36 box-border [row-gap:20px] tracking-[normal] mq1325:flex-wrap">
@@ -70,10 +82,10 @@ const Register_patient = () => {
                 Patient Name
           </div>
         </div>
-        <div className="  bg-white box-border flex flex-row items-center justify-start py-0 px-[19px] max-w-full z-[1] mt-[-30px] border-[2px] border-solid border-neutral-colors-white">
-          <div className="h-[95px] w-[531px] relative rounded-3xs bg-gray-500 box-border hidden max-w-full border-[1px] border-solid border-neutral-colors-white" />
+        <div className="  bg-white box-border flex flex-row items-center justify-start py-0 px-[19px] max-w-full z-[1] mt-[-30px] border-[2px]  border-neutral-colors-white">
+          <div className="h-[95px] w-[531px] relative rounded-3xs  box-border hidden max-w-full border-[1px] border-solid border-neutral-colors-white" />
           <input  type="text"
-                    className="outline-none relative text-lg  font-inter text-gray-300 text-left z-[2] mq450:text-lgi mq450:leading-[80px]"/>
+                    className="  outline-none relative text-lg  font-inter  text-left z-[2] mq450:text-lgi mq450:leading-[80px]"/>
             
         </div>
       </div>
@@ -87,14 +99,14 @@ const Register_patient = () => {
                Contact Number
           </div>
         </div>
-        <div className="  bg-white box-border flex flex-row items-center justify-start py-0 px-[19px] max-w-full z-[1] mt-[-30px] border-[2px] border-solid border-neutral-colors-white">
+        <div className="  bg-white box-border flex flex-row items-center justify-start py-0 px-[19px] max-w-full z-[1] mt-[-30px] border-[2px]  border-neutral-colors-white">
           <div className="h-[95px] w-[531px] relative rounded-3xs bg-gray-500 box-border hidden max-w-full border-[1px] border-solid border-neutral-colors-white" />
           <input   type="tel"
                     required className="outline-none relative text-lg  font-inter text-gray-300 text-left z-[2] mq450:text-lgi mq450:leading-[80px]"/>
             
         </div>
         
-        <div className='flex flex-row pt-5'>
+        <div className='flex flex-row '>
         <div className="flex flex-row items-center justify-start py-0 px-[11px]">
           <div className="relative text-3xl leading-[100px] font-inter text-black text-left z-[1] mq450:text-lgi mq450:leading-[80px]">
                Gender:
@@ -102,6 +114,39 @@ const Register_patient = () => {
         </div>
         <div>
         <Checkbox.Group className='pt-10' options={plainOptions} defaultValue={['Apple']} onChange={onChange} />
+        </div>
+        </div>
+
+        <div className='flex flex-row pb-3 mb-3 pr-[11px] '>
+        <div className="flex flex-row items-center justify-start py-0 px-[5px]">
+          <div className="relative text-3xl leading-[-50px] font-inter text-black text-left z-[1] mq450:text-lgi mq450:leading-[80px]">
+               Blood Group:
+          </div>
+        </div>
+        <div>
+        <Select defaultValue="Option 1" style={{ width: 120 }} onChange={handleChange}>
+      <Option value="Option 1">A+</Option>
+      <Option value="Option 2">B+</Option>
+      <Option value="Option 3">A-</Option>
+      <Option value="Option 4">AB+</Option>
+      <Option value="Option 5">AB-</Option>
+      <Option value="Option 6">O+</Option>
+      <Option value="Option 7">O-</Option>
+
+    </Select>
+        </div>
+        </div>
+
+        <div className='flex flex-row pb-3 mb-3 pr-[11px] '>
+        <div className="flex flex-row items-center justify-start py-0 px-[5px]">
+          <div className="relative text-3xl leading-[-50px] font-inter text-black text-left z-[1] mq450:text-lgi mq450:leading-[80px]">
+               Date Of Birth:
+          </div>
+        </div>
+        <div>
+        <Space direction="vertical" size={12}>
+        <DatePicker onChange={dob} needConfirm />
+      </Space>
         </div>
         </div>
 
@@ -175,7 +220,7 @@ const Register_patient = () => {
           Forgot password?
         </div> */}
 
-<div className="self-stretch flex flex-row items-start justify-start py-10 pr-0 pl-[13px] box-border max-w-full">
+<div className="cursor-pointer self-stretch flex flex-row items-start justify-start py-10 pr-0 pl-[13px] box-border max-w-full">
         <div className="flex-1 flex flex-row items-center justify-start max-w-full">
           <div className="h-[72px] w-[518px] relative rounded-6xl bg-mediumpurple-100 max-w-full z-[1]" />
           <button className="relative text-17xl bg-transparent font-inter text-neutral-colors-white text-left z-[2] ml-[-321px]">

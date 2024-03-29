@@ -20,6 +20,7 @@ import java.util.Set;
 public class Prescription {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "prescription_id")
     private Long prescriptionId;
 
