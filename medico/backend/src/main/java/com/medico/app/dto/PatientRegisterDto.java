@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Getter
@@ -11,7 +12,7 @@ import java.util.Date;
 @NoArgsConstructor
 public class PatientRegisterDto {
     private String patName;
-    private Date patDob;
+    private LocalDate patDob;
     private String bloodGroup;
     private String phoneNo;
     private Character gender;

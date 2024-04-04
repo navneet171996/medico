@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Date;
 
@@ -27,7 +28,7 @@ public class Slots {
     private Doctor doctor;
 
     @Column(name = "date")
-    private Date date;
+    private LocalDate date;
 
     @Column(name = "start_time")
     private LocalTime startTime;

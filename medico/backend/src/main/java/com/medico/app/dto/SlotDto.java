@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Getter
@@ -13,5 +14,5 @@ import java.util.Date;
 @AllArgsConstructor
 public class SlotDto {
     private Long docId;
-    private Date date;
+    private LocalDate date;
 }
