@@ -1,6 +1,7 @@
 package com.medico.app.services;
 
 import com.medico.app.dto.ConsultationDto;
+import com.medico.app.dto.PatientDto;
 import com.medico.app.entities.Consultation;
 import com.medico.app.entities.Doctor;
 import com.medico.app.entities.Patient;
@@ -41,6 +42,34 @@ public class PatientService {
         consultation.setDate(consultationDto.getConsultationDate());
 
         return consultationRepository.save(consultation);
+    }
+
+    public PatientDto getPatientDetails(Long patientId){
+        Patient patient = patientRepository.findById(patientId).orElseThrow();
+        PatientDto patientDto = new PatientDto();
+        patientDto.setPatientId(patient.getPatientID());
+        patientDto.setPatName(patient.getPatName());
+        patientDto.setPatDob(patient.getPatDob());
+        patientDto.setPatBloodGroup(patient.getPatBloodGroup());
+        patientDto.setPatGender(patient.getPatGender());
+        patientDto.setPatEmail(patient.getPatEmail());
+        patientDto.setPatGender(patient.getPatGender());
+
+        return patientDto;
+    }
+    public Patient editPatientDetails(PatientDto patientDto){
+        Patient patient = patientRepository.findById(patientDto.getPatientId()).orElseThrow();
+        patient.setPatBloodGroup(patientDto.getPatBloodGroup());
+        patient.setPatName(patientDto.getPatName());
+        patient.setPatPhoneNo(patientDto.getPatPhoneNo());
+
+        patient = patientRepository.save(patient);
+
+        return patient;
+
+    }
+    public List<Consultation> getAllConsultationOfPat(Long patientId){
+        return this.consultationRepository.findConsultationByPatient_PatientID(patientId).orElseThrow();
     }
 
 }
