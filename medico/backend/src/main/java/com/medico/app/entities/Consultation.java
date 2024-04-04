@@ -40,4 +40,7 @@ public class Consultation {
 
     private String chat;
 
+    @OneToOne()
+    private RatingsAndReviews ratingsAndReviews;
+
 }
