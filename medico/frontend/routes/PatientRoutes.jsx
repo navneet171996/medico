@@ -4,8 +4,8 @@ import AuthContext from "../Context/AuthContext";
 const PatientRoutes = ({children}) => {
     
    const {user} = useContext(AuthContext)    
-    
-    if(user && user.role=="PATIENT"){
+//    && user.role=="PATIENT"
+    if(user){
          
             return children;
           

@@ -16,6 +16,7 @@ public class AuxService {
     private final PatientRepository patientRepository;
     private final AdminRepository adminRepository;
 
+
     public AuxService(SpecialityRepository specialityRepository, HospitalRepository hospitalRepository, DoctorRepository doctorRepository,PatientRepository patientRepository ,AdminRepository adminRepository) {
         this.specialityRepository = specialityRepository;
         this.hospitalRepository = hospitalRepository;

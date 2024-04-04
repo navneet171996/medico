@@ -1,11 +1,11 @@
 import { Navigate } from "react-router-dom"
-import { authService } from "../services/authService"
 import AuthContext from "../Context/AuthContext"
 import { useContext } from "react"
 
 const AdminRoutes = ({children}) => {
     const {user} = useContext(AuthContext)
-   if(user && user.role=="ADMIN"){
+   //  && user.role=="ADMIN"
+    if(user ){
          
       return children;
     
