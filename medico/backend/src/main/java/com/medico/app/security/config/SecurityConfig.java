@@ -38,6 +38,7 @@ public class SecurityConfig{
                 new AntPathRequestMatcher("/api/home/**"),
                 new AntPathRequestMatcher("/api/aux/**"),
                 new AntPathRequestMatcher("/api/patient/**"),
+                new AntPathRequestMatcher("/api/doctor/**"),
                 new AntPathRequestMatcher("/api/admin/**")
         };
         return http
