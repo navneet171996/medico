@@ -49,8 +49,8 @@ public class Patient implements UserDetails {
     @Column(name = "password")
     private String patPassword;
 
-    @Transient
-    private Role role = Role.PATIENT;
+    @Enumerated(value = EnumType.STRING)
+    private Role role;
 
     @JsonIgnore
     @OneToMany(mappedBy = "patient")

@@ -73,5 +73,8 @@ public class DoctorService {
         return doctors.stream().sorted(Comparator.comparing(Doctor::getRate).reversed()).toList();
     }
 
+//    public List<Consultation> getAllUpcomingConsultations(Long docId){
+//        return this.consultationRepository.findConsultationByDoctor_DocId(docId).orElseThrow();
+//    }
 
 }
