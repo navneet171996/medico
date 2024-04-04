@@ -2,10 +2,7 @@ package com.medico.app.extras;
 
 import com.medico.app.entities.*;
 import com.medico.app.extras.dto.*;
-import com.medico.app.repositories.DoctorRepository;
-import com.medico.app.repositories.HospitalRepository;
-import com.medico.app.repositories.PatientRepository;
-import com.medico.app.repositories.SpecialityRepository;
+import com.medico.app.repositories.*;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,7 +15,7 @@ public class AuxService {
     private final DoctorRepository doctorRepository;
     private final PatientRepository patientRepository;
 
-    public AuxService(SpecialityRepository specialityRepository, HospitalRepository hospitalRepository, DoctorRepository doctorRepository,PatientRepository patientRepository) {
+    public AuxService(SpecialityRepository specialityRepository, HospitalRepository hospitalRepository, DoctorRepository doctorRepository, PatientRepository patientRepository) {
         this.specialityRepository = specialityRepository;
         this.hospitalRepository = hospitalRepository;
         this.doctorRepository = doctorRepository;
@@ -45,6 +42,7 @@ public class AuxService {
             doctor.setRate(dto.getRate());
             doctor.setEmail(dto.getEmail());
             doctor.setPassword(dto.getPassword());
+            doctor.setRole(Role.DOCTOR);
             doctor.setSpeciality(this.specialityRepository.findById(dto.getSpecialityId()).orElseThrow());
             doctor.setHospital(this.hospitalRepository.findById(dto.getHospitalId()).orElseThrow());
 
@@ -71,6 +69,7 @@ public class AuxService {
             patient.setPatGender(dto.getGender());
             patient.setPatEmail(dto.getEmail());
             patient.setPatPassword(dto.getPassword());
+            patient.setRole(Role.PATIENT);
             this.patientRepository.save(patient);
         });
     }
