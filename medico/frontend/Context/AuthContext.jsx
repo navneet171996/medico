@@ -74,8 +74,10 @@ export const AuthContextProvider = ({children}) =>{
   
   //hospitals
   const getAllHospitals = async()=>{
-     let apiResponse = await axios.get("localhost:8081/api/patient/getAllHospitals");
-    console.log(apiResponse);
+     let apiResponse = await axios.get("http://localhost:8081/api/patient/getAllHospitals");
+    console.log("Get all hospitals");
+     console.log(apiResponse);
+     setHospitals(apiResponse.data)
   }
   
  //Patient Api calls
@@ -126,7 +128,7 @@ export const AuthContextProvider = ({children}) =>{
     
     
 
-    return <AuthContext.Provider value={{getAllHospitals,getPatientDetails,registerPatient,loginApiCallAdmin,loginApiCallDoctor,loginApiCallPatient,user,logoutAPICall,getSpecialization,specialization,registerAdmin}}>{children}</AuthContext.Provider>
+    return <AuthContext.Provider value={{hospitals,getAllHospitals,getPatientDetails,registerPatient,loginApiCallAdmin,loginApiCallDoctor,loginApiCallPatient,user,logoutAPICall,getSpecialization,specialization,registerAdmin}}>{children}</AuthContext.Provider>
 
    
 }
