@@ -8,33 +8,54 @@ export const AuthContextProvider = ({children}) =>{
     const navigate = useNavigate()
 
     const [specialization,setSpecialization] = useState([])
+    const [hospitals,setHospitals] = useState([]);
    
    const [user, setUser] = useState(() => {
     let userProfle = localStorage.getItem("userProfile");
     if (userProfle) {
-      return JSON.parse(userProfle);
+      const decodedToken = jwtDecode(JSON.parse(userProfle).token);
+      return decodedToken;
     }
     return null;
   });
-   const loginApiCall = async (payload) => {
+   const loginApiCallAdmin = async (payload) => {
     // await axios.post("http://localhost:8081/api/auth/login", payload);
-    let apiResponse = await axios.post("http://localhost:8081/api/auth/login",payload);
+    console.log(payload);
+    let apiResponse = await axios.post("http://localhost:8081/api/auth/loginAdmin",payload);
     console.log("Api response "+apiResponse);
     localStorage.setItem("userProfile", JSON.stringify(apiResponse.data));
     localStorage.setItem('token', (apiResponse.data.token))
     console.log("The token is "+localStorage.getItem('token'));
     setUser(apiResponse.data);
-    console.log("user check"+user);
-    navigate('/patient')
+    navigate('/admin')
   };
 
-  const logoutAPICall = async () => {
-
-    // await axios.get("http://localhost:4000/logout");
-    // localStorage.removeItem("userProfile");
-    // setUser(null);
-    // navigate("/login");
+  const loginApiCallDoctor = async (payload) => {
+    // await axios.post("http://localhost:8081/api/auth/login", payload);
+    let apiResponse = await axios.post("http://localhost:8081/api/auth/loginDoctor",payload);
+    console.log("Api response "+apiResponse);
+    localStorage.setItem("userProfile", JSON.stringify(apiResponse.data));
+    localStorage.setItem('token', (apiResponse.data.token))
+    console.log("The token is "+localStorage.getItem('token'));
+    setUser(apiResponse.data);
+    navigate('/doctor')
   };
+
+  const registerAdmin = async(payload) =>{
+    console.log(payload);
+        let apiResponse = await axios.post("http://localhost:8081/api/auth/registerAdmin",payload);
+        console.log(apiResponse);
+  }
+  
+
+  const logoutAPICall = () => {
+    localStorage.removeItem("userProfile");
+    setUser(null);
+    navigate("/loginPatient");
+  };
+
+  
+
 
   const getSpecialization = async () =>{
     console.log("I am called");
@@ -48,11 +69,46 @@ export const AuthContextProvider = ({children}) =>{
   } else {
       console.error("Invalid data format or empty array received");
   }
-
-
     console.log(specialization);
-    // console.log(specialization[0]);
-  } 
+  }
+  
+  //hospitals
+  const getAllHospitals = async()=>{
+     let apiResponse = await axios.get("http://localhost:8081/api/patient/getAllHospitals");
+    console.log("Get all hospitals");
+     console.log(apiResponse);
+     setHospitals(apiResponse.data)
+  }
+  
+ //Patient Api calls
+  const registerPatient = async(payload) =>{
+    console.log(payload);
+    let apiResponse = await axios.post("http://localhost:8081/api/auth/registerPatient",payload);
+    console.log(apiResponse);
+    if(apiResponse){
+      alert("registered successfully");
+    }
+  }
+
+  const loginApiCallPatient = async (payload) => {
+    // await axios.post("http://localhost:8081/api/auth/login", payload);
+    let apiResponse = await axios.post("http://localhost:8081/api/auth/loginPatient",payload);
+    console.log(apiResponse);
+    localStorage.setItem("userProfile", JSON.stringify(apiResponse.data));
+    localStorage.setItem('token', (apiResponse.data.token))
+    console.log("The token is "+localStorage.getItem('token'));
+    setUser(apiResponse.data);
+    navigate('/patient')
+  };
+
+  const getPatientDetails = async (payload) => {
+     let apiResponse = await axios.get("localhost:8081/api/patient/getPatientDetails/1");
+     console.log(apiResponse);
+  }
+
+
+
+
 
 
 
@@ -72,7 +128,7 @@ export const AuthContextProvider = ({children}) =>{
     
     
 
-    return <AuthContext.Provider value={{loginApiCall,user,logoutAPICall,getSpecialization,specialization}}>{children}</AuthContext.Provider>
+    return <AuthContext.Provider value={{hospitals,getAllHospitals,getPatientDetails,registerPatient,loginApiCallAdmin,loginApiCallDoctor,loginApiCallPatient,user,logoutAPICall,getSpecialization,specialization,registerAdmin}}>{children}</AuthContext.Provider>
 
    
 }

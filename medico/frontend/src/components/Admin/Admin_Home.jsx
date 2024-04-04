@@ -6,8 +6,17 @@ import BlankFrame from './BlankFrame'
 import FrameComponent from './FrameComponent'
 import LinkedLinesFrame from './LinkedLinesFrame'
 import { useNavigation } from 'react-router-dom'
+import AuthContext from '../../../Context/AuthContext'
+import { useContext } from 'react'
+
 const Admin_Home = () => {
- 
+   const {logoutAPICall} = useContext(AuthContext)    
+  const logout=async (e)=>{
+    e.preventDefault();
+   logoutAPICall()
+  
+ }
+    
   return (
    <>
     <div className="w-full h-[982px] relative bg-white overflow-hidden flex flex-col items-start justify-start gap-[53px_0px] tracking-[normal] text-left text-xs text-gray-300 font-manrope lg:h-auto mq750:gap-[53px_0px]">
@@ -24,15 +33,17 @@ const Admin_Home = () => {
                 />
                 <div className="relative leading-[24px]">Settings</div>
               </div>
-              <div className="absolute top-[628px] left-[32px] rounded flex flex-row items-center justify-start py-2 pr-[34px] pl-4 gap-[0px_12px] z-[1] text-indianred">
+              <button onClick={logout} className="cursor-pointer hover:bg-neutral-colors-white absolute top-[628px] left-[32px] rounded flex flex-row items-center justify-start py-2 pr-[34px] pl-4 gap-[0px_12px] z-[1] text-indianred">
                 <img
                   className="h-6 w-6 relative min-h-[24px]"
                   loading="lazy"
                   alt=""
                   src="/vuesaxlinearlogout.svg"
                 />
-                <div className="relative leading-[24px]">Logout</div>
-              </div>
+                <div className="relative leading-[24px]">
+                  Logout
+                  </div>
+              </button>
               <div className="absolute top-[212px] left-[32px] w-[197px] flex flex-col items-start justify-start gap-[24px_0px] z-[1] text-gray-300">
                 <div className="rounded bg-mediumpurple flex flex-row items-center justify-start py-2 pr-[33px] pl-4 gap-[0px_12px] text-dimgray">
                   <img
@@ -195,11 +206,6 @@ const Admin_Home = () => {
                               </div>
                             </div>
                           </div>
-                          <img
-                            className="self-stretch h-[3.8px] relative max-w-full overflow-hidden shrink-0 object-contain z-[1]"
-                            loading="lazy"
-                            alt=""
-                          />
                         </div>
                         <div className="w-[697px] flex flex-col items-center justify-start gap-[21px_0px] max-w-full">
                           <div className="w-[667px] flex flex-row items-start justify-start py-0 pr-[35px] pl-5 box-border max-w-full shrink-0">
@@ -245,11 +251,7 @@ const Admin_Home = () => {
                               </div>
                             </div>
                           </div>
-                          <img
-                            className="self-stretch h-[1.3px] relative max-w-full overflow-hidden shrink-0 object-contain z-[1]"
-                            loading="lazy"
-                            alt=""
-                          />
+                         
                         </div>
                         <div className="w-[688px] flex flex-row items-start justify-start py-0 pr-9 pl-[35px] box-border max-w-full">
                           <div className="flex-1 flex flex-row items-start justify-between max-w-full gap-[20px] mq750:flex-wrap">
@@ -296,11 +298,7 @@ const Admin_Home = () => {
                         </div>
                         <div className="self-stretch flex flex-col items-end justify-start pt-0 px-0 pb-1 box-border gap-[16px_0px] max-w-full">
                           <div className="self-stretch flex flex-col items-start justify-start py-0 pr-0 pl-5 box-border gap-[19px_0px] max-w-full">
-                            <img
-                              className="self-stretch h-[5px] relative max-w-full overflow-hidden shrink-0 object-contain z-[1]"
-                              loading="lazy"
-                              alt=""
-                            />
+                           
                             <div className="w-[519px] flex flex-row items-start justify-start py-0 pr-2.5 pl-[9px] box-border max-w-full">
                               <div className="flex-1 flex flex-row items-start justify-between py-0 pr-1 pl-0 box-border max-w-full gap-[20px] mq450:flex-wrap">
                                 <div className="flex flex-row items-center justify-start gap-[0px_5px]">
@@ -325,11 +323,7 @@ const Admin_Home = () => {
                               </div>
                             </div>
                           </div>
-                          <img
-                            className="self-stretch h-[3.4px] relative max-w-full overflow-hidden shrink-0 object-contain z-[1]"
-                            loading="lazy"
-                            alt=""
-                          />
+                         
                         </div>
                         <div className="w-[684px] flex flex-row items-start justify-start py-0 pr-9 pl-[35px] box-border max-w-full">
                           <div className="flex-1 flex flex-row items-start justify-between py-0 pr-[3px] pl-0 box-border max-w-full gap-[20px] mq750:flex-wrap">
@@ -376,11 +370,7 @@ const Admin_Home = () => {
                         </div>
                       </div>
                     </div>
-                    <img
-                      className="self-stretch h-[0.2px] relative max-w-full overflow-hidden shrink-0 object-contain"
-                      loading="lazy"
-                      alt=""
-                    />
+                   
                   </div>
                 </div>
                 <div className="w-[682px] flex flex-row items-start justify-start py-0 pr-9 pl-[35px] box-border max-w-full text-xs text-gray-300">
