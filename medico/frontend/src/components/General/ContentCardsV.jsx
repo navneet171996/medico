@@ -41,7 +41,7 @@ const ContentCardsV = () => {
           ))}
         </Carousel>
         <Link className="text-black pt-3 ">
-        <div className="mt-2 mr-5 text-[15px] border-4 border-solid float-right hover:bg-blue-400 hover:text-white px-2 py-2 bg-white  ">View All Specializations</div>
+        <div className="mt-2 mr-5 text-[15px] border-4 border-whitesmoke-300  border-solid float-right hover:bg-blue-400 hover:text-white px-2 py-2 bg-whitesmoke-100  ">View All Specializations</div>
         </Link>
       </div>
       </div>

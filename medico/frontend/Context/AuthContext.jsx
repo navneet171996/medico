@@ -9,7 +9,7 @@ export const AuthContextProvider = ({children}) =>{
 
     const [specialization,setSpecialization] = useState([])
     const [hospitals,setHospitals] = useState([]);
-   
+    const [patientProfile,setPatientProfile] = useState([])
    const [user, setUser] = useState(() => {
     let userProfle = localStorage.getItem("userProfile");
     if (userProfle) {
@@ -102,8 +102,8 @@ export const AuthContextProvider = ({children}) =>{
   };
 
   const getPatientDetails = async (payload) => {
-     let apiResponse = await axios.get("localhost:8081/api/patient/getPatientDetails/1");
-     console.log(apiResponse);
+     let apiResponse = await axios.get("http://localhost:8081/api/patient/getPatientDetails/1");
+     setPatientProfile(apiResponse.data)
   }
 
 
@@ -128,7 +128,7 @@ export const AuthContextProvider = ({children}) =>{
     
     
 
-    return <AuthContext.Provider value={{hospitals,getAllHospitals,getPatientDetails,registerPatient,loginApiCallAdmin,loginApiCallDoctor,loginApiCallPatient,user,logoutAPICall,getSpecialization,specialization,registerAdmin}}>{children}</AuthContext.Provider>
+    return <AuthContext.Provider value={{patientProfile,hospitals,getAllHospitals,getPatientDetails,registerPatient,loginApiCallAdmin,loginApiCallDoctor,loginApiCallPatient,user,logoutAPICall,getSpecialization,specialization,registerAdmin}}>{children}</AuthContext.Provider>
 
    
 }
