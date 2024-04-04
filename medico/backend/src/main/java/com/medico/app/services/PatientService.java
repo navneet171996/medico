@@ -43,9 +43,11 @@ public class PatientService {
 
         return consultationRepository.save(consultation);
     }
+
     public PatientDto getPatientDetails(Long patientId){
         Patient patient = patientRepository.findById(patientId).orElseThrow();
         PatientDto patientDto = new PatientDto();
+        patientDto.setPatientId(patient.getPatientID());
         patientDto.setPatName(patient.getPatName());
         patientDto.setPatDob(patient.getPatDob());
         patientDto.setPatBloodGroup(patient.getPatBloodGroup());

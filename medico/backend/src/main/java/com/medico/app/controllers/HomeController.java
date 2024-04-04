@@ -1,5 +1,6 @@
 package com.medico.app.controllers;
 
+import com.medico.app.entities.Doctor;
 import com.medico.app.entities.Speciality;
 import com.medico.app.services.DoctorService;
 import com.medico.app.services.SpecialityService;
@@ -32,7 +33,7 @@ public class HomeController {
     }
 
     @GetMapping(path = "/docBySpeciality/{specialityId}")
-    public ResponseEntity<?> getDoctorsBySpeciality(@PathVariable Long specialityId){
+    public ResponseEntity<List<Doctor>> getDoctorsBySpeciality(@PathVariable Long specialityId){
         return new ResponseEntity<>(doctorService.getDoctorsBySpeciality(specialityId), HttpStatus.OK);
     }
 }

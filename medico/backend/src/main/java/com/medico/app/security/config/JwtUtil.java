@@ -1,11 +1,14 @@
 package com.medico.app.security.config;
 
 import com.medico.app.entities.Admin;
+import com.medico.app.entities.Doctor;
+import com.medico.app.entities.Patient;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +24,10 @@ public class JwtUtil {
 
     public String extractEmailFromToken(String token){
         return extractClaim(token, Claims::getSubject);
+    }
+
+    public String extractRoleFromToken(String token){
+        return extractClaim(token, claims -> claims.get("role", String.class));
     }
 
     public boolean isValid(String token, UserDetails userDetails){
@@ -48,18 +55,16 @@ public class JwtUtil {
                 .parseSignedClaims(token)
                 .getPayload();
     }
-    public String generateToken(Admin admin){
-        String token = Jwts
+    public String generateToken(Authentication authentication, String role){
+        return Jwts
                 .builder()
-                .subject(admin.getAdminEmail())
+                .subject(authentication.getName())
+                .claim("role", role)
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + VALIDITY*1000))
                 .signWith(getSigningKey())
                 .compact();
-
-        return token;
     }
-
     private SecretKey getSigningKey(){
         byte[] keyBytes = Decoders.BASE64URL.decode(SECRET_KEY);
         return Keys.hmacShaKeyFor(keyBytes);

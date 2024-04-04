@@ -18,10 +18,10 @@ public class DoctorDTO {
     private String docName;
     private String phoneNo;
     private Character gender;
-    private Float rating;
+    private Double rating;
     private String email;
     private Speciality speciality;
     private Date docDob;
     private String hospitalName;
-    private Float rate;
+    private Double rate;
 }

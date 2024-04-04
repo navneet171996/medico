@@ -1,13 +1,12 @@
 package com.medico.app.services;
 
-import java.util.ConcurrentModificationException;
-import java.util.List;
 
+import java.util.Comparator;
+import java.util.List;
 import com.medico.app.dto.DoctorDTO;
 import com.medico.app.entities.Consultation;
 import com.medico.app.repositories.ConsultationRepository;
 import org.springframework.stereotype.Service;
-
 import com.medico.app.entities.Doctor;
 import com.medico.app.repositories.DoctorRepository;
 
@@ -63,5 +62,16 @@ public class DoctorService {
     public List<Consultation> getAllConsultationOfDoc(Long docId){
         return this.consultationRepository.findConsultationByDoctor_DocId(docId).orElseThrow();
     }
+
+    public List<Doctor> getSortedRDoctorsBySpeciality(Long specialityId) {
+        List<Doctor> doctors = this.doctorRepository.findBySpeciality_SpecialityId(specialityId).orElseThrow();
+        return doctors.stream().sorted(Comparator.comparing(Doctor::getRating).reversed()).toList();
+    }
+
+    public List<Doctor> getSortedPDoctorsBySpeciality(Long specialityId) {
+        List<Doctor> doctors = this.doctorRepository.findBySpeciality_SpecialityId(specialityId).orElseThrow();
+        return doctors.stream().sorted(Comparator.comparing(Doctor::getRate).reversed()).toList();
+    }
+
 
 }

@@ -6,13 +6,17 @@ import AuthContext from "../Context/AuthContext"
 const DoctorRoutes = ({children}) => {
     const {user} = useContext(AuthContext)    
     
-    if(user){
+    if(user && user.role=="DOCTOR"){
          
             return children;
           
     }
+    else{
+        localStorage.clear();
+        return <Navigate to="/login" />
+    }
    
-      return <Navigate to="/login"> </Navigate>
+
 }
 
 export default DoctorRoutes

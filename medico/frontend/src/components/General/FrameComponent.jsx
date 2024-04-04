@@ -20,15 +20,15 @@ const FrameComponent = () => {
               <div className="w-[388px] h-[535px] relative rounded-3xl bg-neutral-colors-white box-border hidden max-w-full border-[1px] border-solid border-lavender" />
               <div className="flex flex-row items-start justify-start pt-0 px-0 pb-2">
                 <img
-                  className="h-40 w-40 relative z-[1]"
+                  className="h-40 w-40 relative z-[1] rounded-full"
                   loading="eager"
                   alt=""
-                  src="/image-placeholder.svg"
+                  src="/xx.jpg"
                 />
               </div>
               <div className="self-stretch flex flex-col items-center justify-start gap-[8px_0px]">
                 <h3 className="m-0 relative text-9xl leading-[38px] font-bold font-inherit z-[1] mq450:text-3xl mq450:leading-[30px]">
-                  John Carter
+                  Lavish Sainik
                 </h3>
                 <div className="flex flex-row items-start justify-start pt-0 px-0 pb-[7px] text-darkslategray">
                   <b className="relative tracking-[0.1em] leading-[20px] uppercase z-[1]">{`CEO & Co-Founder`}</b>
@@ -69,30 +69,30 @@ const FrameComponent = () => {
               </div>
             </div>
             <MemberCard
-              imagePlaceholder="/image-placeholder-1.svg"
-              memberName="Sophie Moore"
-              memberTitle="dental specialist"
+             className="rounded-full"
+              imagePlaceholder="/"
+              memberName="Sumit Singh"
+              memberTitle="Bhagwan"
             />
             <MemberCard
-              imagePlaceholder="/image-placeholder-2.svg"
-              memberName="Matt Cannon"
-              memberTitle="orthopedic"
+             className="rounded-full"
+              imagePlaceholder="/x3nav.jpg"
+              memberName="Nabneet dutta"
+              memberTitle="CTO"
             />
             <MemberCard
-              imagePlaceholder="/image-placeholder-3.svg"
-              memberName="Andy Smith"
-              memberTitle="brain surgeon"
+             className="rounded-full"
+              imagePlaceholder="/x1.jpg"
+              memberName="Tejaswa awasthi"
+              memberTitle="CMO"
             />
             <MemberCard
+             className="rounded-full"
               imagePlaceholder="/image-placeholder-4.svg"
-              memberName="Lily Woods"
-              memberTitle="heart specialist"
+              memberName="Ashutosh Dubey"
+              memberTitle="Bakchod"
             />
-            <MemberCard
-              imagePlaceholder="/image-placeholder-5.svg"
-              memberName="Patrick Meyer"
-              memberTitle="eye specialist"
-            />
+            
           </div>
         </div>
       </div>

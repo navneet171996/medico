@@ -11,8 +11,7 @@ const Patient_Home = () => {
   const [patient, setPatient] = useState([]);
  const {logoutAPICall} = useContext(AuthContext)
   useEffect(() => {
-  
-      jwtInterceptor.get("http://localhost:4000/user-profile", { withCredentials: true })
+      jwtInterceptor.get("http://localhost:4000/user-profile")
       .then((response) => {
         setPatient(response.data);
       });
@@ -43,7 +42,7 @@ const Patient_Home = () => {
             alt=""
             src="/home.svg"
           />
-          <Link to="/" className="relative font-semibold z-[1] no-underline text-black">Home</Link>
+          <Link to="/patient_View" className="relative font-semibold z-[1] no-underline text-black">Home</Link>
         </div>
       </div>
       <div className="flex flex-row items-start justify-start py-0 pr-1 pl-[37px] text-text">

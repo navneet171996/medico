@@ -3,28 +3,25 @@ package com.medico.app.controllers;
 import com.medico.app.dto.ConsultationDto;
 import com.medico.app.dto.PatientDto;
 import com.medico.app.entities.*;
-import com.medico.app.extras.dto.HospitalDto;
 import com.medico.app.services.DoctorService;
 import com.medico.app.services.HospitalService;
+import com.medico.app.entities.Consultation;
+import com.medico.app.entities.Doctor;
 import com.medico.app.services.PatientService;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.sql.ClientInfoStatus;
 import java.util.List;
 import java.util.Set;
+
 
 @RestController
 @RequestMapping(path = "/api/patient")
 public class PatientController {
 
     private final PatientService patientService;
-
-    private final HospitalService hospitalService;
-
     private final DoctorService doctorService;
+    private final HospitalService hospitalService;
 
 
     public PatientController(PatientService patientService,HospitalService hospitalService ,DoctorService doctorService) {
@@ -52,7 +49,7 @@ public class PatientController {
     }
     @GetMapping(path = "/getDocBySpecialityandHospital/{specialityId}/{hospitalId}")
     public ResponseEntity<List<Doctor>> getDocBySpecialityandHospital(@PathVariable Long specialityId , Long hospitalId){
-        List<Doctor> doctors = doctorService.getDoctorsBySpeciality(specialityId);
+        List<Doctor> doctors = doctorService.getDoctorsBySpecialityAndHospital(specialityId, hospitalId);
         return new ResponseEntity<>(doctors,HttpStatus.OK);
     }
     @GetMapping(path = "/getPatientDetails/{patientId}")
@@ -69,5 +66,15 @@ public class PatientController {
     @GetMapping(path = "/getAllConsultationsOfPat/{patientId}")
     public ResponseEntity<List<Consultation>> getAllConsultationOfPat(@PathVariable Long patientId){
         return new ResponseEntity<>(patientService.getAllConsultationOfPat(patientId),HttpStatus.OK);
+    }
+
+    @GetMapping(path = "/docBySpeciality/sortedR/{specialityId}")
+    public ResponseEntity<List<Doctor>> getSortedListOfDoctorsR(@PathVariable Long specialityId){
+        return new ResponseEntity<>(doctorService.getSortedRDoctorsBySpeciality(specialityId), HttpStatus.OK);
+    }
+
+    @GetMapping(path = "/docBySpeciality/sortedP/{specialityId}")
+    public ResponseEntity<List<Doctor>> getSortedListOfDoctorsP(@PathVariable Long specialityId){
+        return new ResponseEntity<>(doctorService.getSortedPDoctorsBySpeciality(specialityId), HttpStatus.OK);
     }
 }
