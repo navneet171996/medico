@@ -7,14 +7,11 @@ import axios from 'axios';
 import jwtInterceptor from '../../../helper/jwtInterceptor';
 const Patient_Home = () => {
   const [messageIconChecked, setMessageIconChecked] = useState(true);
-  
+  const {getPatientDetails} = useContext(AuthContext)
   const [patient, setPatient] = useState([]);
  const {logoutAPICall} = useContext(AuthContext)
   useEffect(() => {
-      jwtInterceptor.get("http://localhost:4000/user-profile")
-      .then((response) => {
-        setPatient(response.data);
-      });
+      getPatientDetails();
   }, []);
   return (
     <>

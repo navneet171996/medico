@@ -1,7 +1,6 @@
 
 import { useNavigate,useLocation } from "react-router-dom"
 import { Navigate } from 'react-router-dom';
-import { authService } from "../services/authService"
 import { useContext } from "react"
 import AuthContext from "../Context/AuthContext"
 import { redirect } from "react-router-dom";
@@ -12,8 +11,12 @@ export const PrivateRoute = ({children,accessBy}) => {
   const location = useLocation();
   const navigate = useNavigate();
   const { pathname } = location;
+
     const {user} = useContext(AuthContext)
-    console.log("nothing called",user);
+
+    if(user){
+    console.log("nothing called",user.role);}
+    
     if(accessBy==="non-authenticated" && user==null){
           if(!user){
             console.log("non-auth called" , user);
@@ -33,7 +36,7 @@ export const PrivateRoute = ({children,accessBy}) => {
          return children;
       }
       else{
-        return <Navigate to="/login" />;
+        return <Navigate to="/loginPatient" />;
       }
       
     }
@@ -48,7 +51,7 @@ export const PrivateRoute = ({children,accessBy}) => {
       return <Navigate to="/doctor" />
    }
    else{
-    return <Navigate to="/login" />
+    return <Navigate to="/loginPatient" />
    }
     }
    

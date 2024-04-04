@@ -20,6 +20,7 @@ import { PrivateRoute } from '../routes/PrivateRoutes'
 import Patient_View from './components/Patient/Patient_View'
 import Login_Patient from './components/General/Login_Patient'
 import Login_Doctor from './components/General/Login_Doctor'
+// import VideoCall from './components/Patient/video call/VideoCall'
 
 function App() {
  
@@ -50,6 +51,7 @@ function App() {
            <Route path='/patient'  element={ <PrivateRoute  accessBy="authenticated"> <PatientRoutes>  <Patient_Home />  </PatientRoutes> </PrivateRoute> }> </Route>
             <Route path='/patient_History'   element={ <PrivateRoute  accessBy="authenticated">  <PatientRoutes>  <Patient_History />  </PatientRoutes> </PrivateRoute>}> </Route>
             <Route path='/patient_View'   element={ <PrivateRoute  accessBy="authenticated">  <PatientRoutes>  <Patient_View />  </PatientRoutes> </PrivateRoute>}> </Route>
+            {/* <Route path='/videoCall'   element={ <PrivateRoute  accessBy="authenticated">  <PatientRoutes>  <VideoCall/>  </PatientRoutes> </PrivateRoute>}> </Route> */}
               <Route path='/doctor'   element={ <PrivateRoute  accessBy="authenticated"> <DoctorRoutes>  <Doctor_Home />  </DoctorRoutes></PrivateRoute> }> </Route>
           
          

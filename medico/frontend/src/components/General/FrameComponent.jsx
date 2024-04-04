@@ -23,7 +23,7 @@ const FrameComponent = () => {
                   className="h-40 w-40 relative z-[1] rounded-full"
                   loading="eager"
                   alt=""
-                  src="/xx.jpg"
+                  src=""
                 />
               </div>
               <div className="self-stretch flex flex-col items-center justify-start gap-[8px_0px]">
@@ -72,25 +72,25 @@ const FrameComponent = () => {
              className="rounded-full"
               imagePlaceholder="/"
               memberName="Sumit Singh"
-              memberTitle="Bhagwan"
+              memberTitle=""
             />
             <MemberCard
              className="rounded-full"
-              imagePlaceholder="/x3nav.jpg"
+              imagePlaceholder="/"
               memberName="Nabneet dutta"
               memberTitle="CTO"
             />
             <MemberCard
              className="rounded-full"
-              imagePlaceholder="/x1.jpg"
+              imagePlaceholder="/"
               memberName="Tejaswa awasthi"
-              memberTitle="CMO"
+              memberTitle=""
             />
             <MemberCard
              className="rounded-full"
-              imagePlaceholder="/image-placeholder-4.svg"
+              imagePlaceholder="/"
               memberName="Ashutosh Dubey"
-              memberTitle="Bakchod"
+              memberTitle=""
             />
             
           </div>
