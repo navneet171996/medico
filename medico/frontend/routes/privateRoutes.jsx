@@ -7,7 +7,7 @@ import AuthContext from "../Context/AuthContext"
 import { redirect } from "react-router-dom";
 
 
-export const PrivateRoute = ({children,accessBy}) => {
+const PrivateRoute = ({children,accessBy}) => {
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -53,3 +53,4 @@ export const PrivateRoute = ({children,accessBy}) => {
     }
    
 }
+export default PrivateRoute

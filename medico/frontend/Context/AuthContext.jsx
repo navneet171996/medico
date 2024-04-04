@@ -60,6 +60,13 @@ export const AuthContextProvider = ({children}) =>{
     setUser(null);
     navigate("/login");
   };
+  const registerDoc = async(payload) =>{
+    console.log(payload);
+    let apiResponse = await axios.post("http://localhost:8081/api/auth/registerDoctor",payload);
+       console.log(apiResponse);
+    navigate('/doctor');
+        
+  }
 
 
 
@@ -99,7 +106,7 @@ export const AuthContextProvider = ({children}) =>{
     
     
 
-    return <AuthContext.Provider value={{loginApiCallAdmin,loginApiCallDoctor,loginApiCallPatient,user,logoutAPICall,getSpecialization,specialization,registerAdmin}}>{children}</AuthContext.Provider>
+    return <AuthContext.Provider value={{loginApiCallAdmin,registerDoc,loginApiCallDoctor,loginApiCallPatient,user,logoutAPICall,getSpecialization,specialization,registerAdmin}}>{children}</AuthContext.Provider>
 
    
 }
