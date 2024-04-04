@@ -30,7 +30,7 @@ public class AuxService {
         specialityDtos.forEach(dto -> {
             Speciality speciality = new Speciality();
             speciality.setSpecialityName(dto.getSpecialityName());
-
+            speciality.setDescription(dto.getDescription());
             this.specialityRepository.save(speciality);
         });
     }
