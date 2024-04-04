@@ -18,13 +18,14 @@ import java.util.Set;
 public class Hospital {
     
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "hospital_id")
     private Long hospitalId;
 
     @Column(name = "hospital_name")
     private String hospitalName;
 
-    @Column(name = "Address")
+    @Column(name = "address")
     private String hospitalAddress;
 
     @Column(name = "phone_no")
@@ -34,7 +35,7 @@ public class Hospital {
     private Admin admin;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "hospitals")
+    @OneToMany(mappedBy = "hospital")
     private Set<Doctor> doctors;
 
 }
