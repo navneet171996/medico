@@ -1,11 +1,11 @@
 package com.medico.app.services;
 
+import com.medico.app.dto.AcceptDoctorDto;
 import com.medico.app.entities.Admin;
 import com.medico.app.entities.Doctor;
 import com.medico.app.repositories.AdminRepository;
 import com.medico.app.repositories.DoctorRepository;
 import com.medico.app.repositories.HospitalRepository;
-import org.springframework.boot.context.config.ConfigDataResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -19,7 +19,8 @@ public class AdminService {
     private final AdminRepository adminRepository;
     private final DoctorRepository doctorRepository;
 
-    public AdminService(HospitalRepository hospitalRepository, AdminRepository adminRepository,DoctorRepository doctorRepository) {
+
+    public AdminService(HospitalRepository hospitalRepository, AdminRepository adminRepository, DoctorRepository doctorRepository) {
         this.hospitalRepository = hospitalRepository;
         this.adminRepository = adminRepository;
         this.doctorRepository = doctorRepository;
@@ -38,10 +39,19 @@ public class AdminService {
         return new ArrayList<>();
     }
 
-    public Doctor removeDoctorFromHospital(Long docId){
+    public Doctor removeDoctorFromHospital(Long docId) {
         Doctor doctor = doctorRepository.findById(docId).orElseThrow();
         doctor.setHospital(null);
         doctorRepository.save(doctor);
         return doctor;
+    }
+    public String acceptOrRejectDoctor(AcceptDoctorDto doctorDto) {
+        Doctor doctor = doctorRepository.findById(doctorDto.getDocId()).orElseThrow();
+        if(doctorDto.getAccept()){
+            doctor.setIsActive(Boolean.TRUE);
+            doctorRepository.save(doctor);
+            return String.format("Doctor %s is accepted", doctor.getDocName());
+        }
+        return String.format("Doctor %s is rejected", doctor.getDocName());
     }
 }

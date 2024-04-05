@@ -1,5 +1,6 @@
 package com.medico.app.controllers;
 
+import com.medico.app.dto.AcceptDoctorDto;
 import com.medico.app.entities.Doctor;
 import com.medico.app.services.AdminService;
 import org.springframework.http.HttpStatus;
@@ -18,13 +19,18 @@ public class AdminController {
         this.adminService = adminService;
     }
 
-    @GetMapping(path = "getDoctorsOfHospitals/{adminId}")
-    public ResponseEntity<List<Doctor>> getDoctorsOfHospitals(@PathVariable Long adminId){
+    @GetMapping(path = "getDoctorsOfHospital/{adminId}")
+    public ResponseEntity<List<Doctor>> getDoctorsOfHospital(@PathVariable Long adminId){
         return new ResponseEntity<>(this.adminService.getDoctorsOfHospital(adminId), HttpStatus.OK);
     }
 
     @DeleteMapping(path = "removeDoctorFromHospital/{docId}")
     public ResponseEntity<Doctor> removeDoctorFromHospital(@PathVariable Long docId){
         return new ResponseEntity<>(this.adminService.removeDoctorFromHospital(docId),HttpStatus.OK);
+    }
+
+    @PostMapping(path = "/acceptOrRejectDoctor")
+    public ResponseEntity<String> acceptOrRejectDoctor(@RequestBody AcceptDoctorDto doctorDto){
+        return new ResponseEntity<>(adminService.acceptOrRejectDoctor(doctorDto), HttpStatus.OK);
     }
 }
