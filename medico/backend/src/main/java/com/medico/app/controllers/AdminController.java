@@ -24,6 +24,11 @@ public class AdminController {
         return new ResponseEntity<>(this.adminService.getDoctorsOfHospital(adminId), HttpStatus.OK);
     }
 
+    @DeleteMapping(path = "removeDoctorFromHospital/{docId}")
+    public ResponseEntity<Doctor> removeDoctorFromHospital(@PathVariable Long docId){
+        return new ResponseEntity<>(this.adminService.removeDoctorFromHospital(docId),HttpStatus.OK);
+    }
+
     @PostMapping(path = "/acceptOrRejectDoctor")
     public ResponseEntity<String> acceptOrRejectDoctor(@RequestBody AcceptDoctorDto doctorDto){
         return new ResponseEntity<>(adminService.acceptOrRejectDoctor(doctorDto), HttpStatus.OK);

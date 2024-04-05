@@ -6,7 +6,7 @@ import AuthContext from "../Context/AuthContext"
 import { redirect } from "react-router-dom";
 
 
-export const PrivateRoute = ({children,accessBy}) => {
+const PrivateRoute = ({children,accessBy}) => {
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -15,7 +15,7 @@ export const PrivateRoute = ({children,accessBy}) => {
     const {user} = useContext(AuthContext)
 
     if(user){
-    console.log("nothing called",user.role);}
+    }
     
     if(accessBy==="non-authenticated" && user==null){
           if(!user){
@@ -23,7 +23,7 @@ export const PrivateRoute = ({children,accessBy}) => {
             return children;
           }
           else{
-            console.log("else portion");
+            
             <Navigate to="/login" />
             return null;
           }
@@ -32,7 +32,7 @@ export const PrivateRoute = ({children,accessBy}) => {
     else if(accessBy==="authenticated"){
      
       if(user){
-        console.log("auth called" , user.role);
+      
          return children;
       }
       else{
@@ -56,3 +56,5 @@ export const PrivateRoute = ({children,accessBy}) => {
     }
    
 }
+
+export default PrivateRoute

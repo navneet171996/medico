@@ -5,6 +5,7 @@ import { Carousel } from "antd";
 import AuthContext from "../../../Context/AuthContext";
 import { useContext } from "react";
 import { Link } from "react-router-dom";
+import HospitalCard from './HospitalCard';
 
 const AllHospitals = () => {
     const [showMore, setShowMore] = useState(false);
@@ -26,17 +27,17 @@ const AllHospitals = () => {
         <Carousel  centerPadding="60px" slidesToShow={3}>
           {Array.isArray(visibleHospitals) && visibleHospitals.map((hospitals, index) => (
             <div key={index}>
-              <Card
-                container='/container-1@2x.png'
-                imageIcon="pending_2420:353"
+              <HospitalCard
+                container='/hospital.jpg'
                 cardHeading={hospitals.hospitalName}
+                address = {hospitals.hospitalAddress}
                 propWidth="unset"
               />
             </div>
           ))}
         </Carousel>
         <Link className="text-black pt-3 ">
-        <div className="mt-2 mr-5 text-[15px] border-4 border-solid float-right hover:bg-blue-400 hover:text-white px-2 py-2 bg-white  ">View All Specializations</div>
+        <div className="mt-2 mr-5 text-[15px] border-4 border-whitesmoke-300 border-solid float-right hover:bg-blue-400 hover:text-white px-2 py-2 bg-whitesmoke-100  ">View All Hospitals</div>
         </Link>
       </div>
       </div>

@@ -17,14 +17,15 @@ public class AdminService {
 
     private final HospitalRepository hospitalRepository;
     private final AdminRepository adminRepository;
-
     private final DoctorRepository doctorRepository;
+
 
     public AdminService(HospitalRepository hospitalRepository, AdminRepository adminRepository, DoctorRepository doctorRepository) {
         this.hospitalRepository = hospitalRepository;
         this.adminRepository = adminRepository;
         this.doctorRepository = doctorRepository;
     }
+
 
     public List<Doctor> getDoctorsOfHospital(Long adminId){
         Optional<Admin> adminOptional = this.adminRepository.findById(adminId);
@@ -38,6 +39,12 @@ public class AdminService {
         return new ArrayList<>();
     }
 
+    public Doctor removeDoctorFromHospital(Long docId) {
+        Doctor doctor = doctorRepository.findById(docId).orElseThrow();
+        doctor.setHospital(null);
+        doctorRepository.save(doctor);
+        return doctor;
+    }
     public String acceptOrRejectDoctor(AcceptDoctorDto doctorDto) {
         Doctor doctor = doctorRepository.findById(doctorDto.getDocId()).orElseThrow();
         if(doctorDto.getAccept()){

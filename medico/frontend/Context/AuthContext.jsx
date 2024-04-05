@@ -1,4 +1,4 @@
-import { createContext, useState,useEffect } from "react";
+import { createContext, useState,useEffect, useContext } from "react";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 const AuthContext = createContext({})
@@ -6,10 +6,15 @@ import { useNavigate } from "react-router-dom";
 
 export const AuthContextProvider = ({children}) =>{
     const navigate = useNavigate()
-
     const [specialization,setSpecialization] = useState([])
     const [hospitals,setHospitals] = useState([]);
-   
+    const [patientProfile,setPatientProfile] = useState([])
+    const [specializationId,setSpecializationId] =useState()
+    const [doctorList1,setDoctorList1] = useState([])
+    const [docDetails,setDocDetails] = useState([])
+    const [consultation,setConsultation] = useState([])
+    const [docId,setDocId] = useState(0)
+    const [spec,setSpec] = useState([])
    const [user, setUser] = useState(() => {
     let userProfle = localStorage.getItem("userProfile");
     if (userProfle) {
@@ -58,10 +63,11 @@ export const AuthContextProvider = ({children}) =>{
 
 
   const getSpecialization = async () =>{
-    console.log("I am called");
-    const token = localStorage.getItem('token')
-    const headers = { Authorization: `Bearer ${token}`};
-    const specializationDetails =await  axios.get("http://localhost:8081/api/home/allSpecialities", {headers:headers})
+
+    // const token = localStorage.getItem('token')
+    // const headers = { Authorization: `Bearer ${token}`};
+    //, {headers:headers}
+    const specializationDetails =await  axios.get("http://localhost:8081/api/home/allSpecialities")
     console.log(specializationDetails.data);
  
     if (Array.isArray(specializationDetails.data) && specializationDetails.data.length > 0) {
@@ -101,15 +107,48 @@ export const AuthContextProvider = ({children}) =>{
     navigate('/patient')
   };
 
+
   const getPatientDetails = async (payload) => {
-     let apiResponse = await axios.get("localhost:8081/api/patient/getPatientDetails/1");
-     console.log(apiResponse);
+     let apiResponse = await axios.get("http://localhost:8081/api/patient/getPatientDetails/1");
+     setPatientProfile(apiResponse.data)
   }
 
+  const getSepecificSpecialization = ()=>{
+    console.log(specialization);
+    for (let speciality of specialization) {
+      if (speciality['specialityId'] === specializationId) {
+          setSpec(speciality)
+          console.log("spec is " + JSON.stringify(speciality))
+      }}
+  }
 
+  const doctorBySpecialization = async() =>{
+       let apiResponse = await axios.get(`http://localhost:8081/api/patient/docBySpeciality/sortedR/${specializationId}`);
+       setDoctorList1(apiResponse.data)
+       console.log(apiResponse.data);
+  }
+  
+  const sortDoctorByPrice = async()=>{
+      let apiResponse = await axios.get(`http://localhost:8081/api/patient/docBySpeciality/sortedP/${specializationId}`);
+      setDoctorList1(apiResponse.data)
+      
+  }
 
+  const getDoctorDetails = async(id)=>{
+       let apiResponse = await axios.get(`http://localhost:8081/api/doctor/getDoctorDetails/${id}`);
+       setDocId(id)
+       setDocDetails(apiResponse.data)
+       console.log(apiResponse);
+  }
 
+  const getConsultation = async()=>{
+    console.log("mai hu doctor id "+ docId);
+    let apiResponse = await axios.get(`http://localhost:8081/api/doctor/getAllConsultationOfDoc/${docId}`);
+    setConsultation(apiResponse.data)
+    console.log("this is consultation");
+    console.log(apiResponse.data);
 
+  }
 
 
   //   await axios.get("http://localhost:4000/logout");
@@ -128,7 +167,7 @@ export const AuthContextProvider = ({children}) =>{
     
     
 
-    return <AuthContext.Provider value={{hospitals,getAllHospitals,getPatientDetails,registerPatient,loginApiCallAdmin,loginApiCallDoctor,loginApiCallPatient,user,logoutAPICall,getSpecialization,specialization,registerAdmin}}>{children}</AuthContext.Provider>
+    return <AuthContext.Provider value={{consultation,getConsultation,docDetails,getDoctorDetails,sortDoctorByPrice,doctorBySpecialization,doctorList1,spec,getSepecificSpecialization,specializationId,setSpecializationId,patientProfile,hospitals,getAllHospitals,getPatientDetails,registerPatient,loginApiCallAdmin,loginApiCallDoctor,loginApiCallPatient,user,logoutAPICall,getSpecialization,specialization,registerAdmin}}>{children}</AuthContext.Provider>
 
    
 }

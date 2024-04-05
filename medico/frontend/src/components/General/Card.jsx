@@ -1,6 +1,16 @@
 import { useMemo } from "react";
+import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import AuthContext from "../../../Context/AuthContext";
+const Card = ({ container, imageIcon, cardHeading, propWidth,specialityId }) => {
+  const navigate = useNavigate()
+  const {setSpecializationId} = useContext(AuthContext)
+  const callSpecialization = () =>{
+       setSpecializationId(specialityId);
+       console.log("speciality id "+specialityId);
+       navigate("/specialization");
+  }
 
-const Card = ({ container, imageIcon, cardHeading, propWidth }) => {
   const cardHeadingStyle = useMemo(() => {
     return {
       width: propWidth,
@@ -42,8 +52,8 @@ const Card = ({ container, imageIcon, cardHeading, propWidth }) => {
               dalaracc lacus vel facilisis volutpat est velitolm.
             </div>
             <button className="cursor-pointer">
-            <div className="flex flex-row items-center justify-start gap-[0px_5px] text-center text-mediumpurple-200">
-              <b className="relative leading-[18px] whitespace-nowrap z-[1]">
+            <div onClick={callSpecialization} className="flex flex-row items-center justify-start gap-[0px_5px] text-center text-mediumpurple-200">
+              <b  className="relative leading-[18px] whitespace-nowrap z-[1]">
                 Learn more
               </b>
               <img
