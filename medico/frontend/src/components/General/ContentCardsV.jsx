@@ -36,6 +36,7 @@ const ContentCardsV = () => {
                 imageIcon="pending_2420:353"
                 cardHeading={speciality.specialityName}
                 propWidth="unset"
+                specialityId = {speciality.specialityId}
               />
             </div>
           ))}
