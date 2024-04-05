@@ -1,8 +1,10 @@
 package com.medico.app.services;
 
+import com.medico.app.dto.AcceptDoctorDto;
 import com.medico.app.entities.Admin;
 import com.medico.app.entities.Doctor;
 import com.medico.app.repositories.AdminRepository;
+import com.medico.app.repositories.DoctorRepository;
 import com.medico.app.repositories.HospitalRepository;
 import org.springframework.stereotype.Service;
 
@@ -16,9 +18,12 @@ public class AdminService {
     private final HospitalRepository hospitalRepository;
     private final AdminRepository adminRepository;
 
-    public AdminService(HospitalRepository hospitalRepository, AdminRepository adminRepository) {
+    private final DoctorRepository doctorRepository;
+
+    public AdminService(HospitalRepository hospitalRepository, AdminRepository adminRepository, DoctorRepository doctorRepository) {
         this.hospitalRepository = hospitalRepository;
         this.adminRepository = adminRepository;
+        this.doctorRepository = doctorRepository;
     }
 
     public List<Doctor> getDoctorsOfHospital(Long adminId){
@@ -31,5 +36,15 @@ public class AdminService {
             }
         }
         return new ArrayList<>();
+    }
+
+    public String acceptOrRejectDoctor(AcceptDoctorDto doctorDto) {
+        Doctor doctor = doctorRepository.findById(doctorDto.getDocId()).orElseThrow();
+        if(doctorDto.getAccept()){
+            doctor.setIsActive(Boolean.TRUE);
+            doctorRepository.save(doctor);
+            return String.format("Doctor %s is accepted", doctor.getDocName());
+        }
+        return String.format("Doctor %s is rejected", doctor.getDocName());
     }
 }
