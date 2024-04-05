@@ -3,7 +3,9 @@ package com.medico.app.services;
 import com.medico.app.entities.Admin;
 import com.medico.app.entities.Doctor;
 import com.medico.app.repositories.AdminRepository;
+import com.medico.app.repositories.DoctorRepository;
 import com.medico.app.repositories.HospitalRepository;
+import org.springframework.boot.context.config.ConfigDataResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -15,11 +17,14 @@ public class AdminService {
 
     private final HospitalRepository hospitalRepository;
     private final AdminRepository adminRepository;
+    private final DoctorRepository doctorRepository;
 
-    public AdminService(HospitalRepository hospitalRepository, AdminRepository adminRepository) {
+    public AdminService(HospitalRepository hospitalRepository, AdminRepository adminRepository,DoctorRepository doctorRepository) {
         this.hospitalRepository = hospitalRepository;
         this.adminRepository = adminRepository;
+        this.doctorRepository = doctorRepository;
     }
+
 
     public List<Doctor> getDoctorsOfHospital(Long adminId){
         Optional<Admin> adminOptional = this.adminRepository.findById(adminId);
@@ -31,5 +36,12 @@ public class AdminService {
             }
         }
         return new ArrayList<>();
+    }
+
+    public Doctor removeDoctorFromHospital(Long docId){
+        Doctor doctor = doctorRepository.findById(docId).orElseThrow();
+        doctor.setHospital(null);
+        doctorRepository.save(doctor);
+        return doctor;
     }
 }
