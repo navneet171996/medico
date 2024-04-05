@@ -21,7 +21,7 @@ public class AdminService {
         this.adminRepository = adminRepository;
     }
 
-    public List<Doctor> getDoctorsOfAdmin(Long adminId){
+    public List<Doctor> getDoctorsOfHospital(Long adminId){
         Optional<Admin> adminOptional = this.adminRepository.findById(adminId);
         if(adminOptional.isPresent()){
             Admin admin = adminOptional.get();

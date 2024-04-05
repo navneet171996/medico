@@ -2,10 +2,7 @@ package com.medico.app.extras;
 
 import com.medico.app.entities.*;
 import com.medico.app.extras.dto.*;
-import com.medico.app.repositories.DoctorRepository;
-import com.medico.app.repositories.HospitalRepository;
-import com.medico.app.repositories.PatientRepository;
-import com.medico.app.repositories.SpecialityRepository;
+import com.medico.app.repositories.*;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,12 +14,15 @@ public class AuxService {
     private final HospitalRepository hospitalRepository;
     private final DoctorRepository doctorRepository;
     private final PatientRepository patientRepository;
+    private final AdminRepository adminRepository;
 
-    public AuxService(SpecialityRepository specialityRepository, HospitalRepository hospitalRepository, DoctorRepository doctorRepository,PatientRepository patientRepository) {
+
+    public AuxService(SpecialityRepository specialityRepository, HospitalRepository hospitalRepository, DoctorRepository doctorRepository,PatientRepository patientRepository ,AdminRepository adminRepository) {
         this.specialityRepository = specialityRepository;
         this.hospitalRepository = hospitalRepository;
         this.doctorRepository = doctorRepository;
         this.patientRepository = patientRepository;
+        this.adminRepository = adminRepository;
     }
 
 
@@ -30,7 +30,7 @@ public class AuxService {
         specialityDtos.forEach(dto -> {
             Speciality speciality = new Speciality();
             speciality.setSpecialityName(dto.getSpecialityName());
-
+            speciality.setDescription(dto.getDescription());
             this.specialityRepository.save(speciality);
         });
     }
@@ -45,6 +45,7 @@ public class AuxService {
             doctor.setRate(dto.getRate());
             doctor.setEmail(dto.getEmail());
             doctor.setPassword(dto.getPassword());
+            doctor.setRole(Role.DOCTOR);
             doctor.setSpeciality(this.specialityRepository.findById(dto.getSpecialityId()).orElseThrow());
             doctor.setHospital(this.hospitalRepository.findById(dto.getHospitalId()).orElseThrow());
 
@@ -71,6 +72,7 @@ public class AuxService {
             patient.setPatGender(dto.getGender());
             patient.setPatEmail(dto.getEmail());
             patient.setPatPassword(dto.getPassword());
+            patient.setRole(Role.PATIENT);
             this.patientRepository.save(patient);
         });
     }
@@ -81,7 +83,9 @@ public class AuxService {
             admin.setAdminName(dto.getAdminName());
             admin.setAdminEmail(dto.getAdminEmail());
             admin.setAdminPassword(dto.getAdminPassword());
-
+            admin.setHospital(this.hospitalRepository.findById(dto.getHospitalId()).orElseThrow());
+            admin.setRole(Role.ADMIN);
+            this.adminRepository.save(admin);
         });
     }
     public void startup(StartupDto startupDto){
@@ -89,9 +93,7 @@ public class AuxService {
         this.addHospitals(startupDto.getHospitals());
         this.addDoctors(startupDto.getDoctors());
         this.addPatients(startupDto.getPatients());
-        //this.addAdmins(startupDto.getAdmins());
+        this.addAdmins(startupDto.getAdmins());
     }
-
-
 
 }

@@ -1,5 +1,6 @@
 package com.medico.app.entities;
 
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -32,7 +33,7 @@ public class Doctor implements UserDetails {
     private String docName;
 
     @Column(name = "date_of_birth")
-    private Date docDob;
+    private LocalDate docDob;
 
     @Column(name = "phone_no")
     private String phoneNo;
@@ -72,6 +73,10 @@ public class Doctor implements UserDetails {
     @JsonIgnore
     @OneToMany(mappedBy = "doctor")
     private Set<Consultation> consultation;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "doctor")
+    private List<Slots> slots;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

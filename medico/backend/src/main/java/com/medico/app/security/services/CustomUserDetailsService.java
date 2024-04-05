@@ -7,6 +7,8 @@ import com.medico.app.entities.Role;
 import com.medico.app.repositories.AdminRepository;
 import com.medico.app.repositories.DoctorRepository;
 import com.medico.app.repositories.PatientRepository;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -24,20 +26,14 @@ public class CustomUserDetailsService implements UserDetailsService {
     private final AdminRepository adminRepository;
     private final DoctorRepository doctorRepository;
     private final PatientRepository patientRepository;
+    @Setter
+    @Getter
     private Role role;
 
     public CustomUserDetailsService(AdminRepository adminRepository, DoctorRepository doctorRepository, PatientRepository patientRepository) {
         this.adminRepository = adminRepository;
         this.doctorRepository = doctorRepository;
         this.patientRepository = patientRepository;
-    }
-
-    public Role getRole(){
-        return role;
-    }
-
-    public void setRole(Role role) {
-        this.role = role;
     }
 
     @Override

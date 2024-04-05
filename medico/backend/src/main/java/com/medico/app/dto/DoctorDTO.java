@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Getter
@@ -21,7 +22,7 @@ public class DoctorDTO {
     private Double rating;
     private String email;
     private Speciality speciality;
-    private Date docDob;
+    private LocalDate docDob;
     private String hospitalName;
     private Double rate;
 }

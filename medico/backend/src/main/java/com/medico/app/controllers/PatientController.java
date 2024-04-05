@@ -1,6 +1,8 @@
 package com.medico.app.controllers;
 
 import com.medico.app.dto.ConsultationDto;
+import com.medico.app.dto.RatingDto;
+import com.medico.app.dto.SlotDto;
 import com.medico.app.dto.PatientDto;
 import com.medico.app.entities.*;
 import com.medico.app.services.DoctorService;
@@ -29,6 +31,11 @@ public class PatientController {
         this.patientService = patientService;
         this.hospitalService =  hospitalService;
         this.doctorService = doctorService;
+    }
+
+    @PostMapping(path = "/getDoctorSlots")
+    public ResponseEntity<List<Boolean>> getDoctorSlots(@RequestBody SlotDto slotDto){
+        return new ResponseEntity<>(patientService.getDoctorSlots(slotDto.getDocId(), slotDto.getDate()), HttpStatus.OK);
     }
 
     @PostMapping(path = "/bookConsultation")
@@ -66,6 +73,12 @@ public class PatientController {
     @GetMapping(path = "/getAllConsultationsOfPat/{patientId}")
     public ResponseEntity<List<Consultation>> getAllConsultationOfPat(@PathVariable Long patientId){
         return new ResponseEntity<>(patientService.getAllConsultationOfPat(patientId),HttpStatus.OK);
+    }
+
+    @PostMapping(path = "/setRating")
+    public ResponseEntity<?> setRating(@RequestBody RatingDto ratingDto){
+        patientService.setRating(ratingDto);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping(path = "/docBySpeciality/sortedR/{specialityId}")

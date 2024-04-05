@@ -10,8 +10,10 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AdminDto {
+
     private String adminName;
     private String adminEmail;
     private String adminPassword;
+
     private Long hospitalId;
 }
