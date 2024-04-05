@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Getter
@@ -15,7 +16,7 @@ public class PatientDto {
 
     private Long patientId;
     private String patName;
-    private Date patDob;
+    private LocalDate patDob;
     private String patBloodGroup;
     private String patPhoneNo;
     private char patGender;

@@ -11,4 +11,5 @@ import lombok.Setter;
 @AllArgsConstructor
 public class SpecialityDto {
     private String specialityName;
+    private String description;
 }

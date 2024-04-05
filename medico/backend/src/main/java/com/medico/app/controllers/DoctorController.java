@@ -9,7 +9,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.print.Doc;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(path = "/api/doctor")
@@ -35,7 +38,13 @@ public class DoctorController {
         return new ResponseEntity<>(doctor , HttpStatus.OK);
     }
     @GetMapping(path = "/getAllConsultationOfDoc/{docId}")
-    public ResponseEntity<List<Consultation>> getAllConsultationOfDoc(@PathVariable Long docrId){
-        return new ResponseEntity<>(doctorService.getAllConsultationOfDoc(docrId),HttpStatus.OK);
+    public ResponseEntity<List<Consultation>> getAllConsultationOfDoc(@PathVariable Long docId){
+        return new ResponseEntity<>(doctorService.getAllConsultationOfDoc(docId),HttpStatus.OK);
     }
+    @GetMapping(path = "/getPendingConsultationsOfDoc/{docId}")
+    public ResponseEntity<List<Consultation>> getPendingConsultationsOfDoc(@PathVariable Long docId) {
+        return new ResponseEntity<>(doctorService.getPendingConsultationsOfDoc(docId), HttpStatus.OK);
+    }
+
+
 }

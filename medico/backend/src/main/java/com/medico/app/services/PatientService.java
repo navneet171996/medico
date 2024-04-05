@@ -9,12 +9,12 @@ import com.medico.app.entities.Consultation;
 import com.medico.app.repositories.ConsultationRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class PatientService {
@@ -48,9 +48,12 @@ public class PatientService {
             Doctor doctor = optionalDoctor.get();
             consultation.setDoctor(doctor);
             slot.setDoctor(doctor);
-            slot.setStartTime(consultationDto.getConsultationDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime().toLocalTime());
+            slot.setStartTime(consultationDto.getConsultationTime());
+            slot.setDate(consultationDto.getConsultationDate());
+            slotsRepository.save(slot);
         }
         consultation.setDate(consultationDto.getConsultationDate());
+        consultation.setTime(consultationDto.getConsultationTime());
 
         return consultationRepository.save(consultation);
     }
@@ -73,62 +76,62 @@ public class PatientService {
         }
     }
 
-    public List<Boolean> getDoctorSlots(Long docId, Date date){
+    public List<Boolean> getDoctorSlots(Long docId, LocalDate date){
         List<Boolean> retSlots = new ArrayList<>(24);
-        retSlots.forEach(retSlot -> {
-            retSlot = Boolean.FALSE;
-        });
+        for(int i=0;i<24;i++){
+            retSlots.add(Boolean.TRUE);
+        }
         List<Slots> slots = slotsRepository.getSlotsByDoctor_DocId(docId).orElseThrow();
         slots = slots.stream().filter(slot -> slot.getDate().equals(date)).toList();
         slots.forEach(slot -> {
             if(slot.getStartTime().getHour() == 9 && slot.getStartTime().getMinute() == 0)
-                retSlots.set(0, Boolean.TRUE);
+                retSlots.set(0, Boolean.FALSE);
             if(slot.getStartTime().getHour() == 9 && slot.getStartTime().getMinute() == 30)
-                retSlots.set(1, Boolean.TRUE);
+                retSlots.set(1, Boolean.FALSE);
             if(slot.getStartTime().getHour() == 10 && slot.getStartTime().getMinute() == 0)
-                retSlots.set(2, Boolean.TRUE);
+                retSlots.set(2, Boolean.FALSE);
             if(slot.getStartTime().getHour() == 10 && slot.getStartTime().getMinute() == 30)
-                retSlots.set(3, Boolean.TRUE);
+                retSlots.set(3, Boolean.FALSE);
             if(slot.getStartTime().getHour() == 11 && slot.getStartTime().getMinute() == 0)
-                retSlots.set(4, Boolean.TRUE);
+                retSlots.set(4, Boolean.FALSE);
             if(slot.getStartTime().getHour() == 11 && slot.getStartTime().getMinute() == 30)
-                retSlots.set(5, Boolean.TRUE);
+                retSlots.set(5, Boolean.FALSE);
             if(slot.getStartTime().getHour() == 12 && slot.getStartTime().getMinute() == 0)
-                retSlots.set(6, Boolean.TRUE);
+                retSlots.set(6, Boolean.FALSE);
             if(slot.getStartTime().getHour() == 12 && slot.getStartTime().getMinute() == 30)
-                retSlots.set(7, Boolean.TRUE);
+                retSlots.set(7, Boolean.FALSE);
             if(slot.getStartTime().getHour() == 13 && slot.getStartTime().getMinute() == 0)
-                retSlots.set(8, Boolean.TRUE);
+                retSlots.set(8, Boolean.FALSE);
             if(slot.getStartTime().getHour() == 13 && slot.getStartTime().getMinute() == 30)
-                retSlots.set(9, Boolean.TRUE);
+                retSlots.set(9, Boolean.FALSE);
             if(slot.getStartTime().getHour() == 14 && slot.getStartTime().getMinute() == 0)
-                retSlots.set(10, Boolean.TRUE);
+                retSlots.set(10, Boolean.FALSE);
             if(slot.getStartTime().getHour() == 14 && slot.getStartTime().getMinute() == 30)
-                retSlots.set(11, Boolean.TRUE);
+                retSlots.set(11, Boolean.FALSE);
             if(slot.getStartTime().getHour() == 15 && slot.getStartTime().getMinute() == 0)
-                retSlots.set(12, Boolean.TRUE);
+                retSlots.set(12, Boolean.FALSE);
             if(slot.getStartTime().getHour() == 15 && slot.getStartTime().getMinute() == 30)
-                retSlots.set(13, Boolean.TRUE);
+                retSlots.set(13, Boolean.FALSE);
             if(slot.getStartTime().getHour() == 16 && slot.getStartTime().getMinute() == 0)
-                retSlots.set(14, Boolean.TRUE);
+                retSlots.set(14, Boolean.FALSE);
             if(slot.getStartTime().getHour() == 16 && slot.getStartTime().getMinute() == 30)
-                retSlots.set(15, Boolean.TRUE);
+                retSlots.set(15, Boolean.FALSE);
             if(slot.getStartTime().getHour() == 17 && slot.getStartTime().getMinute() == 0)
-                retSlots.set(16, Boolean.TRUE);
+                retSlots.set(16, Boolean.FALSE);
             if(slot.getStartTime().getHour() == 17 && slot.getStartTime().getMinute() == 30)
-                retSlots.set(17, Boolean.TRUE);
+                retSlots.set(17, Boolean.FALSE);
             if(slot.getStartTime().getHour() == 18 && slot.getStartTime().getMinute() == 0)
-                retSlots.set(18, Boolean.TRUE);
+                retSlots.set(18, Boolean.FALSE);
             if(slot.getStartTime().getHour() == 18 && slot.getStartTime().getMinute() == 30)
-                retSlots.set(19, Boolean.TRUE);
+                retSlots.set(19, Boolean.FALSE);
             if(slot.getStartTime().getHour() == 19 && slot.getStartTime().getMinute() == 0)
-                retSlots.set(20, Boolean.TRUE);
+                retSlots.set(20, Boolean.FALSE);
             if(slot.getStartTime().getHour() == 19 && slot.getStartTime().getMinute() == 30)
-                retSlots.set(21, Boolean.TRUE);
+                retSlots.set(21, Boolean.FALSE);
             if(slot.getStartTime().getHour() == 20 && slot.getStartTime().getMinute() == 0)
-                retSlots.set(22, Boolean.TRUE);
+                retSlots.set(22, Boolean.FALSE);
             if(slot.getStartTime().getHour() == 20 && slot.getStartTime().getMinute() == 30)
-                retSlots.set(23, Boolean.TRUE);
+                retSlots.set(23, Boolean.FALSE);
         });
         return retSlots;
     }

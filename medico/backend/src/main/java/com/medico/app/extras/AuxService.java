@@ -14,12 +14,15 @@ public class AuxService {
     private final HospitalRepository hospitalRepository;
     private final DoctorRepository doctorRepository;
     private final PatientRepository patientRepository;
+    private final AdminRepository adminRepository;
 
-    public AuxService(SpecialityRepository specialityRepository, HospitalRepository hospitalRepository, DoctorRepository doctorRepository, PatientRepository patientRepository) {
+
+    public AuxService(SpecialityRepository specialityRepository, HospitalRepository hospitalRepository, DoctorRepository doctorRepository,PatientRepository patientRepository ,AdminRepository adminRepository) {
         this.specialityRepository = specialityRepository;
         this.hospitalRepository = hospitalRepository;
         this.doctorRepository = doctorRepository;
         this.patientRepository = patientRepository;
+        this.adminRepository = adminRepository;
     }
 
 
@@ -27,7 +30,7 @@ public class AuxService {
         specialityDtos.forEach(dto -> {
             Speciality speciality = new Speciality();
             speciality.setSpecialityName(dto.getSpecialityName());
-
+            speciality.setDescription(dto.getDescription());
             this.specialityRepository.save(speciality);
         });
     }
@@ -80,7 +83,9 @@ public class AuxService {
             admin.setAdminName(dto.getAdminName());
             admin.setAdminEmail(dto.getAdminEmail());
             admin.setAdminPassword(dto.getAdminPassword());
-
+            admin.setHospital(this.hospitalRepository.findById(dto.getHospitalId()).orElseThrow());
+            admin.setRole(Role.ADMIN);
+            this.adminRepository.save(admin);
         });
     }
     public void startup(StartupDto startupDto){
@@ -88,9 +93,7 @@ public class AuxService {
         this.addHospitals(startupDto.getHospitals());
         this.addDoctors(startupDto.getDoctors());
         this.addPatients(startupDto.getPatients());
-        //this.addAdmins(startupDto.getAdmins());
+        this.addAdmins(startupDto.getAdmins());
     }
-
-
 
 }

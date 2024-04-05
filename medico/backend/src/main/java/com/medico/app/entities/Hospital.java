@@ -32,6 +32,7 @@ public class Hospital {
     private String phoneNo;
 
     @OneToOne(mappedBy = "hospital")
+    @JsonIgnore
     private Admin admin;
 
     @JsonIgnore
