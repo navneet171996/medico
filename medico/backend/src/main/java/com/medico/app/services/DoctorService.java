@@ -1,8 +1,12 @@
 package com.medico.app.services;
 
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
+
 import com.medico.app.dto.DoctorDTO;
 import com.medico.app.entities.Consultation;
 import com.medico.app.repositories.ConsultationRepository;
@@ -73,8 +77,27 @@ public class DoctorService {
         return doctors.stream().sorted(Comparator.comparing(Doctor::getRate).reversed()).toList();
     }
 
-//    public List<Consultation> getAllUpcomingConsultations(Long docId){
-//        return this.consultationRepository.findConsultationByDoctor_DocId(docId).orElseThrow();
-//    }
+    public List<Consultation> getPendingConsultationsOfDoc(Long docId){
+        List<Consultation> consultations = consultationRepository.findConsultationByDoctor_DocId(docId).orElseThrow();
+        LocalDate today = LocalDate.now();
+        LocalTime instant = LocalTime.now();
+        List<Consultation> pendingConsultations = consultations.stream()
+                .filter(consultation -> {
+                    LocalDate consultationDate = consultation.getDate();
+                    return consultationDate.isAfter(today);
+                })
+                .collect(Collectors.toList());
+        pendingConsultations.addAll(consultations.stream()
+                .filter(consultation -> {
+                    LocalDate consultationDate = consultation.getDate();
+                    return consultationDate.isEqual(today);
+                })
+                .filter(consultation -> {
+                    LocalTime consultationTime = consultation.getTime();
+                    return consultationTime.isAfter(instant);
+                }).collect(Collectors.toList()));
+
+        return pendingConsultations;
+    }
 
 }

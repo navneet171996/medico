@@ -53,6 +53,7 @@ public class PatientService {
             slotsRepository.save(slot);
         }
         consultation.setDate(consultationDto.getConsultationDate());
+        consultation.setTime(consultationDto.getConsultationTime());
 
         return consultationRepository.save(consultation);
     }

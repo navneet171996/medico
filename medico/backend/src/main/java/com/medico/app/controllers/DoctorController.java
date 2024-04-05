@@ -43,15 +43,7 @@ public class DoctorController {
     }
     @GetMapping(path = "/getPendingConsultationsOfDoc/{docId}")
     public ResponseEntity<List<Consultation>> getPendingConsultationsOfDoc(@PathVariable Long docId) {
-        List<Consultation> allConsultations = doctorService.getAllConsultationOfDoc(docId);
-        LocalDate today = LocalDate.now();
-        List<Consultation> pendingConsultations = allConsultations.stream()
-                .filter(consultation -> {
-                    LocalDate consultationDate = consultation.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-                    return consultationDate.isEqual(today);
-                })
-                .collect(Collectors.toList());
-        return new ResponseEntity<>(pendingConsultations, HttpStatus.OK);
+        return new ResponseEntity<>(doctorService.getPendingConsultationsOfDoc(docId), HttpStatus.OK);
     }
 
 
