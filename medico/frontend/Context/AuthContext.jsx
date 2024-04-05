@@ -8,6 +8,7 @@ export const AuthContextProvider = ({children}) =>{
     const navigate = useNavigate()
 
     const [specialization,setSpecialization] = useState([])
+    const [hospitals,setHospitals] = useState([]);
    
    const [user, setUser] = useState(() => {
     let userProfle = localStorage.getItem("userProfile");
@@ -28,16 +29,7 @@ export const AuthContextProvider = ({children}) =>{
     setUser(apiResponse.data);
     navigate('/admin')
   };
-  const loginApiCallPatient = async (payload) => {
-    // await axios.post("http://localhost:8081/api/auth/login", payload);
-    let apiResponse = await axios.post("http://localhost:8081/api/auth/loginPatient",payload);
-    console.log("Api response "+apiResponse);
-    localStorage.setItem("userProfile", JSON.stringify(apiResponse.data));
-    localStorage.setItem('token', (apiResponse.data.token))
-    console.log("The token is "+localStorage.getItem('token'));
-    setUser(apiResponse.data);
-    navigate('/patient')
-  };
+
   const loginApiCallDoctor = async (payload) => {
     // await axios.post("http://localhost:8081/api/auth/login", payload);
     let apiResponse = await axios.post("http://localhost:8081/api/auth/loginDoctor",payload);
@@ -51,14 +43,15 @@ export const AuthContextProvider = ({children}) =>{
 
   const registerAdmin = async(payload) =>{
     console.log(payload);
-        let apiResponse = await axios.post("http://localhost:8081/api/auth/register",payload);
+        let apiResponse = await axios.post("http://localhost:8081/api/auth/registerAdmin",payload);
         console.log(apiResponse);
   }
+  
 
   const logoutAPICall = () => {
     localStorage.removeItem("userProfile");
     setUser(null);
-    navigate("/login");
+    navigate("/loginPatient");
   };
   const registerDoc = async(payload) =>{
     console.log(payload);
@@ -68,6 +61,7 @@ export const AuthContextProvider = ({children}) =>{
         
   }
 
+  
 
 
   const getSpecialization = async () =>{
@@ -82,11 +76,46 @@ export const AuthContextProvider = ({children}) =>{
   } else {
       console.error("Invalid data format or empty array received");
   }
-
-
     console.log(specialization);
-    // console.log(specialization[0]);
-  } 
+  }
+  
+  //hospitals
+  const getAllHospitals = async()=>{
+     let apiResponse = await axios.get("http://localhost:8081/api/patient/getAllHospitals");
+    console.log("Get all hospitals");
+     console.log(apiResponse);
+     setHospitals(apiResponse.data)
+  }
+  
+ //Patient Api calls
+  const registerPatient = async(payload) =>{
+    console.log(payload);
+    let apiResponse = await axios.post("http://localhost:8081/api/auth/registerPatient",payload);
+    console.log(apiResponse);
+    if(apiResponse){
+      alert("registered successfully");
+    }
+  }
+
+  const loginApiCallPatient = async (payload) => {
+    // await axios.post("http://localhost:8081/api/auth/login", payload);
+    let apiResponse = await axios.post("http://localhost:8081/api/auth/loginPatient",payload);
+    console.log(apiResponse);
+    localStorage.setItem("userProfile", JSON.stringify(apiResponse.data));
+    localStorage.setItem('token', (apiResponse.data.token))
+    console.log("The token is "+localStorage.getItem('token'));
+    setUser(apiResponse.data);
+    navigate('/patient')
+  };
+
+  const getPatientDetails = async (payload) => {
+     let apiResponse = await axios.get("localhost:8081/api/patient/getPatientDetails/1");
+     console.log(apiResponse);
+  }
+
+
+
+
 
 
 
@@ -106,7 +135,11 @@ export const AuthContextProvider = ({children}) =>{
     
     
 
+<<<<<<< HEAD
     return <AuthContext.Provider value={{loginApiCallAdmin,registerDoc,loginApiCallDoctor,loginApiCallPatient,user,logoutAPICall,getSpecialization,specialization,registerAdmin}}>{children}</AuthContext.Provider>
+=======
+    return <AuthContext.Provider value={{hospitals,getAllHospitals,getPatientDetails,registerPatient,loginApiCallAdmin,loginApiCallDoctor,loginApiCallPatient,user,logoutAPICall,getSpecialization,specialization,registerAdmin}}>{children}</AuthContext.Provider>
+>>>>>>> 5e61a8c7262baee35ad4919742cdeeefe46d76c8
 
    
 }
