@@ -58,7 +58,7 @@ public class AuthenticationService {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         Admin admin = adminRepository.getAdminByAdminEmail(request.getEmail()).orElseThrow(() -> new UsernameNotFoundException("Admin not found !!!"));
         String token = jwtUtil.generateToken(authentication, Role.ADMIN.name());
-        return new LoginResponse(admin.getAdminEmail(), token);
+        return new LoginResponse(admin.getAdminEmail(), admin.getAdminId(), token);
     }
 
     public RegisterResponse registerDoctor(DoctorRegisterDto request){
@@ -98,7 +98,7 @@ public class AuthenticationService {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         Doctor doctor = doctorRepository.getDoctorByEmail(request.getEmail()).orElseThrow();
         String token = jwtUtil.generateToken(authentication, Role.DOCTOR.name());
-        return new LoginResponse(doctor.getEmail(), token);
+        return new LoginResponse(doctor.getEmail(), doctor.getDocId(), token);
     }
 
     public RegisterResponse registerPatient(PatientRegisterDto request){
@@ -122,6 +122,6 @@ public class AuthenticationService {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
         Patient patient = patientRepository.getPatientByPatEmail(request.getEmail()).orElseThrow();
         String token = jwtUtil.generateToken(authentication, Role.PATIENT.name());
-        return new LoginResponse(patient.getPatEmail(), token);
+        return new LoginResponse(patient.getPatEmail(), patient.getPatientID(), token);
     }
 }
