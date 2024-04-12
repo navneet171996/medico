@@ -57,6 +57,9 @@ public class Patient implements UserDetails {
     @OneToMany(mappedBy = "patient")
     private Set<Consultation> consultations;
 
+    @OneToMany(mappedBy = "patient")
+    private List<PatientToken> tokens;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role.name()));
