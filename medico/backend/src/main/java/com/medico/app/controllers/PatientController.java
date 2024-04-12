@@ -75,6 +75,7 @@ public class PatientController {
         return new ResponseEntity<>(patientService.getAllConsultationOfPat(patientId),HttpStatus.OK);
     }
 
+    
     @PostMapping(path = "/setRating")
     public ResponseEntity<?> setRating(@RequestBody RatingDto ratingDto){
         patientService.setRating(ratingDto);
