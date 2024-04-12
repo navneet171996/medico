@@ -161,7 +161,7 @@ const Patient_Home = () => {
             />
             <div className="flex flex-col items-start justify-start pt-0.5 px-0 pb-0">
               <div className="h-[15px] relative inline-block shrink-0 z-[1]">
-              {patientProfile === 'M' ? 'Male' : 'Female'}
+              {patientProfile.patGender === 'M' ? 'Male' : 'Female'}
               </div>
             </div>
           </div>

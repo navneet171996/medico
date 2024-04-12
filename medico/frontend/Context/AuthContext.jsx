@@ -9,11 +9,12 @@ export const AuthContextProvider = ({children}) =>{
     const [specialization,setSpecialization] = useState([])
     const [hospitals,setHospitals] = useState([]);
     const [patientProfile,setPatientProfile] = useState([])
-    const [specializationId,setSpecializationId] =useState()
+    const [specializationId,setSpecializationId] =useState(0)
     const [doctorList1,setDoctorList1] = useState([])
     const [docDetails,setDocDetails] = useState([])
     const [consultation,setConsultation] = useState([])
     const [docId,setDocId] = useState(0)
+    const [slots,setSlots]=useState()
     const [spec,setSpec] = useState([])
    const [user, setUser] = useState(() => {
     let userProfle = localStorage.getItem("userProfile");
@@ -56,6 +57,7 @@ export const AuthContextProvider = ({children}) =>{
   const logoutAPICall = () => {
     localStorage.removeItem("userProfile");
     setUser(null);
+    localStorage.clear()
     navigate("/loginPatient");
   };
 
@@ -71,7 +73,8 @@ export const AuthContextProvider = ({children}) =>{
     console.log(specializationDetails.data);
  
     if (Array.isArray(specializationDetails.data) && specializationDetails.data.length > 0) {
-      setSpecialization(specializationDetails.data);
+      if(specializationDetails!==null){
+      setSpecialization(specializationDetails.data);}
   } else {
       console.error("Invalid data format or empty array received");
   }
@@ -111,6 +114,7 @@ export const AuthContextProvider = ({children}) =>{
   const getPatientDetails = async (payload) => {
      let apiResponse = await axios.get("http://localhost:8081/api/patient/getPatientDetails/1");
      setPatientProfile(apiResponse.data)
+     localStorage.setItem('patId',apiResponse.data.patientId)
   }
 
   const getSepecificSpecialization = ()=>{
@@ -123,31 +127,40 @@ export const AuthContextProvider = ({children}) =>{
   }
 
   const doctorBySpecialization = async() =>{
-       let apiResponse = await axios.get(`http://localhost:8081/api/patient/docBySpeciality/sortedR/${specializationId}`);
+    console.log("main spec id", specializationId);
+    //sid saved in localstorage in card.jsx
+       let apiResponse = await axios.get(`http://localhost:8081/api/patient/docBySpeciality/sortedR/${localStorage.getItem('sId')}`);
        setDoctorList1(apiResponse.data)
        console.log(apiResponse.data);
   }
   
   const sortDoctorByPrice = async()=>{
-      let apiResponse = await axios.get(`http://localhost:8081/api/patient/docBySpeciality/sortedP/${specializationId}`);
+      let apiResponse = await axios.get(`http://localhost:8081/api/patient/docBySpeciality/sortedP/${localStorage.getItem('sId')}`);
       setDoctorList1(apiResponse.data)
       
   }
 
-  const getDoctorDetails = async(id)=>{
-       let apiResponse = await axios.get(`http://localhost:8081/api/doctor/getDoctorDetails/${id}`);
-       setDocId(id)
+  const getDoctorDetails = async()=>{
+       //doctorId set in localStrogre in doctorCard
+       let doctordet = localStorage.getItem('doctor')
+       let apiResponse = await axios.get(`http://localhost:8081/api/doctor/getDoctorDetails/${doctordet}`);
+       console.log("Doctor id is ",docId);
        setDocDetails(apiResponse.data)
+       localStorage.setItem('docDetails', JSON.stringify(apiResponse.data)); 
        console.log(apiResponse);
   }
 
   const getConsultation = async()=>{
-    console.log("mai hu doctor id "+ docId);
-    let apiResponse = await axios.get(`http://localhost:8081/api/doctor/getAllConsultationOfDoc/${docId}`);
+    let apiResponse = await axios.get(`http://localhost:8081/api/doctor/getAllConsultationOfDoc/${localStorage.getItem('doctor')}`);
     setConsultation(apiResponse.data)
-    console.log("this is consultation");
-    console.log(apiResponse.data);
+    
+     
+  }
 
+  const appointment = async(payload)=>{
+      let apiResponse = await axios.post("http://localhost:8081/api/patient/getDoctorSlots",payload);
+      setSlots(apiResponse.data)
+      localStorage.setItem('totalSlots', JSON.stringify(apiResponse.data));
   }
 
 
@@ -167,7 +180,7 @@ export const AuthContextProvider = ({children}) =>{
     
     
 
-    return <AuthContext.Provider value={{consultation,getConsultation,docDetails,getDoctorDetails,sortDoctorByPrice,doctorBySpecialization,doctorList1,spec,getSepecificSpecialization,specializationId,setSpecializationId,patientProfile,hospitals,getAllHospitals,getPatientDetails,registerPatient,loginApiCallAdmin,loginApiCallDoctor,loginApiCallPatient,user,logoutAPICall,getSpecialization,specialization,registerAdmin}}>{children}</AuthContext.Provider>
+    return <AuthContext.Provider value={{docId,slots,appointment,consultation,getConsultation,docDetails,getDoctorDetails,sortDoctorByPrice,doctorBySpecialization,doctorList1,spec,getSepecificSpecialization,specializationId,setSpecializationId,patientProfile,hospitals,getAllHospitals,getPatientDetails,registerPatient,loginApiCallAdmin,loginApiCallDoctor,loginApiCallPatient,user,logoutAPICall,getSpecialization,specialization,registerAdmin}}>{children}</AuthContext.Provider>
 
    
 }

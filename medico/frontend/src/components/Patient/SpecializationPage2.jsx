@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import { useNavigate } from "react-router-dom";
 import AuthContext from '../../../Context/AuthContext';
 import { useEffect } from 'react';
@@ -15,9 +15,11 @@ const SpecializationPage2 = () => {
     const {doctorBySpecialization} = useContext(AuthContext)
     const {doctorList1} = useContext(AuthContext)
     const {getSepecificSpecialization} =useContext(AuthContext)
+    const [filter,setFilter] = useState('price')
     const handleChange = (value) => {
         console.log(`selected ${value}`);
         if(value==="rating"){
+            setFilter('rating')
             navigate("/specialization")
         }
        
@@ -26,7 +28,7 @@ const SpecializationPage2 = () => {
         getSepecificSpecialization();
         sortDoctorByPrice();
         console.log(doctorList1);
-    }, []);
+    }, [filter]);
     
   return (
     <>

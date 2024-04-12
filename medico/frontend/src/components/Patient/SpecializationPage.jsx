@@ -18,9 +18,12 @@ const SpecializationPage = () => {
     const {doctorBySpecialization} = useContext(AuthContext)
     const {doctorList1} = useContext(AuthContext)
     const {getSepecificSpecialization} =useContext(AuthContext)
+    const [filter,setFilter] = useState('rating')
     const handleChange = (value) => {
+        
         console.log(`selected ${value}`);
         if(value==="Price"){
+          setFilter('price')
            navigate("/specialization2")
         }
         
@@ -29,7 +32,7 @@ const SpecializationPage = () => {
         getSepecificSpecialization();
         doctorBySpecialization();
         console.log(doctorList1);
-    }, []);
+    }, [filter]);
     
   return (
     <>

@@ -23,6 +23,10 @@ import SpecializationPage from './components/Patient/SpecializationPage'
 import SpecializationPage2 from './components/Patient/SpecializationPage2'
 import DoctorDetails from './components/Patient/DoctorDetails'
 import PrivateRoute from '../routes/PrivateRoutes'
+import BookAppointment from './components/Patient/BookAppointment'
+import BookSlot from './components/Patient/BookSlot'
+import BookNow from './components/Patient/BookNow'
+import Success from './components/Patient/Success'
 // import VideoCall from './components/Patient/video call/VideoCall'
 
 function App() {
@@ -57,6 +61,10 @@ function App() {
             <Route path='/specialization'   element={ <PrivateRoute  accessBy="authenticated">  <PatientRoutes>  <SpecializationPage />  </PatientRoutes> </PrivateRoute>}> </Route>
             <Route path='/specialization2'   element={ <PrivateRoute  accessBy="authenticated">  <PatientRoutes>  <SpecializationPage2 />  </PatientRoutes> </PrivateRoute>}> </Route>
             <Route path='/docDetails'   element={ <PrivateRoute  accessBy="authenticated">  <PatientRoutes>  <DoctorDetails />  </PatientRoutes> </PrivateRoute>}> </Route>
+            <Route path='/bookSlot'   element={ <PrivateRoute  accessBy="authenticated">  <PatientRoutes>  <BookSlot />  </PatientRoutes> </PrivateRoute>}> </Route>
+            <Route path='/bookAppointment'   element={ <PrivateRoute  accessBy="authenticated">  <PatientRoutes>  <BookAppointment />  </PatientRoutes> </PrivateRoute>}> </Route>
+            <Route path='/checkout'   element={ <PrivateRoute  accessBy="authenticated">  <PatientRoutes>  <BookNow />  </PatientRoutes> </PrivateRoute>}> </Route>
+            <Route path='/bookingDone'   element={ <PrivateRoute  accessBy="authenticated">  <PatientRoutes>  <Success />  </PatientRoutes> </PrivateRoute>}> </Route>
 
             {/* <Route path='/videoCall'   element={ <PrivateRoute  accessBy="authenticated">  <PatientRoutes>  <VideoCall/>  </PatientRoutes> </PrivateRoute>}> </Route> */}
               <Route path='/doctor'   element={ <PrivateRoute  accessBy="authenticated"> <DoctorRoutes>  <Doctor_Home />  </DoctorRoutes></PrivateRoute> }> </Route>

@@ -20,8 +20,12 @@ const DoctorCard = ( doctor,propWidth) => {
       }, [propWidth]);
     
       const getDetails = () =>{
-        
-           getDoctorDetails(doctor.doctor.docId)
+        console.log("log");
+          console.log("doctor id at doctor card is ", doctor.doctor.docId);
+          if(doctor!==null){
+            localStorage.setItem('doctor',doctor.doctor.docId)
+          }
+           getDoctorDetails()
         //    DoctorDetails(doctor.doctor.docId)
            navigate("/docDetails")
       }
