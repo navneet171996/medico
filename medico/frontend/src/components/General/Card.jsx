@@ -5,9 +5,11 @@ import AuthContext from "../../../Context/AuthContext";
 const Card = ({ container, imageIcon, cardHeading, propWidth,specialityId }) => {
   const navigate = useNavigate()
   const {setSpecializationId} = useContext(AuthContext)
+  const {specializationId} = useContext(AuthContext)
   const callSpecialization = () =>{
        setSpecializationId(specialityId);
-       console.log("speciality id "+specialityId);
+       localStorage.setItem('sId',specialityId)
+       console.log("The id we are setting is  "+specializationId);
        navigate("/specialization");
   }
 

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import AuthContext from '../../../Context/AuthContext'
 import { useContext } from 'react'
 import Navbar from './Navbar'
@@ -6,12 +6,28 @@ import Header from './Header'
 import { Rate } from 'antd';
 import BarChart from './BarChart'
 import { useEffect } from 'react'
-
+import { useNavigate } from 'react-router-dom'
 const DoctorDetails = (docId) => {
-    const {docDetails} = useContext(AuthContext)
-    // useEffect(() => {
-       
-    // }, []);
+    const navigate = useNavigate()
+    const [docDetails,setDocDetails] = useState([])
+    const {appointment}  = useContext(AuthContext)
+    const today = new Date();
+    const formattedDate = today.toISOString().split('T')[0];
+    useEffect(() => {
+      const storedDocDetails = JSON.parse(localStorage.getItem('docDetails'));
+      console.log(storedDocDetails);
+      if (storedDocDetails) {
+        setDocDetails(storedDocDetails);}
+    }, []);
+    const bookAp =()=>{
+        
+            let payload={
+                docId:docDetails.docId,
+                date:formattedDate
+               }
+        appointment(payload,docId)
+         navigate("/bookSlot")
+    }
    
   return (
     <div className="w-full relative bg-whitesmoke-400 overflow-hidden flex flex-row items-start justify-start gap-[0px_32px] tracking-[normal] mq750:gap-[0px_32px] mq1025:pl-5 mq1025:pr-5 mq1025:box-border">
@@ -39,7 +55,7 @@ const DoctorDetails = (docId) => {
   <div className='flex flex-row'>
   <BarChart/>
   <div className='ml-[300px] mt-[50px] '>
-   <div className="border-solid border-4 px-8 py-8 hover:bg-slate-200 cursor-pointer">Book an appointment with <br /> <span className=' text-mediumpurple-200 text-[25px]'>  {docDetails.docName} </span> </div> 
+   <div onClick={bookAp} className="border-solid border-4 px-8 py-8 hover:bg-slate-200 cursor-pointer">Book an appointment with <br /> <span className=' text-mediumpurple-200 text-[25px]'>  {docDetails.docName} </span> </div> 
   </div>
   </div>
   </section>
