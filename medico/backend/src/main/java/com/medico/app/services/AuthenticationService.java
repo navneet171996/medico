@@ -52,7 +52,7 @@ public class AuthenticationService {
         admin.setAdminEmail(request.getAdminEmail());
         admin.setAdminName(request.getAdminName());
         admin.setAdminPassword(passwordEncoder.encode(request.getPassword()));
-        admin.setRole(request.getRole());
+        admin.setRole(Role.ADMIN);
 
         admin = adminRepository.save(admin);
 
@@ -70,14 +70,14 @@ public class AuthenticationService {
         if(prevAdminTokensOptional.isPresent()){
             List<AdminToken> prevAdminTokens = prevAdminTokensOptional.get();
             prevAdminTokens.forEach(t -> {
-                t.setIsLoggedIn(true);
+                t.setIsLoggedOut(true);
             });
             adminTokenRepository.saveAll(prevAdminTokens);
         }
 
         AdminToken adminToken = new AdminToken();
         adminToken.setToken(token);
-        adminToken.setIsLoggedIn(false);
+        adminToken.setIsLoggedOut(false);
         adminToken.setAdmin(admin);
         adminTokenRepository.save(adminToken);
         return new LoginResponse(admin.getAdminEmail(), admin.getAdminId(), token);
@@ -93,6 +93,7 @@ public class AuthenticationService {
         doctor.setRating(0.0);
         doctor.setEmail(request.getEmail());
         doctor.setPassword(passwordEncoder.encode(request.getPassword()));
+        doctor.setRole(Role.DOCTOR);
 
         Optional<Speciality> optionalSpeciality = specialityRepository.findById(request.getSpecialityId());
         if(optionalSpeciality.isPresent()){
@@ -127,14 +128,14 @@ public class AuthenticationService {
         if(prevDoctorTokensOptional.isPresent()){
             List<DoctorToken> prevDoctorTokens = prevDoctorTokensOptional.get();
             prevDoctorTokens.forEach(t -> {
-                t.setIsLoggedIn(true);
+                t.setIsLoggedOut(true);
             });
             doctorTokenRepository.saveAll(prevDoctorTokens);
         }
 
         DoctorToken doctorToken = new DoctorToken();
         doctorToken.setToken(token);
-        doctorToken.setIsLoggedIn(false);
+        doctorToken.setIsLoggedOut(false);
         doctorToken.setDoctor(doctor);
         doctorTokenRepository.save(doctorToken);
         return new LoginResponse(doctor.getEmail(), doctor.getDocId(), token);
@@ -149,6 +150,7 @@ public class AuthenticationService {
         patient.setPatGender(request.getGender());
         patient.setPatEmail(request.getEmail());
         patient.setPatPassword(passwordEncoder.encode(request.getPassword()));
+        patient.setRole(Role.PATIENT);
 
         patient = patientRepository.save(patient);
 
@@ -166,13 +168,13 @@ public class AuthenticationService {
         if(prevPatientTokensOptional.isPresent()){
             List<PatientToken> prevPatientTokens = prevPatientTokensOptional.get();
             prevPatientTokens.forEach(t -> {
-                t.setIsLoggedIn(true);
+                t.setIsLoggedOut(true);
             });
             patientTokenRepository.saveAll(prevPatientTokens);
         }
         PatientToken patientToken = new PatientToken();
         patientToken.setToken(token);
-        patientToken.setIsLoggedIn(false);
+        patientToken.setIsLoggedOut(false);
         patientToken.setPatient(patient);
         patientTokenRepository.save(patientToken);
         return new LoginResponse(patient.getPatEmail(), patient.getPatientID(), token);

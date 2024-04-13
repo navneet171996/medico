@@ -52,7 +52,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
                 userDetailsService.setRole(Role.PATIENT);
                 userDetails = this.userDetailsService.loadUserByUsername(email);
             }
-
+            System.out.println("4" + this.jwtUtil.isValid(token, userDetails));
             if (userDetails != null && this.jwtUtil.isValid(token, userDetails)) {
                 UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                 authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
