@@ -3,7 +3,6 @@ import { useNavigate,useLocation } from "react-router-dom"
 import { Navigate } from 'react-router-dom';
 import { useContext } from "react"
 import AuthContext from "../Context/AuthContext"
-import { redirect } from "react-router-dom";
 
 
 const PrivateRoute = ({children,accessBy}) => {
@@ -56,5 +55,8 @@ const PrivateRoute = ({children,accessBy}) => {
     }
    
 }
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
 export default PrivateRoute
