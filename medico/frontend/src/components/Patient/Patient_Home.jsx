@@ -7,14 +7,12 @@ import axios from 'axios';
 import jwtInterceptor from '../../../helper/jwtInterceptor';
 const Patient_Home = () => {
   const [messageIconChecked, setMessageIconChecked] = useState(true);
-  
+  const {patientProfile} = useContext(AuthContext)
+  const {getPatientDetails} = useContext(AuthContext)
   const [patient, setPatient] = useState([]);
  const {logoutAPICall} = useContext(AuthContext)
   useEffect(() => {
-      jwtInterceptor.get("http://localhost:4000/user-profile")
-      .then((response) => {
-        setPatient(response.data);
-      });
+      getPatientDetails();
   }, []);
   return (
     <>
@@ -91,7 +89,7 @@ const Patient_Home = () => {
             <div className="absolute top-[20px] left-[0px] w-[82px] flex flex-col items-start justify-start">
               <div className="self-stretch h-[17px] flex flex-row items-start justify-start pt-0 px-0 pb-0 box-border">
                 <b className="mb-[-3px] h-[19.5px] flex-1 relative inline-block whitespace-nowrap">
-                  {patient.firstName} <span> </span> {patient.lastName}
+                  {patientProfile.patName} <span> </span> {getPatientDetails.lastName}
                 </b>
               </div>
               <button onClick={()=>{logoutAPICall()}} className="bg-white cursor-pointer w-16 relative text-3xs font-light inline-block box-border whitespace-nowrap pr-5">
@@ -148,7 +146,7 @@ const Patient_Home = () => {
       </div>
     </div>
     <div className="w-[1117px] flex flex-row items-start justify-start py-0 pr-5 pl-0 box-border gap-[0px_75px] max-w-full text-left text-base text-navy-200 font-nunito mq750:gap-[0px_75px] mq1025:flex-wrap mq1125:gap-[0px_75px]">
-      <div className="h-[399px] w-[260px] rounded-3xs bg-neutral-colors-white flex flex-col items-start justify-start pt-[39px] pb-[53px] pr-0.5 pl-[22px] box-border gap-[20px] min-w-[260px] mq1025:flex-1 mq450:pt-[25px] mq450:pb-[34px] mq450:box-border">
+      <div className="h-[399px] w-[260px] rounded-3xs bg-neutral-colors-white flex flex-col items-start justify-start  pb-[80px] pr-0.5 pl-[22px] box-border gap-[20px] min-w-[260px] mq1025:flex-1 mq450:pt-[25px] mq450:pb-[34px] mq450:box-border">
         <div className="w-[260px] h-[399px] relative rounded-3xs bg-neutral-colors-white hidden" />
         <div className="h-7 flex flex-row items-start justify-start pt-0 px-[3px] pb-2 box-border text-xl text-mediumpurple-200">
           <b className="self-stretch relative z-[1] mq450:text-base">About</b>
@@ -163,7 +161,7 @@ const Patient_Home = () => {
             />
             <div className="flex flex-col items-start justify-start pt-0.5 px-0 pb-0">
               <div className="h-[15px] relative inline-block shrink-0 z-[1]">
-                Male
+              {patientProfile.patGender === 'M' ? 'Male' : 'Female'}
               </div>
             </div>
           </div>
@@ -178,14 +176,14 @@ const Patient_Home = () => {
               src="/cake.svg"
             />
             <div className="h-[15px] relative inline-block z-[1]">
-              Born June 26, 1980
+            {patientProfile && patientProfile.patDob && patientProfile.patDob.split('T')[0]}
             </div>
           </div>
           <div className="self-stretch h-0 flex flex-row items-start justify-start py-0 pr-0 pl-[5px] box-border">
             <div className="h-px flex-1 relative box-border opacity-[0.1] z-[1] border-t-[0.5px] border-solid border-text" />
           </div>
         </div>
-        <div className="h-12 flex flex-row items-start justify-start pt-0 px-1 pb-2.5 box-border">
+        <div className="h-12 flex flex-row items-start justify-start  px-1 pb-10 box-border">
           <div className="self-stretch flex flex-col items-start justify-start gap-[1px_0px]">
             <div className="flex flex-row items-start justify-start gap-[0px_13px]">
               <div className="flex flex-col items-start justify-start pt-1 px-0 pb-0">
@@ -218,7 +216,7 @@ const Patient_Home = () => {
               />
             </div>
             <div className="h-[15px] relative inline-block whitespace-nowrap z-[1]">
-              charles5182@ummoh.com
+              {patientProfile.patEmail}
             </div>
           </div>
         </div>
@@ -241,7 +239,7 @@ const Patient_Home = () => {
               />
             </div>
             <div className="h-[15px] relative inline-block z-[1]">
-              33757005467
+              {patientProfile.patPhoneNo}
             </div>
           </div>
         </div>

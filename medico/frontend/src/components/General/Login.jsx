@@ -1,7 +1,6 @@
 import React from 'react'
 import { Link,useLocation,useNavigate} from 'react-router-dom'
 import { useRef,useState,useEffect,useContext} from 'react'
-import { authService } from '../../../services/authService'
 import AuthContext from '../../../Context/AuthContext'
 
 const Login = () => {

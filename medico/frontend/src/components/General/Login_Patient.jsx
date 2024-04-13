@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link,useLocation,useNavigate} from 'react-router-dom'
 import { useRef,useState,useEffect,useContext} from 'react'
-import { authService } from '../../../services/authService'
+
 import AuthContext from '../../../Context/AuthContext'
 
 const Login_Patient = () => {
@@ -15,17 +15,7 @@ const Login_Patient = () => {
 
    const handleSubmit=async (e)=>{
       e.preventDefault();
-      console.log(user,pwd);
-     
-    //   const response =  await authService.login(userData);
-    //   console.log(response?.data);
-      
-    //   if(response?.data?.accessToken){
-    //     authService.setToken(response?.data?.accessToken);
-    //     navigate('/doctor');
-    // }
-    // authService.setToken('eyJhbGciOiJIUzI1NiJ9.eyJSb2xlIjoiQURNSU4iLCJJc3N1ZXIiOiJJc3N1ZXIiLCJleHAiOjE3MDg0NDY1ODIsImlhdCI6MTcwODQ0NjU4MiwiZW1haWwiOiJKYXZhSW5Vc2UifQ.jN92cyKxuhE39u9xeit-yGRQQAAY5xm3lsIGyslsiM0');
-      
+      console.log(user,pwd);    
      let payload={
       email:user,
       password:pwd

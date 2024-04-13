@@ -31,4 +31,8 @@ public class Speciality {
     @JsonIgnore
     @OneToMany(mappedBy = "speciality")
     private Set<Doctor> doctors;
+
+    @Column(name = "description")
+    private String description;
+
 }

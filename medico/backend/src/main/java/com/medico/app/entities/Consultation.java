@@ -1,11 +1,14 @@
 package com.medico.app.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Date;
 
 @Entity
@@ -34,10 +37,20 @@ public class Consultation {
     @JoinColumn(name = "prescription_id" , referencedColumnName = "prescription_id")
     private Prescription prescription;
 
-    private Date date;
+    @Column(name = "date")
+    private LocalDate date;
 
+    @Column(name = "time")
+    private LocalTime time;
+
+    @Column(name = "video_link")
     private String video;
 
+    @Column(name = "chat_link")
     private String chat;
+
+    @OneToOne()
+    @JsonIgnore
+    private RatingsAndReviews ratingsAndReviews;
 
 }

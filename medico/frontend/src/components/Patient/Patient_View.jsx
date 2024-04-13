@@ -2,6 +2,9 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import ContentCardsV from '../General/ContentCardsV'
 import Header from './Header'
+import AllHospitals from './AllHospitals'
+import FooterContainer from '../General/FooterContainer'
+import FootersV from '../General/FootersV'
 
 const Patient_View = () => {
   return (
@@ -52,12 +55,20 @@ const Patient_View = () => {
      
      {/* Header section */}
      <Header/>
-        
+        <div className='h-full bg-whitesmoke-300'>
         <ContentCardsV/>
-
+        <AllHospitals/>
         </div>
+        </div>
+       
+       
         </section>
+        
         </main>
+        
+      </div>
+      <div className='mt-[150px]'>
+      <FootersV/>
       </div>
     </>
   )
