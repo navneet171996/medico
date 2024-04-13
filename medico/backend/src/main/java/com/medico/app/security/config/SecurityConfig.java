@@ -40,7 +40,10 @@ public class SecurityConfig{
         RequestMatcher[] requestMatchers = new RequestMatcher[]{
                 new AntPathRequestMatcher("/api/auth/**"),
                 new AntPathRequestMatcher("/api/home/**"),
-                new AntPathRequestMatcher("/api/aux/**")
+                new AntPathRequestMatcher("/api/aux/**"),
+                new AntPathRequestMatcher("/api/patient/**"),
+                new AntPathRequestMatcher("/api/doctor/**"),
+                new AntPathRequestMatcher("/api/admin/**")
         };
         return http
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
@@ -49,12 +52,12 @@ public class SecurityConfig{
                        req -> req
                                .requestMatchers(requestMatchers)
                                .permitAll()
-                               .requestMatchers("/api/patient/**")
-                               .authenticated()
-                               .requestMatchers("/api/doctor/**")
-                               .authenticated()
-                               .requestMatchers("/api/admin/**")
-                               .authenticated()
+//                               .requestMatchers("/api/patient/**")
+//                               .authenticated()
+//                               .requestMatchers("/api/doctor/**")
+//                               .authenticated()
+//                               .requestMatchers("/api/admin/**")
+//                               .authenticated()
                                .anyRequest()
                                .authenticated())
                .sessionManagement(
