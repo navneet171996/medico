@@ -1,9 +1,6 @@
 package com.medico.app.controllers;
 
-import com.medico.app.dto.ConsultationDto;
-import com.medico.app.dto.RatingDto;
-import com.medico.app.dto.SlotDto;
-import com.medico.app.dto.PatientDto;
+import com.medico.app.dto.*;
 import com.medico.app.entities.*;
 import com.medico.app.services.DoctorService;
 import com.medico.app.services.HospitalService;
@@ -90,5 +87,10 @@ public class PatientController {
     @GetMapping(path = "/docBySpeciality/sortedP/{specialityId}")
     public ResponseEntity<List<Doctor>> getSortedListOfDoctorsP(@PathVariable Long specialityId){
         return new ResponseEntity<>(doctorService.getSortedPDoctorsBySpeciality(specialityId), HttpStatus.OK);
+    }
+
+    @GetMapping(path = "/getSocketOfDoctor/{doctorId}")
+    public ResponseEntity<Socket> getSocketOfDoctor(@PathVariable Long doctorId){
+        return new ResponseEntity<>(doctorService.getSocketOfDoctor(doctorId), HttpStatus.OK);
     }
 }
