@@ -111,15 +111,23 @@ public class DoctorService {
     }
 
     public Socket putSocketOfDoctor(SocketDto socketDto) {
-        Optional<Doctor> doctorOptional= doctorRepository.findById(socketDto.getDocId());
-        if(doctorOptional.isPresent()){
-            Doctor doctor = doctorOptional.get();
-            Socket socket = new Socket();
-            socket.setDoctor(doctor);
+        Optional<Socket> socketAlreadyPresent = socketRepository.findSocketByDoctor_DocId(socketDto.getDocId());
+        if(socketAlreadyPresent.isPresent()){
+            Socket socket = socketAlreadyPresent.get();
             socket.setSocketId(socketDto.getSocketId());
-
             return socketRepository.save(socket);
+        }else{
+            Optional<Doctor> doctorOptional= doctorRepository.findById(socketDto.getDocId());
+            if(doctorOptional.isPresent()){
+                Doctor doctor = doctorOptional.get();
+                Socket socket = new Socket();
+                socket.setDoctor(doctor);
+                socket.setSocketId(socketDto.getSocketId());
+
+                return socketRepository.save(socket);
+            }
         }
+
         return new Socket();
     }
 }
