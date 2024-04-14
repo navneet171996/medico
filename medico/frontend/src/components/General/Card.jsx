@@ -2,7 +2,9 @@ import { useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import AuthContext from "../../../Context/AuthContext";
-const Card = ({ container, imageIcon, cardHeading, propWidth,specialityId }) => {
+
+
+const Card = ({ container, imageIcon, cardHeading, propWidth,specialityId,description }) => {
   const navigate = useNavigate()
   const {setSpecializationId} = useContext(AuthContext)
   const {specializationId} = useContext(AuthContext)
@@ -49,9 +51,15 @@ const Card = ({ container, imageIcon, cardHeading, propWidth,specialityId }) => 
             {cardHeading}
           </b>
           <div className="self-stretch flex flex-col items-start justify-start gap-[32px_0px] text-lg text-dimgray mq450:gap-[32px_0px]">
-            <div className="self-stretch relative leading-[30px] z-[1]">
-              Lorem ipsum dolor sit amet consecte tur adipiscing elit semper
-              dalaracc lacus vel facilisis volutpat est velitolm.
+            <div   style={{
+      maxHeight: '90px', // Approximately 3 lines with a line height of 30px
+      overflow: 'hidden',
+      textOverflow: 'ellipsis',
+      display: '-webkit-box',
+      WebkitLineClamp: 3,
+      WebkitBoxOrient: 'vertical',
+    }} className="self-stretch relative leading-[30px] z-[1]">
+              {description}
             </div>
             <button className="cursor-pointer">
             <div onClick={callSpecialization} className="flex flex-row items-center justify-start gap-[0px_5px] text-center text-mediumpurple-200">

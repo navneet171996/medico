@@ -3,17 +3,17 @@ import { useContext } from "react"
 import AuthContext from "../Context/AuthContext"
 
 const DoctorRoutes = ({children}) => {
-    const {user} = useContext(AuthContext)    
-    
-    if(user && user.role=="DOCTOR"){
+    const {user} = useContext(AuthContext)
+   //  && user.role=="ADMIN"
+    if(user ){
          
-            return children;
-          
-    }
-    else{
-        localStorage.clear();
-        return <Navigate to="/login" />
-    }
+      return children;
+    
+   }
+   else{
+   localStorage.clear();
+   return <Navigate to="/login" />
+   }
    
 
 }

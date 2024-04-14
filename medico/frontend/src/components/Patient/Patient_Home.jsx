@@ -32,7 +32,7 @@ const Patient_Home = () => {
           </div>
           <nav className="m-0 self-stretch bg-mediumpurple-200 flex flex-col items-center justify-start py-[193px] pr-[92px] pl-[37px] gap-[33px_0px] text-left text-base text-gray-1100 font-nunito mq750:pt-[125px] mq750:pb-[125px] mq750:box-border">
       <div className="w-[218px] h-[1186px] relative bg-mediumpurple-200 hidden" />
-      <div className="flex flex-row items-start justify-start py-0 pr-2 pl-1">
+      <div className="flex flex-row items-start justify-start py-0 pr-2 ">
         <div className="flex flex-row items-start justify-start gap-[0px_13px]">
           <img
             className="h-[17px] w-5 relative z-[1]"
@@ -45,6 +45,9 @@ const Patient_Home = () => {
       </div>
       <div className="flex flex-row items-start justify-start py-0 pr-1 pl-[37px] text-text">
         <Link to="#" className="relative font-semibold z-[1] no-underline text-black">Profile</Link>
+      </div>
+      <div className="flex flex-row items-start justify-start py-0 pr-1 pl-[37px] text-text">
+        <Link to="/videoCallPatient" className="relative font-semibold z-[1] no-underline text-black">Call</Link>
       </div>
       <div className="flex flex-row items-center justify-start gap-[0px_13px]">
         <img
@@ -144,6 +147,7 @@ const Patient_Home = () => {
           </div>
         </div>
       </div>
+
     </div>
     <div className="w-[1117px] flex flex-row items-start justify-start py-0 pr-5 pl-0 box-border gap-[0px_75px] max-w-full text-left text-base text-navy-200 font-nunito mq750:gap-[0px_75px] mq1025:flex-wrap mq1125:gap-[0px_75px]">
       <div className="h-[399px] w-[260px] rounded-3xs bg-neutral-colors-white flex flex-col items-start justify-start  pb-[80px] pr-0.5 pl-[22px] box-border gap-[20px] min-w-[260px] mq1025:flex-1 mq450:pt-[25px] mq450:pb-[34px] mq450:box-border">

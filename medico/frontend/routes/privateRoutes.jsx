@@ -13,7 +13,7 @@ const PrivateRoute = ({children,accessBy}) => {
   const { pathname } = location;
 
     const {user} = useContext(AuthContext)
-
+    
     if(user){
     }
     

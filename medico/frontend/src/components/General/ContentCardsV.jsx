@@ -4,7 +4,7 @@ import { Carousel } from "antd";
 import AuthContext from "../../../Context/AuthContext";
 import { useContext } from "react";
 import { Link } from "react-router-dom";
-
+import './CustomScrollbar.css';
 const ContentCardsV = () => {
   const {getSpecialization} = useContext(AuthContext)
   const {specialization} = useContext(AuthContext)
@@ -28,7 +28,7 @@ const ContentCardsV = () => {
           <div className="self-stretch relative text-lg leading-[30px] text-dimgray z-[1]">{`We offer comprehensive medical services tailored to your needs, ensuring personalized care and attention `}</div>
         </div>
         <div className="w-[1220px] max-w-full">
-        <Carousel  centerPadding="60px" slidesToShow={3}>
+        <Carousel style={{ overflowY: 'auto', scrollbarColor: 'blue' }} className="custom-carousel-container"  centerPadding="60px" slidesToShow={3}>
           {Array.isArray(visibleSpecializations) && visibleSpecializations.map((speciality, index) => (
             <div key={index}>
               <Card
@@ -37,6 +37,7 @@ const ContentCardsV = () => {
                 cardHeading={speciality.specialityName}
                 propWidth="unset"
                 specialityId = {speciality.specialityId}
+                description = {speciality.description}
               />
             </div>
           ))}
