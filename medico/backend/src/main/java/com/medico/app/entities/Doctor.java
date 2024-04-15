@@ -79,6 +79,7 @@ public class Doctor implements UserDetails {
     private List<Slots> slots;
 
     @OneToMany(mappedBy = "doctor")
+    @JsonIgnore
     private List<DoctorToken> tokens;
 
     @OneToOne(mappedBy = "doctor")
