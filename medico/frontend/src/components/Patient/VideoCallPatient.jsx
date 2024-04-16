@@ -8,8 +8,11 @@ import * as webRTCHandler from "../../js/webRTCHandler"
 import * as main from "../../js/main"
 import * as recordingUtils from "../../js/recordingUtils"
 import "../../css/style.css"
+import { useEffect } from 'react'
 
 const VideoCallPatient = () => {
+    const details = JSON.parse(localStorage.getItem("detailToDisplayOnVideoCall"))
+   
   return (
     <div className='main_container'>
     <div className='dashboard_container'>
@@ -18,27 +21,20 @@ const VideoCallPatient = () => {
         </div>
         <div>
             <div className='description_container'>
-                
+               <div className='text-[20px] mt-[40px] text-white'>You are connecting with...</div>
             </div>
-            <div className='personal_code_container'>
-                <div className='personal_code_title_container'>
-                    <p className='personal_code_title_paragraph'>
-                        Your personal code
-                    </p>
-                </div>
-                <div className="personal_code_value_container">
-                    <p className='personal_code_value_paragraph' id='personal_code_paragraph'>DDDDDD</p>
-                    <button className='personal_code_copy_button' id='personal_code_copy_button'>
-                        <img src='copyButton.png' alt='copy-button'></img>
-                    </button>
+            <div className='personal_code_container h-[200px] shadow-md'>
+               <div className=' text-center text-[20px] text-whitesmoke-300 font-light'>
+                <img className='w-[65px] h-[65px] rounded-full' src="/doctor.jpeg" alt="" />
+                <div className=''>Dr. {details.doctor.docName}</div>
+                <div className=''>{details.doctor.speciality.specialityName}</div>
+                <div className=''>{details.doctor.hospital.hospitalName}</div>
                 </div>
             </div>
             </div>
             <div className='personal_code_connecting_container'>
-                <p className='personal_code_connecting_paragraph'>Personal Code</p>
-                <div className='personal_code_connecting_input_container'>
-                    <input className='personal_code_input' id='personal_code_input'></input>
-                </div>
+
+                
                 <div className='personal_code_connecting_buttons_container'>
                     <button className='connecting_button' id='personal_code_chat_button'>
                         <img src='chatButton.png' className='connecting_buttons_image' alt='chat-button'></img>

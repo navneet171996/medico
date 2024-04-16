@@ -21,6 +21,8 @@ const configuration = {
 }
 
 export const getLocalPreview = () => {
+   
+    
   navigator.mediaDevices
     .getUserMedia(defaultConstraints)
     .then((stream) => {
@@ -33,6 +35,8 @@ export const getLocalPreview = () => {
       console.log("error occured when trying to get an access to camera");
       console.log(err);
     });
+  
+  
 };
 
 const createPeerConnection = () => {

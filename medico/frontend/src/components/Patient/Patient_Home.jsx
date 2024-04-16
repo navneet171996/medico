@@ -19,7 +19,7 @@ const Patient_Home = () => {
     
     
     <div className="w-full relative bg-whitesmoke-400 overflow-hidden flex flex-row items-start justify-start gap-[0px_32px] tracking-[normal] mq750:gap-[0px_32px] mq1025:pl-5 mq1025:pr-5 mq1025:box-border">
-      <div className="h-[1186px] flex flex-col items-center justify-center py-0 pr-0 pl-1 box-border mq1025:hidden">
+      <div className="h-[1186px] flex flex-col items-center justify-center py-0 pr-0  box-border mq1025:hidden">
         <div className="flex-1 flex flex-row items-start justify-start relative">
           <div className="h-12 w-[82px] absolute my-0 mx-[!important] top-[234px] left-[-4px]">
             <div className="absolute top-[0px] left-[0px] rounded-tl-none rounded-tr-8xs rounded-br-8xs rounded-bl-none [background:linear-gradient(90deg,_rgba(236,_13,_255,_0.2)_60%,_rgba(255,_255,_255,_0))] w-full h-full z-[1]" />
@@ -47,7 +47,7 @@ const Patient_Home = () => {
         <Link to="#" className="relative font-semibold z-[1] no-underline text-black">Profile</Link>
       </div>
       <div className="flex flex-row items-start justify-start py-0 pr-1 pl-[37px] text-text">
-        <Link to="/videoCallPatient" className="relative font-semibold z-[1] no-underline text-black">Call</Link>
+        <Link to="/Appointments" className="relative font-semibold z-[1] no-underline text-black">Upcoming</Link>
       </div>
       <div className="flex flex-row items-center justify-start gap-[0px_13px]">
         <img
@@ -92,7 +92,7 @@ const Patient_Home = () => {
             <div className="absolute top-[20px] left-[0px] w-[82px] flex flex-col items-start justify-start">
               <div className="self-stretch h-[17px] flex flex-row items-start justify-start pt-0 px-0 pb-0 box-border">
                 <b className="mb-[-3px] h-[19.5px] flex-1 relative inline-block whitespace-nowrap">
-                  {patientProfile.patName} <span> </span> {getPatientDetails.lastName}
+                  {patientProfile.patName} 
                 </b>
               </div>
               <button onClick={()=>{logoutAPICall()}} className="bg-white cursor-pointer w-16 relative text-3xs font-light inline-block box-border whitespace-nowrap pr-5">
@@ -135,7 +135,7 @@ const Patient_Home = () => {
         </div>
         <div className="absolute top-[308px] left-[215px] w-[882px] flex flex-row items-center justify-between gap-[20px] max-w-full mq450:flex-wrap">
           <h2 className="m-0 h-[61.7px] w-[238.9px] relative text-inherit font-bold font-inherit inline-block shrink-0 z-[1] mq1025:text-5xl mq450:text-lg">
-          {patient.firstName} <span> </span> {patient.lastName}
+          {patientProfile.patName} 
           </h2>
           <div className="flex flex-col items-start justify-start pt-[5px] px-0 pb-0">
             <button className="cursor-pointer py-3 pr-[42px] pl-[45px] bg-[transparent] rounded-3xs flex flex-row items-center justify-center whitespace-nowrap z-[1] border-[1px] border-solid border-mediumpurple-200 hover:bg-slateblue-200 hover:box-border hover:border-[1px] hover:border-solid hover:border-slateblue-100">

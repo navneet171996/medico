@@ -18,6 +18,8 @@ const DoctorDetails = (docId) => {
       console.log(storedDocDetails);
       if (storedDocDetails) {
         setDocDetails(storedDocDetails);}
+        if (storedDocDetails) {
+          setDocDetails(storedDocDetails);}
     }, []);
     const bookAp =()=>{
         
@@ -48,7 +50,7 @@ const DoctorDetails = (docId) => {
         <div className='py-3'> <span className="text-mediumpurple-200 text-[20px]  ">Doctor's Email</span> : {docDetails.email}</div>
         <div className='py-3'> <span className="text-mediumpurple-200 text-[20px]  ">Speciality</span> :  {docDetails.speciality ? docDetails.speciality.specialityName : 'Unknown'}</div>
         <div className='py-3'> <span className="text-mediumpurple-200 text-[20px]  ">Hospital</span> :  {docDetails.hospitalName}</div>
-        <div className='py-5 pl-[120px]'> <Rate disabled defaultValue={2} style={{ color: '#9370DB' }} /></div>
+        <div className='py-5 pl-[120px]'> <Rate disabled value={docDetails.rating ?? 0} style={{ color: '#9370DB' }} /></div>
     </div>
 
   </div>

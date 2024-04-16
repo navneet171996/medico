@@ -58,6 +58,7 @@ public class Patient implements UserDetails {
     private Set<Consultation> consultations;
 
     @OneToMany(mappedBy = "patient")
+    @JsonIgnore
     private List<PatientToken> tokens;
 
     @Override

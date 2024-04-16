@@ -5,7 +5,8 @@ import * as constants from "./constants.js";
 import * as ui from "./ui.js";
 import * as recordingUtils from "./recordingUtils.js";
 import io from "socket.io-client";
-
+import axios from "axios";
+import { useState } from "react";
 // initialization of socketIO connection
 
 const ENDPOINT = "http://127.0.0.1:3001/";
@@ -13,7 +14,7 @@ const ENDPOINT = "http://127.0.0.1:3001/";
 const socket = io.connect(ENDPOINT);
 
 wss.registerSocketEvents(socket);
-// webRTCHandler.getLocalPreview();
+
 
  
 
@@ -21,18 +22,13 @@ wss.registerSocketEvents(socket);
 
 
 document.addEventListener("DOMContentLoaded", function() {
-  if(window.location.pathname === '/video_call_doc')
-  {
-    webRTCHandler.getLocalPreview();
-  }
+  // if(window.location.pathname === '/video_call_doc')
+  // {
+  //   webRTCHandler.getLocalPreview();
+  // }
 //register event listener for personal code copy button
-const personalCodeCopyButton = document.getElementById(
-  "personal_code_copy_button"
-);
-personalCodeCopyButton.addEventListener("click", () => {
-  const personalCode = store.getState().socketId;
-  navigator.clipboard && navigator.clipboard.writeText(personalCode);
-});
+
+webRTCHandler.getLocalPreview();
 
 // register event listeners for connection buttons
 
@@ -47,23 +43,44 @@ const personalCodeVideoButton = document.getElementById(
 personalCodeChatButton.addEventListener("click", () => {
   console.log("chat button clicked");
 
-  const calleePersonalCode = document.getElementById(
-    "personal_code_input"
-  ).value;
-  const callType = constants.callType.CHAT_PERSONAL_CODE;
-
-  webRTCHandler.sendPreOffer(callType, calleePersonalCode);
+  //axios call to fetch socket id 
+  let fetchedSocketId = "";
+  let x = localStorage.getItem("consulId");
+  let response = axios.get(`http://localhost:8081/api/patient/getSocketOfDoctor/${x}`);
+  response.then(response => {
+    if (response && response.data) {
+      fetchedSocketId = response.data.socketId;
+      console.log("Fetched socket ID:", fetchedSocketId); // This will log the fetched socket ID correctly
+      const calleePersonalCode = fetchedSocketId;
+      const callType = constants.callType.CHAT_PERSONAL_CODE;
+      console.log("test socket", calleePersonalCode);
+      webRTCHandler.sendPreOffer(callType, calleePersonalCode);
+    } else {
+      console.log("Response or data is missing.");
+    }
+  }).catch(error => {
+    console.error("Error fetching socket ID:", error);
+  });
 });
 
 personalCodeVideoButton.addEventListener("click", () => {
   console.log("video button clicked");
-
-  const calleePersonalCode = document.getElementById(
-    "personal_code_input"
-  ).value;
-  const callType = constants.callType.VIDEO_PERSONAL_CODE;
-
-  webRTCHandler.sendPreOffer(callType, calleePersonalCode);
+  var fetchedSocketId=""
+  let x = localStorage.getItem("consulId")
+  let response = axios.get(`http://localhost:8081/api/patient/getSocketOfDoctor/${x}`)
+  response.then(response => {
+  
+    if (response && response.data) {
+      fetchedSocketId = response.data.socketId;
+      console.log(fetchedSocketId);
+      const calleePersonalCode = fetchedSocketId
+      const callType = constants.callType.VIDEO_PERSONAL_CODE;
+    
+      webRTCHandler.sendPreOffer(callType, calleePersonalCode);
+    } else {
+      console.log("Response or data is missing.");
+    }
+  })
 });
 
 

@@ -31,6 +31,7 @@ import Doctor_View from './components/Doctor/Doctor_View'
 import Doctor_History from './components/Doctor/Doctor_History'
 import VideoCallDoc from './components/Doctor/VideoCallDoc'
 import VideoCallPatient from './components/Patient/VideoCallPatient'
+import Appointments from './components/Patient/Appointments'
 // import VideoCall from './components/Patient/video call/VideoCall'
 
 function App() {
@@ -70,6 +71,7 @@ function App() {
             <Route path='/checkout'   element={ <PrivateRoute  accessBy="authenticated">  <PatientRoutes>  <BookNow />  </PatientRoutes> </PrivateRoute>}> </Route>
             <Route path='/bookingDone'   element={ <PrivateRoute  accessBy="authenticated">  <PatientRoutes>  <Success />  </PatientRoutes> </PrivateRoute>}> </Route>
             <Route path='/videoCallPatient'   element={ <PrivateRoute  accessBy="authenticated">  <PatientRoutes>  <VideoCallPatient />  </PatientRoutes> </PrivateRoute>}> </Route>
+            <Route path='/appointments'   element={ <PrivateRoute  accessBy="authenticated">  <PatientRoutes>  <Appointments />  </PatientRoutes> </PrivateRoute>}> </Route>
 
             {/* <Route path='/videoCall'   element={ <PrivateRoute  accessBy="authenticated">  <PatientRoutes>  <VideoCall/>  </PatientRoutes> </PrivateRoute>}> </Route> */}
               <Route path='/doctor'   element={ <PrivateRoute  accessBy="authenticated"> <DoctorRoutes>  <Doctor_Home />  </DoctorRoutes></PrivateRoute> }> </Route>

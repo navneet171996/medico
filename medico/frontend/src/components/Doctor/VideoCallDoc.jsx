@@ -21,25 +21,13 @@ const VideoCallDoc = () => {
                 
             </div>
             <div className='personal_code_container'>
-                <div className='personal_code_title_container'>
-                    <p className='personal_code_title_paragraph'>
-                        Your personal code
-                    </p>
-                </div>
-                <div className="personal_code_value_container">
-                    <p className='personal_code_value_paragraph' id='personal_code_paragraph'>DDDDDD</p>
-                    <button className='personal_code_copy_button' id='personal_code_copy_button'>
-                        <img src='copyButton.png' alt='copy-button'></img>
-                    </button>
-                </div>
+                <div>This is Lavish</div>
             </div>
             </div>
             <div className='personal_code_connecting_container'>
-                <p className='personal_code_connecting_paragraph'>Personal Code</p>
-                <div className='personal_code_connecting_input_container'>
-                    <input className='personal_code_input' id='personal_code_input'></input>
-                </div>
-                <div className='personal_code_connecting_buttons_container'>
+                
+                
+                <div className='personal_code_connecting_buttons_container display_none' >
                     <button className='connecting_button' id='personal_code_chat_button'>
                         <img src='chatButton.png' className='connecting_buttons_image' alt='chat-button'></img>
                     </button>
@@ -47,6 +35,7 @@ const VideoCallDoc = () => {
                         <img src='videoButton.png' className='connecting_buttons_image' alt='video-button'></img>
                     </button>
                 </div>
+                
             </div>
             <div className='stranger_connecting_container'>
                 

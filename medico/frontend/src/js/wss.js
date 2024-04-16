@@ -2,17 +2,34 @@ import * as store from "./store.js";
 import * as ui from "./ui.js";
 import * as webRTCHandler from "./webRTCHandler.js";
 import * as constants from "./constants.js";
-
+import { jwtDecode } from "jwt-decode";
+import axios from "axios";
+import { useEffect } from "react";
+import React from "react";
 let socketIO = null;
+
+
 
 export const registerSocketEvents = (socket) => {
   socketIO = socket;
+  
+  
 
   socket.on("connect", () => {
+    const x = jwtDecode(localStorage.getItem("token"))
+   if(x.role==='DOCTOR'){ 
+    const profile = JSON.parse(localStorage.getItem("userProfile"))
+    let payload = {
+      docId:profile.id,
+      socketId:socket.id
+   }
+   let apiResponse = axios.post("http://localhost:8081/api/doctor/putSocketOfDoctor",payload)
+   console.log(apiResponse);
+  }
     console.log("succesfully connected to socket.io server");
     
+
     store.setSocketId(socket.id);
-    ui.updatePersonalCode(socket.id);
   });
 
   socket.on("pre-offer", (data) => {

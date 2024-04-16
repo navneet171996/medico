@@ -3,8 +3,12 @@ import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 const AuthContext = createContext({})
 import { useNavigate } from "react-router-dom";
+import { notification,message } from 'antd';
 
 export const AuthContextProvider = ({children}) =>{
+
+  
+
     const navigate = useNavigate()
     const [specialization,setSpecialization] = useState([])
     const [hospitals,setHospitals] = useState([]);
@@ -18,30 +22,35 @@ export const AuthContextProvider = ({children}) =>{
     const [spec,setSpec] = useState([])
     const [docProfile,setDocProfile] = useState([])
     const [docConsultation,setDocConsultation]=useState([])
+    const [success,setSuccess] = useState(false)
+   const [user, setUser] = useState()
+   const [loading, setLoading] = useState(false);
 
-   const [user, setUser] = useState(() => {
    
-    let userProfle = localStorage.getItem("userProfile");
-    if (userProfle) {
-      console.log("setting");
-      const decodedToken = jwtDecode(JSON.parse(userProfle).token);
-      console.log("decoded");
-      console.log("here",decodedToken);
-      return decodedToken;
-    }
-    return null;
-  });
-
   const loginApiCallDoctor = async (payload) => {
-    console.log(payload);
-    let apiResponse = await axios.post("http://localhost:8081/api/auth/loginDoctor",payload);
-    console.log("Api response "+apiResponse);
-    localStorage.setItem("userProfile", JSON.stringify(apiResponse.data));
-    localStorage.setItem('token', (apiResponse.data.token))
-    console.log("The token is test "+localStorage.getItem('token'));
-    setUser(apiResponse.data)
-    console.log("user is",user);
-    navigate('/doctor')
+    setLoading(true);
+        try {
+            let apiResponse = await axios.post("http://localhost:8081/api/auth/loginDoctor",payload);
+    
+            console.log("Api response "+apiResponse);
+            localStorage.setItem("userProfile", JSON.stringify(apiResponse.data));
+            localStorage.setItem('token', (apiResponse.data.token))
+            console.log("The token is test "+localStorage.getItem('token'));
+        
+            let userProfle = localStorage.getItem("userProfile");
+            if (userProfle) {
+              setSuccess(true)
+              const decodedToken = jwtDecode(JSON.parse(userProfle).token);
+              console.log("here",decodedToken);
+              setUser(decodedToken);
+              navigate('/doctor')
+            }
+        } catch (error) {
+            console.error("Login failed:", error);
+            message.error("Login failed. Please check your credentials.");
+        }
+        setLoading(false);
+    
    };
  
    const loginApiCallAdmin = async (payload) => {
@@ -52,8 +61,14 @@ export const AuthContextProvider = ({children}) =>{
     localStorage.setItem("userProfile", JSON.stringify(apiResponse.data));
     localStorage.setItem('token', (apiResponse.data.token))
     console.log("The token is test "+localStorage.getItem('token'));
-    setUser(apiResponse.data);
-    navigate('/admin')
+    let userProfle = localStorage.getItem("userProfile");
+    if (userProfle) {
+      const decodedToken = jwtDecode(JSON.parse(userProfle).token);
+      console.log("here",decodedToken);
+      setUser(decodedToken);
+      navigate('/admin')
+    }
+   
   };
 
  
@@ -68,6 +83,7 @@ export const AuthContextProvider = ({children}) =>{
     localStorage.removeItem("userProfile");
     setUser(null);
     localStorage.clear()
+    setSuccess(false)
     navigate("/loginPatient");
   };
 
@@ -116,8 +132,14 @@ export const AuthContextProvider = ({children}) =>{
     localStorage.setItem("userProfile", JSON.stringify(apiResponse.data));
     localStorage.setItem('token', (apiResponse.data.token))
     console.log("The token is "+localStorage.getItem('token'));
-    setUser(apiResponse.data);
-    navigate('/patient')
+    let userProfle = localStorage.getItem("userProfile");
+    if (userProfle) {
+      const decodedToken = jwtDecode(JSON.parse(userProfle).token);
+      console.log("here",decodedToken);
+      setUser(decodedToken);
+      navigate('/patient')
+    }
+    
   };
 
 
@@ -204,7 +226,7 @@ export const AuthContextProvider = ({children}) =>{
     
     
 
-    return <AuthContext.Provider value={{getDocConsultation,docConsultation,docProfile,getDoctorProfile,docId,slots,appointment,consultation,getConsultation,docDetails,getDoctorDetails,sortDoctorByPrice,doctorBySpecialization,doctorList1,spec,getSepecificSpecialization,specializationId,setSpecializationId,patientProfile,hospitals,getAllHospitals,getPatientDetails,registerPatient,loginApiCallAdmin,loginApiCallDoctor,loginApiCallPatient,user,logoutAPICall,getSpecialization,specialization,registerAdmin}}>{children}</AuthContext.Provider>
+    return <AuthContext.Provider value={{success, getDocConsultation,docConsultation,docProfile,getDoctorProfile,docId,slots,appointment,consultation,getConsultation,docDetails,getDoctorDetails,sortDoctorByPrice,doctorBySpecialization,doctorList1,spec,getSepecificSpecialization,specializationId,setSpecializationId,patientProfile,hospitals,getAllHospitals,getPatientDetails,registerPatient,loginApiCallAdmin,loginApiCallDoctor,loginApiCallPatient,user,logoutAPICall,getSpecialization,specialization,registerAdmin}}>{children}</AuthContext.Provider>
 
    
 }

@@ -37,6 +37,9 @@ const Patient_View = () => {
       <div className="flex flex-row items-start justify-start py-0 pr-1 pl-[37px] text-text">
         <Link to="/patient" className="relative font-semibold z-[1] no-underline text-black">Profile</Link>
       </div>
+      <div className="flex flex-row items-start justify-start py-0 pr-1 pl-[37px] text-text">
+        <Link to="/appointments" className="relative font-semibold z-[1] no-underline text-black">Upcoming</Link>
+      </div>
       <div className="flex flex-row items-center justify-start gap-[0px_13px]">
         <img
           className="h-6 w-6 relative object-cover min-h-[24px] z-[1]"

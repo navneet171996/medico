@@ -1,12 +1,7 @@
 import * as constants from "./constants.js";
 import * as elements from "./elements.js";
 
-export const updatePersonalCode = (personalCode) => {
-  const personalCodeParagraph = document.getElementById(
-    "personal_code_paragraph"
-  );
-  personalCodeParagraph.innerHTML = personalCode;
-};
+
 
 export const updateLocalVideo = (stream) => {
   const localVideo = document.getElementById("local_video");

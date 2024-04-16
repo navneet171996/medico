@@ -2,40 +2,34 @@ import React from 'react'
 import { Link,useLocation,useNavigate} from 'react-router-dom'
 import { useRef,useState,useEffect,useContext} from 'react'
 import AuthContext from '../../../Context/AuthContext'
+import autoprefixer from 'autoprefixer'
+import { notification } from 'antd';
 
 const Login_Doctor = () => {
     const navigate = useNavigate()
     const location = useLocation()
     const {loginApiCallDoctor} = useContext(AuthContext)
-
+    const {success} = useContext(AuthContext)
     const [user,setUser]=useState('');
     const [pwd,setPwd]=useState('');
     
+   
 
-   const handleSubmit=async (e)=>{
+   const handleSubmit=(e)=>{
       e.preventDefault();
-      console.log(user,pwd);
-     
-    //   const response =  await authService.login(userData);
-    //   console.log(response?.data);
       
-    //   if(response?.data?.accessToken){
-    //     authService.setToken(response?.data?.accessToken);
-    //     navigate('/doctor');
-    // }
-    // authService.setToken('eyJhbGciOiJIUzI1NiJ9.eyJSb2xlIjoiQURNSU4iLCJJc3N1ZXIiOiJJc3N1ZXIiLCJleHAiOjE3MDg0NDY1ODIsImlhdCI6MTcwODQ0NjU4MiwiZW1haWwiOiJKYXZhSW5Vc2UifQ.jN92cyKxuhE39u9xeit-yGRQQAAY5xm3lsIGyslsiM0');
-     
+      console.log(user,pwd);
      let payload={
       email:user,
       password:pwd
      }
-     
-     
-     await loginApiCallDoctor(payload)
+
+     loginApiCallDoctor(payload)
+   
     
    }
   return (
-    <div className="w-full relative bg-whitesmoke-100 overflow-hidden flex flex-row items-center justify-start pt-[67px] px-0 pb-36 box-border [row-gap:20px] tracking-[normal] mq1325:flex-wrap">
+    <div className="w-full relative bg-whitesmoke-100 overflow-hidden flex flex-row items-center justify-start pt-[37px] px-0 pb-36 box-border [row-gap:20px] tracking-[normal] mq1325:flex-wrap">
       <img
         className="h-[607.4px] w-[726px] relative max-w-full mq1325:flex-1"
         loading="eager"
@@ -57,7 +51,7 @@ const Login_Doctor = () => {
         </div>
 
         
-        <div className="self-stretch rounded-11xl bg-mediumblue overflow-hidden flex flex-row items-start justify-between py-0 pr-[61px] pl-[81px] gap-[20px] z-[1] mq800:pl-10 mq800:pr-[30px] mq800:box-border mq450:flex-wrap">
+        <div className="mb-[-58px] self-stretch rounded-11xl bg-mediumblue overflow-hidden flex flex-row items-start justify-between py-0 pr-[61px] pl-[81px] gap-[20px] z-[1] mq800:pl-10 mq800:pr-[30px] mq800:box-border mq450:flex-wrap">
           <div className="h-[74px] w-[74px] flex flex-col items-start justify-end pt-0 px-0 pb-0 box-border">
             <div className="mt-[-8px] self-stretch h-[82px] flex flex-col items-start justify-start pt-0 px-0 pb-0 box-border">
               <div className="self-stretch flex flex-row items-start justify-start relative">
@@ -70,19 +64,19 @@ const Login_Doctor = () => {
           </div>
           <div className="h-[74px] w-[131px] flex flex-col items-start justify-end pt-0 px-0 pb-0 box-border">
             <div className="mt-[-8px] self-stretch h-[82px] flex flex-col items-start justify-start pt-0 px-0 pb-0 box-border">
-              <div className="mb-[-26px] self-stretch h-[108px] relative text-5xl leading-[125px] font-semibold font-inter text-black text-left flex items-end shrink-0 mq450:text-lgi mq450:leading-[100px]">
-              <Link to="/register_patient" className='no-underline'> Register</Link> 
+              <div className="mb-[-26px]  self-stretch h-[108px] relative text-5xl leading-[125px] font-semibold font-inter text-black text-left flex items-end shrink-0 mq450:text-lgi mq450:leading-[100px]">
+              <Link to="/register_patient" className='no-underline text-white font-semibold'> Register</Link> 
               </div>
             </div>
           </div>
         </div>
       </div>
 
-
+      <div className='text-[40px] pt-[10px]'>Doctor's Login</div>
       <div className="self-stretch flex flex-col  items-center justify-center max-w-full">
         <div className="flex flex-row items-start justify-start py-0 px-[11px]">
-          <div className="relative text-5xl leading-[100px] font-inter text-black text-left z-[1] mq450:text-lgi mq450:leading-[80px]">
-            Mobile Number / Email Id
+          <div className="relative text-[22px] leading-[100px] font-normal text-black text-left z-[1] mq450:text-lgi mq450:leading-[80px]">
+            Email Id
           </div>
         </div>
         <div className=" rounded-3xs bg-white box-border flex flex-row items-center justify-start py-0 px-[19px] max-w-full z-[1] mt-[-30px] border-[2px] border-solid border-neutral-colors-white">
@@ -102,7 +96,7 @@ const Login_Doctor = () => {
 
       <div className="self-stretch flex flex-col items-center justify-center max-w-full">
         <div className="flex flex-row items-start justify-start py-0 px-[11px]">
-          <div className="relative text-5xl leading-[100px] font-inter text-black text-left z-[1] mq450:text-lgi mq450:leading-[80px]">
+          <div className="relative text-[22px] leading-[100px] font-normal text-black text-left z-[1] mq450:text-lgi mq450:leading-[80px]">
             Password
           </div>
         </div>
@@ -120,9 +114,9 @@ const Login_Doctor = () => {
       </div>
 
         <div className='flex justify-center text-center mt-8'>
-      <Link to="/loginPatient" className='  text-black no-underline '>Login as Patient</Link>
+      <Link to="/loginPatient" className=' bg-mediumpurple-100 p-2 rounded-sm  text-black no-underline hover:text-mediumpurple-200 hover:text-whitesmoke-100'>Login as Patient</Link>
       </div>
-        <div className="absolute top-[178px] left-[200px] text-xl leading-[125%] font-inter text-black text-left z-[1] mq450:text-base mq450:leading-[20px]">
+        <div className="absolute top-[178px] left-[180px] text-xl leading-[125%] font-normal text-black text-left z-[1] mq450:text-base mq450:leading-[20px]">
           
           Forgot password?
         
