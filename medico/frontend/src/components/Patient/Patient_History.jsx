@@ -4,11 +4,13 @@ import Header from './Header'
 import Navbar from './Navbar'
 import { useState,useEffect } from 'react'
 import axios from 'axios'
-import { Rate } from 'antd';
+import { Rate,Input,Button } from 'antd';
 
 const Patient_History = () => {
+  const { TextArea } = Input;
   const [orders, setOrders] = useState([]);
   const [selectedOrder, setSelectedOrder] = useState(null);
+  const [rating, setRating] = useState(0);
   useEffect(() => {
     const fetchOrders = async () => {
       const patId = parseInt(localStorage.getItem('patId'))
@@ -32,10 +34,27 @@ const Patient_History = () => {
     setSelectedOrder(null);
   };
   const [isRated, setIsRated] = useState(false); 
-
+  const [review, setReview] = useState('');
   const handleRateChange = (value) => {
     
-    setIsRated(true); 
+    setRating(value);
+    setIsRated(false); 
+  };
+  const handleReviewChange = (e) => {
+    setReview(e.target.value);
+    setIsRated(false); 
+  };
+  const handleSubmit = async () => {
+    try {
+      await axios.post('http://localhost:8081/api/patient/setRating', {
+        consultationId: selectedOrder.consultationId,
+        rating: rating,
+        review: review,
+      });
+      setIsRated(true);
+    } catch (error) {
+      console.error('Error submitting rating and review:', error);
+    }
   };
   return (
     <>
@@ -90,6 +109,11 @@ const Patient_History = () => {
           <div style={{ marginTop: '20px' }}>
             <p> Rate the doctor:</p>
             <Rate  onChange={handleRateChange} className=' text-mediumpurple-100' allowHalf defaultValue={2.5} />
+            <p style={{ marginTop: '10px' }}>Write a review:</p>
+        <TextArea rows={4} value={review} onChange={handleReviewChange} />
+        <Button type="primary" onClick={handleSubmit} style={{ marginTop: '10px' }}>
+          Submit
+        </Button>
             {isRated && <p style={{ marginTop: '10px', color: 'green' }}>Thanks for rating!</p>}
           </div>
         )}

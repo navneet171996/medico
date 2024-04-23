@@ -67,7 +67,7 @@ const DoctorCard = ( doctor,propWidth) => {
               {doctor.doctor.hospital.hospitalName}
             </div>
             <div className='rating position bottom-10'>
-            <Rate disabled defaultValue={2} style={{ color: '#9370DB' }} />
+            <Rate disabled value={doctor.doctor.rating ?? 0}  style={{ color: '#9370DB' }} />
             </div>
             <div className='rating '>
             <span style={fontStyle} className='text-[35px] font-bold '>₹</span>  <span className='text-black text-[20px] pb-3'>{doctor.doctor.rate} </span>

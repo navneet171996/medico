@@ -23,7 +23,7 @@ public class PatientToken {
     private String token;
 
     @Column(name = "is_logged_in")
-    private Boolean isLoggedIn;
+    private Boolean isLoggedOut;
 
     @ManyToOne
     @JoinColumn(name = "patient_id")

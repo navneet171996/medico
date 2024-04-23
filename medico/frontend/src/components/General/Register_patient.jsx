@@ -85,32 +85,31 @@ const Register_patient = () => {
         </div>
 
         
-        <div className="self-stretch rounded-11xl bg-mediumblue overflow-hidden flex flex-row items-start justify-between py-0 pr-[61px] pl-[81px] gap-[20px] z-[1] mq800:pl-10 mq800:pr-[30px] mq800:box-border mq450:flex-wrap">
-        
-          <div className="h-[74px] w-[131px] flex flex-col items-start justify-end pt-0 px-0 pb-0 box-border">
+        <div className="mb-[-58px] self-stretch rounded-11xl bg-mediumblue overflow-hidden flex flex-row items-start justify-between py-0 pr-[61px] pl-[81px]  z-[1] mq800:pl-10 mq800:pr-[30px] mq800:box-border mq450:flex-wrap">
+          <div className="h-[74px] w-[34px] flex flex-col items-start justify-end pt-0 px-0 pb-0 box-border">
             <div className="mt-[-8px] self-stretch h-[82px] flex flex-col items-start justify-start pt-0 px-0 pb-0 box-border">
-              <div className="mb-[-26px] self-stretch h-[108px] relative text-5xl leading-[125px] font-semibold font-inter text-black text-left flex items-end shrink-0 mq450:text-lgi mq450:leading-[100px]">
-              <Link to="/login" className='no-underline'> Login</Link> 
+              <div className="self-stretch flex flex-row items-start justify-start relative">
+                <div className="h-[60px] w-[263px] absolute my-0 mx-[!important] top-[15px] right-[-119px]" />
+                <div className="mb-[-26px] flex-1 relative text-5xl left-[20px] leading-[90px] font-semibold font-inter text-black text-left z-[1] mq450:text-lgi mq450:leading-[100px]">
+                 <Link to="/loginPatient" className='no-underline text-black '>Login</Link> 
+                </div>
               </div>
             </div>
           </div>
-          <div className="h-[74px] w-[74px] flex flex-col items-start justify-end pt-0 px-0 pb-0 box-border">
-            <div className="mt-[-8px] self-stretch h-[82px] flex flex-col items-start justify-start pt-0 px-0 pb-0 box-border">
-              <div className="self-stretch flex flex-row items-start justify-start relative">
-                <div className="h-[60px] w-[263px] absolute my-0 mx-[!important] top-[15px] right-[-49px] rounded-26xl bg-gray-100" />
-                <div className="mb-[-80px] flex-1 relative right-[30px] text-5xl leading-[90px] font-semibold font-inter text-black text-left z-[1] mq450:text-lgi mq450:leading-[100px]">
-                 <Link className='no-underline text-black '>Register</Link> 
-                </div>
+          <div className="h-[74px] w-[131px] flex flex-col items-start justify-end pt-0 px-0 pb-0 box-border ">
+            <div className="mt-[-8px] self-stretch h-[82px] flex flex-col items-start justify-start pt-0 px-0 pb-0 box-border ">
+              <div className="mb-[-26px] self-stretch h-[108px] relative text-5xl leading-[125px] font-semibold font-inter text-black text-left flex items-end shrink-0 mq450:text-lgi mq450:leading-[100px]">
+              <Link to="/register_patient" className='no-underline text-white font-semibold '> Register</Link> 
               </div>
             </div>
           </div>
         </div>
       </div>
 
-
+      <div className='text-[30px] pt-[60px] underline'>Register Here</div>
       <div className="self-stretch flex flex-col  items-center justify-center max-w-full">
         <div className="flex flex-row items-start justify-start py-0 px-[11px]">
-          <div className="relative text-3xl leading-[100px] font-inter text-black text-left z-[1] mq450:text-lgi mq450:leading-[80px]">
+          <div className="relative text-[18px] leading-[100px] font-normal text-black text-left z-[1] mq450:text-lgi mq450:leading-[80px]">
                 Patient Name
           </div>
         </div>
@@ -129,7 +128,7 @@ const Register_patient = () => {
 
       <div className="self-stretch flex flex-col items-center justify-center max-w-full">
         <div className="flex flex-row items-start justify-start py-0 px-[11px]">
-          <div className="relative text-3xl leading-[100px] font-inter text-black text-left z-[1] mq450:text-lgi mq450:leading-[80px]">
+          <div className="relative text-[18px] leading-[100px] font-normal text-black text-left z-[1] mq450:text-lgi mq450:leading-[80px]">
                Contact Number
           </div>
         </div>
@@ -144,7 +143,7 @@ const Register_patient = () => {
         
         <div className='flex flex-row '>
         <div className="flex flex-row items-center justify-start py-0 px-[11px]">
-          <div className="relative text-3xl leading-[100px] font-inter text-black text-left z-[1] mq450:text-lgi mq450:leading-[80px]">
+          <div className="relative text-[18px] leading-[100px] font-normal text-black text-left z-[1] mq450:text-lgi mq450:leading-[80px]">
                Gender:
           </div>
         </div>
@@ -155,12 +154,12 @@ const Register_patient = () => {
 
         <div className='flex flex-row pb-3 mb-3 pr-[11px] '>
         <div className="flex flex-row items-center justify-start py-0 px-[5px]">
-          <div className="relative text-3xl leading-[-50px] font-inter text-black text-left z-[1] mq450:text-lgi mq450:leading-[80px]">
+          <div className="relative text-[18px] leading-[-50px] font-normal text-black text-left z-[1] mq450:text-lgi mq450:leading-[80px]">
                Blood Group:
           </div>
         </div>
         <div>
-        <Select  defaultValue="Option 1" style={{ width: 120 }} onChange={handleChange}>
+        <Select  defaultValue="A+" style={{ width: 120 }} onChange={handleChange}>
       <Option value="A+">A+</Option>
       <Option value="B+">B+</Option>
       <Option value="A-">A-</Option>
@@ -175,7 +174,7 @@ const Register_patient = () => {
 
         <div className='flex flex-row pb-3 mb-3 pr-[11px] '>
         <div className="flex flex-row items-center justify-start py-0 px-[5px]">
-          <div className="relative text-3xl leading-[-50px] font-inter text-black text-left z-[1] mq450:text-lgi mq450:leading-[80px]">
+          <div className="relative text-[18px] leading-[-50px] font-normal text-black text-left z-[1] mq450:text-lgi mq450:leading-[80px]">
                Date Of Birth:
           </div>
         </div>
@@ -188,23 +187,23 @@ const Register_patient = () => {
 
        <div className='flex flex-row h-[30px]'>
         <div className="flex flex-row items-center justify-start py-0 px-[11px]">
-          <div className="relative text-3xl leading-[100px] font-inter text-black text-left z-[1] mq450:text-lgi mq450:leading-[80px]">
+          <div className="relative text-[18px] leading-[100px] font-normal  text-black text-left z-[1] mq450:text-lgi mq450:leading-[80px]">
                Email ID
           </div>
         </div>
         <div className="   bg-white border-white  flex flex-row items-center justify-start py-[-20px] px-[19px] max-w-full z-[1] border-[1px] border-solid ">
-          <div className="w-[531px] h-[20px] relative bg-gray-500 box-border hidden max-w-full border-[1px] border-solid " />
+          <div className="w-[531px] h-[20px] relative bg-gray-500 box-border hidden max-w-full rounded-sm  " />
           <input   type="email"
            onChange={(e) => setEmail(e.target.value)}
            value={email}
-                    required className="outline-none  text-lg  font-inter text-gray-300 text-left z-[2] mq450:text-lgi mq450:leading-[80px]"/>
+                    required className="outline-none rounded-md  text-lg  font-inter text-gray-300 text-left z-[2] mq450:text-lgi mq450:leading-[80px]"/>
             
         </div>
         </div>
 
         <div className='flex flex-row h-[30px] py-3'>
         <div className="flex flex-row items-center justify-start py-0 px-[11px]">
-          <div className="relative text-3xl leading-[100px] font-inter text-black text-left z-[1] mq450:text-lgi mq450:leading-[80px]">
+          <div className="relative text-[18px] leading-[100px] font-normal text-black text-left z-[1] mq450:text-lgi mq450:leading-[80px]">
                 Password
           </div>
         </div>
@@ -218,7 +217,7 @@ const Register_patient = () => {
         </div>
         </div>
 
-        <div className='flex flex-row h-[30px]  relative right-[40px] '>
+        {/* <div className='flex flex-row h-[30px]  relative right-[40px] '>
         <div className="flex  flex-row items-center justify-start py-0 px-[11px]">
           <div className="relative text-3xl leading-[100px] font-inter text-black text-left z-[1] mq450:text-lgi mq450:leading-[80px]">
                 Confirm Password
@@ -230,7 +229,7 @@ const Register_patient = () => {
                     required className="outline-none  text-lg  font-inter text-gray-300 text-left z-[2] mq450:text-lgi mq450:leading-[80px]"/>
             
         </div>
-        </div>
+        </div> */}
 
         {/* <div className='flex flex-row h-[30px]  relative right-[40px] '>
         <div className="flex  flex-row items-center justify-start py-0 px-[11px]">
@@ -252,7 +251,7 @@ const Register_patient = () => {
 
         
         <Link to="/register_doctor" className='py-3 mt-7 text-black no-underline'>Register as Doctor</Link>
-        <Link to="/register_admin" className='text-black no-underline'>Register as a Admin</Link>
+        {/* <Link to="/register_admin" className='text-black no-underline'>Register as a Admin</Link> */}
       </div>
 
 

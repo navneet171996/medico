@@ -28,6 +28,11 @@ import BookAppointment from './components/Patient/BookAppointment'
 import BookSlot from './components/Patient/BookSlot'
 import BookNow from './components/Patient/BookNow'
 import Success from './components/Patient/Success'
+import Doctor_View from './components/Doctor/Doctor_View'
+import Doctor_History from './components/Doctor/Doctor_History'
+import VideoCallDoc from './components/Doctor/VideoCallDoc'
+import VideoCallPatient from './components/Patient/VideoCallPatient'
+import Appointments from './components/Patient/Appointments'
 // import VideoCall from './components/Patient/video call/VideoCall'
 =======
 import PrivateRoute from '../routes/privateRoutes'
@@ -69,11 +74,14 @@ function App() {
             <Route path='/bookAppointment'   element={ <PrivateRoute  accessBy="authenticated">  <PatientRoutes>  <BookAppointment />  </PatientRoutes> </PrivateRoute>}> </Route>
             <Route path='/checkout'   element={ <PrivateRoute  accessBy="authenticated">  <PatientRoutes>  <BookNow />  </PatientRoutes> </PrivateRoute>}> </Route>
             <Route path='/bookingDone'   element={ <PrivateRoute  accessBy="authenticated">  <PatientRoutes>  <Success />  </PatientRoutes> </PrivateRoute>}> </Route>
+            <Route path='/videoCallPatient'   element={ <PrivateRoute  accessBy="authenticated">  <PatientRoutes>  <VideoCallPatient />  </PatientRoutes> </PrivateRoute>}> </Route>
+            <Route path='/appointments'   element={ <PrivateRoute  accessBy="authenticated">  <PatientRoutes>  <Appointments />  </PatientRoutes> </PrivateRoute>}> </Route>
 
             {/* <Route path='/videoCall'   element={ <PrivateRoute  accessBy="authenticated">  <PatientRoutes>  <VideoCall/>  </PatientRoutes> </PrivateRoute>}> </Route> */}
               <Route path='/doctor'   element={ <PrivateRoute  accessBy="authenticated"> <DoctorRoutes>  <Doctor_Home />  </DoctorRoutes></PrivateRoute> }> </Route>
-          
-         
+              <Route path='/doctor_home'   element={ <PrivateRoute  accessBy="authenticated"> <DoctorRoutes>  <Doctor_View />  </DoctorRoutes></PrivateRoute> }> </Route>
+              <Route path='/doctor_history'   element={ <PrivateRoute  accessBy="authenticated"> <DoctorRoutes>  <Doctor_History />  </DoctorRoutes></PrivateRoute> }> </Route>
+              <Route path='/video_call_doc'   element={ <PrivateRoute  accessBy="authenticated"> <DoctorRoutes>  <VideoCallDoc />  </DoctorRoutes></PrivateRoute> }> </Route>
 
 
           {/* 404 page  */}

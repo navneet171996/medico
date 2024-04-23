@@ -37,19 +37,19 @@ public class CustomLogoutHandler implements LogoutHandler {
         if(authentication.getAuthorities().contains(Role.ADMIN.name())){
             AdminToken adminToken= adminTokenRepository.findAdminTokenByToken(token).orElse(null);
             if(adminToken != null){
-                adminToken.setIsLoggedIn(true);
+                adminToken.setIsLoggedOut(true);
                 adminTokenRepository.save(adminToken);
             }
         }else if(authentication.getAuthorities().contains(Role.DOCTOR.name())){
             DoctorToken doctorToken = doctorTokenRepository.findDoctorTokenByToken(token).orElse(null);
             if(doctorToken != null){
-                doctorToken.setIsLoggedIn(true);
+                doctorToken.setIsLoggedOut(true);
                 doctorTokenRepository.save(doctorToken);
             }
         } else if (authentication.getAuthorities().contains(Role.PATIENT.name())) {
             PatientToken patientToken = patientTokenRepository.findPatientTokenByToken(token).orElse(null);
             if(patientToken != null){
-                patientToken.setIsLoggedIn(true);
+                patientToken.setIsLoggedOut(true);
                 patientTokenRepository.save(patientToken);
             }
 

@@ -79,11 +79,15 @@ public class Doctor implements UserDetails {
     private List<Slots> slots;
 
     @OneToMany(mappedBy = "doctor")
+    @JsonIgnore
     private List<DoctorToken> tokens;
+
+    @OneToOne(mappedBy = "doctor")
+    private Socket socket;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(role.name()));
+        return List.of(new SimpleGrantedAuthority("ROLE_"+role.name()));
     }
 
     @Override

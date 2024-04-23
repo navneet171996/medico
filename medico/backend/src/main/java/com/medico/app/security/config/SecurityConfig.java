@@ -1,5 +1,6 @@
 package com.medico.app.security.config;
 
+import com.medico.app.entities.Role;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -51,6 +52,12 @@ public class SecurityConfig{
                        req -> req
                                .requestMatchers(requestMatchers)
                                .permitAll()
+//                               .requestMatchers("/api/patient/**")
+//                               .authenticated()
+//                               .requestMatchers("/api/doctor/**")
+//                               .authenticated()
+//                               .requestMatchers("/api/admin/**")
+//                               .authenticated()
                                .anyRequest()
                                .authenticated())
                .sessionManagement(

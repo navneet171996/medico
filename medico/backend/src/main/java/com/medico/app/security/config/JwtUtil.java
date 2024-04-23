@@ -44,15 +44,27 @@ public class JwtUtil {
 
     public boolean isValid(String token, UserDetails userDetails){
         String email = extractEmailFromToken(token);
-        Boolean isLoggedOut;
+        boolean isLoggedOut = Boolean.TRUE;
 
-        if(userDetails.getAuthorities().contains(Role.ADMIN.name()))
+        boolean isAdmin = userDetails.getAuthorities().stream()
+                .anyMatch(authority -> authority.getAuthority().equals(Role.ADMIN.name()));
+
+        boolean isDoctor = userDetails.getAuthorities().stream()
+                .anyMatch(authority -> authority.getAuthority().equals(Role.DOCTOR.name()));
+
+        boolean isPatient = userDetails.getAuthorities().stream()
+                .anyMatch(authority -> authority.getAuthority().equals(Role.PATIENT.name()));
+
+        if (isAdmin)
             isLoggedOut = this.isTokenLoggedOut(token, Role.ADMIN);
-        else if(userDetails.getAuthorities().contains(Role.DOCTOR.name()))
+        else if (isDoctor)
             isLoggedOut = this.isTokenLoggedOut(token, Role.DOCTOR);
-        else
+        else if(isPatient)
             isLoggedOut = this.isTokenLoggedOut(token, Role.PATIENT);
-        return email.equals(userDetails.getUsername()) && isTokenExpired(token) && isLoggedOut;
+        System.out.println("1" + email.equals(userDetails.getUsername()));
+        System.out.println("2" + isLoggedOut);
+        System.out.println("3" + isTokenExpired(token));
+        return email.equals(userDetails.getUsername()) && !isTokenExpired(token) && !isLoggedOut;
     }
 
     private boolean isTokenExpired(String token) {
@@ -65,19 +77,19 @@ public class JwtUtil {
             Optional<AdminToken> adminTokenOptional = adminTokenRepository.findAdminTokenByToken(token);
             if(adminTokenOptional.isPresent()){
                 AdminToken adminToken = adminTokenOptional.get();
-                isLoggedOut = adminToken.getIsLoggedIn();
+                isLoggedOut = adminToken.getIsLoggedOut();
             }
         } else if (role == Role.DOCTOR) {
             Optional<DoctorToken> doctorTokenOptional = doctorTokenRepository.findDoctorTokenByToken(token);
             if(doctorTokenOptional.isPresent()){
                 DoctorToken doctorToken = doctorTokenOptional.get();
-                isLoggedOut = doctorToken.getIsLoggedIn();
+                isLoggedOut = doctorToken.getIsLoggedOut();
             }
         } else if (role == Role.PATIENT) {
             Optional<PatientToken> patientTokenOptional = patientTokenRepository.findPatientTokenByToken(token);
             if(patientTokenOptional.isPresent()){
                 PatientToken patientToken = patientTokenOptional.get();
-                isLoggedOut = patientToken.getIsLoggedIn();
+                isLoggedOut = patientToken.getIsLoggedOut();
             }
         }
         return isLoggedOut;

@@ -6,31 +6,30 @@ import AuthContext from "../Context/AuthContext"
 
 
 const PrivateRoute = ({children,accessBy}) => {
+  
 
   const location = useLocation();
   const navigate = useNavigate();
   const { pathname } = location;
-
-    const {user} = useContext(AuthContext)
-
-    if(user){
-    }
+  let token = localStorage.getItem("token")
+  const {user} = useContext(AuthContext)
     
-    if(accessBy==="non-authenticated" && user==null){
+    
+    if(accessBy==="non-authenticated" && token===null){
           if(!user){
             console.log("non-auth called" , user);
             return children;
           }
           else{
             
-            <Navigate to="/login" />
+            <Navigate to="/loginPatient" />
             return null;
           }
           
     }
     else if(accessBy==="authenticated"){
      
-      if(user){
+      if(user||token){
       
          return children;
       }
@@ -40,18 +39,18 @@ const PrivateRoute = ({children,accessBy}) => {
       
     }
     else{
-     if(user.role=="ADMIN"){
-         return  <Navigate to="/admin" />
-     }
-     else if(user.role == "PATIENT"){
-        return <Navigate to="/patient" />
-     }
-     else if(user.role == "DOCTOR"){
-      return <Navigate to="/doctor" />
-   }
-   else{
-    return <Navigate to="/loginPatient" />
-   }
+  //    if(user.role=="ADMIN"){
+  //        return  <Navigate to="/admin" />
+  //    }
+  //    else if(user.role == "PATIENT"){
+  //       return <Navigate to="/patient" />
+  //    }
+  //    else if(user.role == "DOCTOR"){
+  //     return <Navigate to="/doctor" />
+  //  }
+  //  else{
+  //   return <Navigate to="/loginPatient" />
+  //  }
     }
    
 }
