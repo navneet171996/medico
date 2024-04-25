@@ -1,6 +1,7 @@
 package com.medico.app.services;
 
 import com.medico.app.dto.AcceptDoctorDto;
+import com.medico.app.dto.AssignJrDoctorDto;
 import com.medico.app.entities.Admin;
 import com.medico.app.entities.Doctor;
 import com.medico.app.repositories.AdminRepository;
@@ -53,5 +54,15 @@ public class AdminService {
             return String.format("Doctor %s is accepted", doctor.getDocName());
         }
         return String.format("Doctor %s is rejected", doctor.getDocName());
+    }
+
+    public String assignJrDoctorsToSrDoctor(AssignJrDoctorDto assignJrDoctorDto) {
+        Doctor srDoctor = doctorRepository.findById(assignJrDoctorDto.getSrDoctorId()).orElseThrow();
+        assignJrDoctorDto.getJrDoctorIds().forEach(jrDoctorId -> {
+            Doctor doctor = doctorRepository.findById(jrDoctorId).orElseThrow();
+            doctor.setSrDoctor(srDoctor);
+            doctorRepository.save(doctor);
+        });
+        return "Assigned doctors successfully";
     }
 }
