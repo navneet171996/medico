@@ -1,59 +1,78 @@
-
-import { useNavigate,useLocation } from "react-router-dom"
+import { useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import { Navigate } from 'react-router-dom';
-import { useContext } from "react"
-import AuthContext from "../Context/AuthContext"
-import { redirect } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
+import { Spin } from 'antd';
 
-
-const PrivateRoute = ({children,accessBy}) => {
-  
-
-  const location = useLocation();
+const PrivateRoute = ({ children, accessBy }) => {
+  const [decodedToken, setDecodedToken] = useState(null);
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+  const location = useLocation();
   const { pathname } = location;
-  let token = localStorage.getItem("token")
-  const {user} = useContext(AuthContext)
-    
-    
-    if(accessBy==="non-authenticated" && token===null){
-          if(!user){
-            console.log("non-auth called" , user);
-            return children;
-          }
-          else{
-            
-            <Navigate to="/loginPatient" />
-            return null;
-          }
-          
-    }
-    else if(accessBy==="authenticated"){
-     
-      if(user||token){
-      
-         return children;
-      }
-      else{
-        return <Navigate to="/loginPatient" />;
-      }
-      
-    }
-    else{
-  //    if(user.role=="ADMIN"){
-  //        return  <Navigate to="/admin" />
-  //    }
-  //    else if(user.role == "PATIENT"){
-  //       return <Navigate to="/patient" />
-  //    }
-  //    else if(user.role == "DOCTOR"){
-  //     return <Navigate to="/doctor" />
-  //  }
-  //  else{
-  //   return <Navigate to="/loginPatient" />
-  //  }
-    }
-   
-}
 
-export default PrivateRoute
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const userProfileString = localStorage.getItem("userProfile");
+        if (userProfileString) {
+          const userProfile = JSON.parse(userProfileString);
+          if (userProfile && userProfile.token) {
+            const decoded = jwtDecode(userProfile.token);
+            console.log("Decoded token:", decoded);
+            setDecodedToken(decoded);
+          } else {
+            setDecodedToken(null); // If token is removed from local storage (e.g., after logging out)
+          }
+        } else {
+          setDecodedToken(null);
+        }
+      } catch (error) {
+        console.error("Error decoding token:", error);
+        setDecodedToken(null);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [pathname]); // Refetch token when pathname changes (e.g., after logging out)
+
+  if (loading) {
+    return <Spin />;
+  }
+
+  console.log("Accessing route:", pathname);
+
+  if (accessBy === "non-authenticated" && decodedToken === null) {
+    console.log("Non-authenticated route");
+    return children;
+  } else if (accessBy === "authenticated") {
+    if (decodedToken) {
+      console.log("Authenticated route entered by");
+      console.log("Decoded token:", decodedToken);
+      return children;
+    } else {
+      return <Navigate to="/loginPatient" />;
+    }
+  } else {
+    if (decodedToken) {
+      switch (decodedToken.role) {
+        case "ADMIN":
+          return <Navigate to="/admin" />;
+        case "PATIENT":
+          return <Navigate to="/patient" />;
+        case "DOCTOR":
+          return <Navigate to="/doctor" />;
+        default:
+          localStorage.clear();
+          return <Navigate to="/loginPatient" />;
+      }
+    } else {
+      localStorage.clear();
+      return <Navigate to="/loginPatient" />;
+    }
+  }
+};
+
+export default PrivateRoute;
