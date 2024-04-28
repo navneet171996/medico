@@ -4,10 +4,11 @@ import { useContext } from 'react'
 const Header = () => {
    const {logoutAPICall} = useContext(AuthContext)
   return (
-    <div className="self-stretch flex flex-row items-start justify-start gap-[0px_5px] top-[0] z-[99] sticky max-w-full">
-        <div className="flex-1 rounded-8xs bg-neutral-colors-white flex flex-row items-center justify-start p-[23px] box-border gap-[10px] max-w-full">
-          <div className="h-[62px] w-[980px] relative rounded-8xs bg-neutral-colors-white hidden max-w-full" />
-         
+    <div className="self-stretch  flex flex-row items-start justify-start gap-[0px_5px] top-[0] z-[99]  max-w-full">
+        <div className="flex-1 rounded-8xs bg-neutral-colors-white flex flex-row items-center  box-border  max-w-full">
+          <div className=" text-center   w-[980px] relative rounded-8xs bg-blue-600 hidden max-w-full" />
+            {/* <div className='text-center relative left-[50%] bottom-5 font-bold text-[30px]'>Medico</div> */}
+            <img className='bg-blue-500 relative left-[50%] bottom-5 rounded-full h-[100px] shadow-[0_20px_50px_rgba(8,_112,_184,_0.7)] ' src="/logo.png" alt="" />
         </div>
         <div className="w-[204px] flex flex-row items-center justify-between gap-[20px]">
           <div className="h-[60px] w-[140px] relative">
@@ -20,7 +21,7 @@ const Header = () => {
                 src="/ellipse-58@2x.png"
               />
             </div>
-            <div className="absolute top-[20px] left-[0px] w-[82px] flex flex-col items-start justify-start">
+            <div className="absolute top-[20px] left-[0px] w-[82px] flex flex-col items-start justify-start ">
               <div className="self-stretch h-[17px] flex flex-row items-start justify-start pt-0 px-0 pb-0 box-border">
                 <b className="mb-[-3px] h-[19.5px] flex-1 relative inline-block whitespace-nowrap">
                   {/* {patient.firstName} <span> </span> {patient.lastName} */}
