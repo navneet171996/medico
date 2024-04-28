@@ -3,8 +3,13 @@ import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 const AuthContext = createContext({})
 import { useNavigate } from "react-router-dom";
+import { notification,message } from 'antd';
+import { Spin } from 'antd';
 
 export const AuthContextProvider = ({children}) =>{
+
+  
+
     const navigate = useNavigate()
     const [specialization,setSpecialization] = useState([])
     const [hospitals,setHospitals] = useState([]);
@@ -16,14 +21,39 @@ export const AuthContextProvider = ({children}) =>{
     const [docId,setDocId] = useState(0)
     const [slots,setSlots]=useState()
     const [spec,setSpec] = useState([])
-   const [user, setUser] = useState(() => {
-    let userProfle = localStorage.getItem("userProfile");
-    if (userProfle) {
-      const decodedToken = jwtDecode(JSON.parse(userProfle).token);
-      return decodedToken;
-    }
-    return null;
-  });
+    const [docProfile,setDocProfile] = useState([])
+    const [docConsultation,setDocConsultation]=useState([])
+    const [success,setSuccess] = useState(false)
+   const [user, setUser] = useState()
+   const [loading, setLoading] = useState(false);
+
+   
+  const loginApiCallDoctor = async (payload) => {
+    setLoading(true);
+        try {
+            let apiResponse = await axios.post("http://localhost:8081/api/auth/loginDoctor",payload);
+    
+            console.log("Api response "+apiResponse);
+            localStorage.setItem("userProfile", JSON.stringify(apiResponse.data));
+            localStorage.setItem('token', (apiResponse.data.token))
+            console.log("The token is test "+localStorage.getItem('token'));
+        
+            let userProfle = localStorage.getItem("userProfile");
+            if (userProfle) {
+              setSuccess(true)
+              const decodedToken = jwtDecode(JSON.parse(userProfle).token);
+              console.log("here",decodedToken);
+              setUser(decodedToken);
+              navigate('/doctor')
+            }
+        } catch (error) {
+            console.error("Login failed:", error);
+            message.error("Login failed. Please check your credentials.");
+        }
+        setLoading(false);
+    
+   };
+ 
    const loginApiCallAdmin = async (payload) => {
     // await axios.post("http://localhost:8081/api/auth/login", payload);
     console.log(payload);
@@ -31,22 +61,18 @@ export const AuthContextProvider = ({children}) =>{
     console.log("Api response "+apiResponse);
     localStorage.setItem("userProfile", JSON.stringify(apiResponse.data));
     localStorage.setItem('token', (apiResponse.data.token))
-    console.log("The token is "+localStorage.getItem('token'));
-    setUser(apiResponse.data);
-    navigate('/admin')
+    console.log("The token is test "+localStorage.getItem('token'));
+    let userProfle = localStorage.getItem("userProfile");
+    if (userProfle) {
+      const decodedToken = jwtDecode(JSON.parse(userProfle).token);
+      console.log("here",decodedToken);
+      setUser(decodedToken);
+      navigate('/admin')
+    }
+   
   };
 
-  const loginApiCallDoctor = async (payload) => {
-    // await axios.post("http://localhost:8081/api/auth/login", payload);
-    let apiResponse = await axios.post("http://localhost:8081/api/auth/loginDoctor",payload);
-    console.log("Api response "+apiResponse);
-    localStorage.setItem("userProfile", JSON.stringify(apiResponse.data));
-    localStorage.setItem('token', (apiResponse.data.token))
-    console.log("The token is "+localStorage.getItem('token'));
-    setUser(apiResponse.data);
-    navigate('/doctor')
-  };
-
+ 
   const registerAdmin = async(payload) =>{
     console.log(payload);
         let apiResponse = await axios.post("http://localhost:8081/api/auth/registerAdmin",payload);
@@ -58,6 +84,7 @@ export const AuthContextProvider = ({children}) =>{
     localStorage.removeItem("userProfile");
     setUser(null);
     localStorage.clear()
+    setSuccess(false)
     navigate("/loginPatient");
   };
 
@@ -105,9 +132,13 @@ export const AuthContextProvider = ({children}) =>{
     console.log(apiResponse);
     localStorage.setItem("userProfile", JSON.stringify(apiResponse.data));
     localStorage.setItem('token', (apiResponse.data.token))
-    console.log("The token is "+localStorage.getItem('token'));
-    setUser(apiResponse.data);
-    navigate('/patient')
+    let userProfle = localStorage.getItem("userProfile");
+    if (userProfle) {
+      const decodedToken = jwtDecode(JSON.parse(userProfle).token);
+      setUser(decodedToken);
+      navigate('/patient')
+    }
+    
   };
 
 
@@ -175,12 +206,26 @@ export const AuthContextProvider = ({children}) =>{
   //     setSpecialization(jwtDecode(specializationDetails))
   //}
 
+  //Doctor pages endpoint calls
+  const getDoctorProfile= async()=>{
+       const profile = JSON.parse(localStorage.getItem("userProfile"));
+       const id = profile.id
+       let apiResponse = await axios.get(`http://localhost:8081/api/doctor/getDoctorDetails/${id}`)
+       setDocProfile(apiResponse.data)
+  }
+
+  const getDocConsultation=async()=>{
+    const profile = JSON.parse(localStorage.getItem("userProfile"));
+    const id = profile.id
+    let apiResponse = await axios.get(`http://localhost:8081/api/doctor/getAllConsultationOfDoc/${id}`);
+    setDocConsultation(apiResponse.data)
+  }
 
 
+ 
     
-    
 
-    return <AuthContext.Provider value={{docId,slots,appointment,consultation,getConsultation,docDetails,getDoctorDetails,sortDoctorByPrice,doctorBySpecialization,doctorList1,spec,getSepecificSpecialization,specializationId,setSpecializationId,patientProfile,hospitals,getAllHospitals,getPatientDetails,registerPatient,loginApiCallAdmin,loginApiCallDoctor,loginApiCallPatient,user,logoutAPICall,getSpecialization,specialization,registerAdmin}}>{children}</AuthContext.Provider>
+    return <AuthContext.Provider value={{success, getDocConsultation,docConsultation,docProfile,getDoctorProfile,docId,slots,appointment,consultation,getConsultation,docDetails,getDoctorDetails,sortDoctorByPrice,doctorBySpecialization,doctorList1,spec,getSepecificSpecialization,specializationId,setSpecializationId,patientProfile,hospitals,getAllHospitals,getPatientDetails,registerPatient,loginApiCallAdmin,loginApiCallDoctor,loginApiCallPatient,user,logoutAPICall,getSpecialization,specialization,registerAdmin}}>{children}</AuthContext.Provider>
 
    
 }

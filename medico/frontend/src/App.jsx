@@ -27,6 +27,14 @@ import BookAppointment from './components/Patient/BookAppointment'
 import BookSlot from './components/Patient/BookSlot'
 import BookNow from './components/Patient/BookNow'
 import Success from './components/Patient/Success'
+import Doctor_View from './components/Doctor/Doctor_View'
+import Doctor_History from './components/Doctor/Doctor_History'
+import VideoCallDoc from './components/Doctor/VideoCallDoc'
+import VideoCallPatient from './components/Patient/VideoCallPatient'
+import Appointments from './components/Patient/Appointments'
+import Landing2 from './components/General/Landing2'
+import DocDet from './components/Patient/DocDet'
+import EnterHospital from './components/Patient/EnterHospital'
 // import VideoCall from './components/Patient/video call/VideoCall'
 
 function App() {
@@ -44,13 +52,14 @@ function App() {
 
         
             <>
-            <Route path="/" element={ <PrivateRoute  accessBy="non-authenticated"><Landing /></PrivateRoute>} />
+            <Route path="/" element={ <PrivateRoute  accessBy="non-authenticated"><Landing2 /></PrivateRoute>} />
               <Route path="/login" element={<PrivateRoute  accessBy="non-authenticated"><Login /></PrivateRoute>} />
               <Route path="/loginPatient" element={<PrivateRoute  accessBy="non-authenticated"><Login_Patient /></PrivateRoute>} />
               <Route path="/loginDoctor" element={<PrivateRoute  accessBy="non-authenticated"><Login_Doctor /></PrivateRoute>} />
               <Route path="/register_patient" element={<PrivateRoute  accessBy="non-authenticated"><Register_patient /></PrivateRoute>} />
               <Route path="/register_doctor" element={<PrivateRoute  accessBy="non-authenticated"><Regiester_doctor /></PrivateRoute>} />
               <Route path="/register_admin" element={<PrivateRoute  accessBy="non-authenticated"><Register_admin /></PrivateRoute>} />
+
             </>
         
           {/* protected Routes */}
@@ -65,11 +74,17 @@ function App() {
             <Route path='/bookAppointment'   element={ <PrivateRoute  accessBy="authenticated">  <PatientRoutes>  <BookAppointment />  </PatientRoutes> </PrivateRoute>}> </Route>
             <Route path='/checkout'   element={ <PrivateRoute  accessBy="authenticated">  <PatientRoutes>  <BookNow />  </PatientRoutes> </PrivateRoute>}> </Route>
             <Route path='/bookingDone'   element={ <PrivateRoute  accessBy="authenticated">  <PatientRoutes>  <Success />  </PatientRoutes> </PrivateRoute>}> </Route>
+            <Route path='/videoCallPatient'   element={ <PrivateRoute  accessBy="authenticated">  <PatientRoutes>  <VideoCallPatient />  </PatientRoutes> </PrivateRoute>}> </Route>
+            <Route path='/appointments'   element={ <PrivateRoute  accessBy="authenticated">  <PatientRoutes>  <Appointments />  </PatientRoutes> </PrivateRoute>}> </Route>
+            <Route path='/details'   element={ <PrivateRoute  accessBy="authenticated">  <PatientRoutes>  <DocDet />  </PatientRoutes> </PrivateRoute>}> </Route>
+            <Route path='/hospital'   element={ <PrivateRoute  accessBy="authenticated">  <PatientRoutes>  <EnterHospital />  </PatientRoutes> </PrivateRoute>}> </Route>
+
 
             {/* <Route path='/videoCall'   element={ <PrivateRoute  accessBy="authenticated">  <PatientRoutes>  <VideoCall/>  </PatientRoutes> </PrivateRoute>}> </Route> */}
               <Route path='/doctor'   element={ <PrivateRoute  accessBy="authenticated"> <DoctorRoutes>  <Doctor_Home />  </DoctorRoutes></PrivateRoute> }> </Route>
-          
-         
+              <Route path='/doctor_home'   element={ <PrivateRoute  accessBy="authenticated"> <DoctorRoutes>  <Doctor_View />  </DoctorRoutes></PrivateRoute> }> </Route>
+              <Route path='/doctor_history'   element={ <PrivateRoute  accessBy="authenticated"> <DoctorRoutes>  <Doctor_History />  </DoctorRoutes></PrivateRoute> }> </Route>
+              <Route path='/video_call_doc'   element={ <PrivateRoute  accessBy="authenticated"> <DoctorRoutes>  <VideoCallDoc />  </DoctorRoutes></PrivateRoute> }> </Route>
 
 
           {/* 404 page  */}

@@ -31,8 +31,8 @@ const DoctorCard = ( doctor,propWidth) => {
       }
   return (
     <>
-      <div className="w-[392px] rounded-3xl bg-gray-200 flex flex-col items-center justify-start pt-6 pb-[50px] pr-[23px] pl-6 box-border gap-[24px] max-w-full z-[1] text-left text-5xl text-mediumpurple-200 font-text-single-200-regular mq750:pt-5 mq750:pb-8 mq750:box-border">
-      <div className="w-[391.8px] h-[506px] relative rounded-3xl bg-gray-200 hidden max-w-full" />
+      <div className="w-[392px] rounded-3xl bg-slate-300 flex flex-col items-center justify-start pt-6 pb-[50px] pr-[23px] pl-6 box-border gap-[24px] max-w-full z-[1] text-left text-5xl text-mediumpurple-200 font-text-single-200-regular mq750:pt-5 mq750:pb-8 mq750:box-border">
+      <div className="w-[391.8px] h-[506px] relative rounded-3xl bg-gray-100 hidden max-w-full" />
       <img
         className="w-5 h-5 relative overflow-hidden shrink-0 hidden"
         alt=""
@@ -67,7 +67,7 @@ const DoctorCard = ( doctor,propWidth) => {
               {doctor.doctor.hospital.hospitalName}
             </div>
             <div className='rating position bottom-10'>
-            <Rate disabled defaultValue={2} style={{ color: '#9370DB' }} />
+            <Rate disabled value={doctor.doctor.rating ?? 0}  style={{ color: '#9370DB' }} />
             </div>
             <div className='rating '>
             <span style={fontStyle} className='text-[35px] font-bold '>₹</span>  <span className='text-black text-[20px] pb-3'>{doctor.doctor.rate} </span>

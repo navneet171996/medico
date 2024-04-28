@@ -1,53 +1,131 @@
-import Card from "./Card";
+
 import { useEffect,useState } from "react";
-import { Carousel } from "antd";
+import { makeStyles } from "@material-ui/core/styles";
+import { Card, CardContent, Button, Typography } from "@material-ui/core";
 import AuthContext from "../../../Context/AuthContext";
 import { useContext } from "react";
 import { Link } from "react-router-dom";
+import './CustomScrollbar.css';
+import { useNavigate } from "react-router-dom";
+import { CaretDownOutlined } from '@ant-design/icons';
+import { LeftOutlined, RightOutlined } from '@ant-design/icons';
+import { Spin } from 'antd';
+const useStyles = makeStyles((theme) => ({
+  root: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: theme.spacing(0),
+    minHeight: "80vh", // Ensure the background covers the entire viewport height
+    backgroundImage: 'url("/doctor-s-hand-holding-stethoscope-closeup.jpg")', // Add your image path here
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    paddingRight: 80,
+    width:"full"
+  },
+  carouselContainer: {
+    maxWidth: 800, // Adjusted width to reduce the size of the carousel
+    overflow: "hidden",
+    position: "relative", // Added relative positioning
+    marginRight: 40
+  },
+  carousel: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    marginLeft: -20, // Shift carousel 20px to the left
+  },
+  card: {
+    minWidth: 400, // Adjusted width to reduce the size of the card
+    maxWidth: 240,
+    maxHeight:400,
+    minHeight:200,
+    margin: theme.spacing(1), // Reduce margin
+    padding: theme.spacing(1), // Reduce padding
+    textAlign: "center",
+    boxShadow: "rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px",
+    transition: "transform 0.3s ease",
+    borderRadius: 16,
+    backgroundColor: "#4299E1",
+    color:"white"
+  },
+  buttonsContainer: {
+    position: "absolute",
+    top: "50%",
+    transform: "translateY(-50%)",
+    width: "100%",
+    display: "flex",
+    justifyContent: "space-between",
+    paddingLeft: 20, // Adjusted padding to account for the left shift
+    paddingRight: 20, // Adjusted padding to account for the left shift
+  },
+  buttons: {
+    backgroundColor: "transparent",
+    border: "none",
+    outline: "none",
+    cursor: "pointer",
+    fontSize: "1.5rem",
+    color: "black",
+  },
+  boldText: {
+    fontWeight: "bold",
+    fontFamily: '"Alfa Slab One", serif !important'
+  },
+}));
 
 const ContentCardsV = () => {
-  const {getSpecialization} = useContext(AuthContext)
-  const {specialization} = useContext(AuthContext)
-  useEffect(()=>{
-  getSpecialization()
-  // console.log(specialization[0].specialityName);
+  const [index, setIndex] = useState(0);
+  const classes = useStyles();
+  const navigate = useNavigate();
+  const { getSpecialization } = useContext(AuthContext);
+  const { specialization } = useContext(AuthContext);
+
+  const callSpecialization = (specializationId) =>{
+    localStorage.setItem('sId',specializationId)
+    console.log("The id we are setting is  "+specializationId);
+    navigate("/specialization");
+}
+
+
+  useEffect(() => {
+    getSpecialization();
   }, []);
-  
-  const [showMore, setShowMore] = useState(false);
-  const toggleShowMore = () => {
-    setShowMore(!showMore);
+
+  const handleNext = () => {
+    setIndex((prevIndex) => (prevIndex === (specialization?.length ?? 0) - 1 ? 0 : prevIndex + 1));
   };
-  const visibleSpecializations = showMore ? specialization : specialization.slice(0, 6);
+
+  const handlePrev = () => {
+    setIndex((prevIndex) => (prevIndex === 0 ? (specialization?.length ?? 0) - 1 : prevIndex - 1));
+  };
 
   return (
-    <div className="self-stretch bg-neutral-colors-white overflow-hidden flex flex-row items-center justify-center max-w-full text-center text-17xl text-mediumpurple-200 font-text-single-200-regular">
-        <div className="flex-1 bg-whitesmoke-300 flex flex-col items-center justify-start pt-[50px] px-5  box-border gap-[60px] max-w-full mq750:gap-[60px] mq750:pt-[63px] mq750:pb-[65px] mq750:box-border mq1275:pt-[97px] mq1275:pb-[100px] mq1275:box-border mq450:pt-[41px] mq450:pb-[42px] mq450:box-border">
-        <div className="w-[1440px] h-[1522px] relative bg-whitesmoke-300 hidden max-w-full" />
-        <div className="w-[614px] flex flex-col items-center justify-start gap-[16px_0px] max-w-full">
-          <h1 className="m-0 relative text-inherit leading-[46px] font-bold font-inherit inline-block max-w-full z-[1] mq750:text-10xl mq750:leading-[37px] mq450:text-3xl mq450:leading-[28px]">{`Services we provide `}</h1>
-          <div className="self-stretch relative text-lg leading-[30px] text-dimgray z-[1]">{`We offer comprehensive medical services tailored to your needs, ensuring personalized care and attention `}</div>
+    <>
+    <div className="w-full pl-[70px] flex flex-col justify-center  bg-white">
+     <div  className="text-center text-[20px] py-[20px] text-white font-extrabold bg-blue-500">Specializations we have</div>
+      <div className={classes.root} >
+        <div className={classes.carousel}>
+              <Button onClick={handlePrev} className={classes.buttons}>
+        <LeftOutlined />
+      </Button>
+
+          {specialization && specialization.length > 0 && (
+            <Card className={classes.card}>
+              <CardContent className="relative text-white">
+              <Typography variant="h6" className="{classes.boldText}"><span style={{ fontFamily: '"Alfa Slab One", serif' }} className="text-white text-[30px] uppercase tracking-wider ">{specialization[index]?.specialityName} </span></Typography>
+              <Typography variant="body1" className="{classes.boldText}"><span className="text-white font-bold">{specialization[index]?.description}</span></Typography>
+              <Button onClick={()=>callSpecialization(specialization[index].specialityId)}  variant="contained" className="relative top-[10px]" color="primary"><span className="font-bold"> Explore </span></Button>
+            </CardContent>
+            </Card>
+          )}
+         <Button onClick={handleNext} className={classes.buttons}>
+  <RightOutlined />
+</Button>
         </div>
-        <div className="w-[1220px] max-w-full">
-        <Carousel  centerPadding="60px" slidesToShow={3}>
-          {Array.isArray(visibleSpecializations) && visibleSpecializations.map((speciality, index) => (
-            <div key={index}>
-              <Card
-                container='/container-1@2x.png'
-                imageIcon="pending_2420:353"
-                cardHeading={speciality.specialityName}
-                propWidth="unset"
-                specialityId = {speciality.specialityId}
-              />
-            </div>
-          ))}
-        </Carousel>
-        <Link className="text-black pt-3 ">
-        <div className="mt-2 mr-5 text-[15px] border-4 border-whitesmoke-300  border-solid float-right hover:bg-blue-400 hover:text-white px-2 py-2 bg-whitesmoke-100  ">View All Specializations</div>
-        </Link>
       </div>
       </div>
-      
-    </div>
+    </>
   );
 };
 

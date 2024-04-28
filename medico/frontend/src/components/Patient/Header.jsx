@@ -7,16 +7,7 @@ const Header = () => {
     <div className="self-stretch flex flex-row items-start justify-start gap-[0px_5px] top-[0] z-[99] sticky max-w-full">
         <div className="flex-1 rounded-8xs bg-neutral-colors-white flex flex-row items-center justify-start p-[23px] box-border gap-[10px] max-w-full">
           <div className="h-[62px] w-[980px] relative rounded-8xs bg-neutral-colors-white hidden max-w-full" />
-          <img
-            className="h-3.5 w-3.5 relative object-cover z-[1]"
-            alt=""
-            src="/icon@2x.png"
-          />
-          <input
-            className="w-[35px] [border:none] [outline:none] font-nunito text-xs bg-[transparent] h-4 relative text-navy-200 text-left inline-block z-[1]"
-            placeholder="Search"
-            type="text"
-          />
+         
         </div>
         <div className="w-[204px] flex flex-row items-center justify-between gap-[20px]">
           <div className="h-[60px] w-[140px] relative">
@@ -35,7 +26,7 @@ const Header = () => {
                   {/* {patient.firstName} <span> </span> {patient.lastName} */}
                 </b>
               </div>
-              <button onClick={()=>{logoutAPICall()}} className="bg-white cursor-pointer w-16 relative text-3xs font-light inline-block box-border whitespace-nowrap pr-5">
+              <button onClick={()=>{logoutAPICall()}} className="bg-white font-bold cursor-pointer w-16 relative text-3xs  inline-block box-border whitespace-nowrap pr-5">
                 Log out
               </button>
             </div>

@@ -5,12 +5,75 @@ import { useContext } from 'react';
 import AuthContext from '../../../Context/AuthContext';
 import axios from 'axios';
 import jwtInterceptor from '../../../helper/jwtInterceptor';
+import { CoffeeOutlined } from '@ant-design/icons';
 const Patient_Home = () => {
   const [messageIconChecked, setMessageIconChecked] = useState(true);
   const {patientProfile} = useContext(AuthContext)
   const {getPatientDetails} = useContext(AuthContext)
   const [patient, setPatient] = useState([]);
  const {logoutAPICall} = useContext(AuthContext)
+ const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+ const [editedDetails, setEditedDetails] = useState({
+   
+   editName:'',
+   editBloodGroup:'',
+   editPhone:''
+  
+ });
+
+ const openEditModal = () => {
+  const heroElement = document.getElementById("hero");
+    if (heroElement) {
+      heroElement.style.visibility = "hidden";
+    }
+  // Fetch patient details or set existing details to editedDetails state
+  setEditedDetails({
+  editName:patientProfile.patName,
+   editBloodGroup: patientProfile.patBloodGroup,
+   editPhone:patientProfile.patPhoneNo
+    // Set other fields as needed
+  });
+  
+  setIsEditModalOpen(true);
+  console.log(isEditModalOpen);
+};
+
+    const closeEditModal = async() => {
+      
+      setIsEditModalOpen(false);
+      const heroElement = document.getElementById("hero");
+    if (heroElement) {
+      heroElement.style.visibility = "visible";
+    }
+    };
+
+    const handleInputChange = (e) => {
+      const { name, value } = e.target;
+      setEditedDetails({ ...editedDetails, [name]: value });
+    };
+
+    const handleEdit = async(e) => {
+      e.preventDefault();
+     
+      setEditedDetails({
+        editName: '',
+        editBloodGroup: '',
+        editPhone: '',
+      });
+
+      let payload = {
+          patientId:patientProfile.patientId,
+          patName:editedDetails.editName,
+          patBloodGroup:editedDetails.editBloodGroup,
+          patPhoneNo:editedDetails.editPhone
+      }
+      let res = await axios.post("http://localhost:8081/api/patient/editPatientDetails",payload)
+      console.log(res);
+      closeEditModal();
+
+    };
+
+
   useEffect(() => {
       getPatientDetails();
   }, []);
@@ -18,8 +81,8 @@ const Patient_Home = () => {
     <>
     
     
-    <div className="w-full relative bg-whitesmoke-400 overflow-hidden flex flex-row items-start justify-start gap-[0px_32px] tracking-[normal] mq750:gap-[0px_32px] mq1025:pl-5 mq1025:pr-5 mq1025:box-border">
-      <div className="h-[1186px] flex flex-col items-center justify-center py-0 pr-0 pl-1 box-border mq1025:hidden">
+    <div id='hero' className="w-full relative bg-whitesmoke-400 overflow-hidden flex flex-row items-start justify-start gap-[0px_32px] tracking-[normal] mq750:gap-[0px_32px] mq1025:pl-5 mq1025:pr-5 mq1025:box-border">
+      <div className="h-[1186px] flex flex-col items-center justify-center py-0 pr-0  box-border mq1025:hidden">
         <div className="flex-1 flex flex-row items-start justify-start relative">
           <div className="h-12 w-[82px] absolute my-0 mx-[!important] top-[234px] left-[-4px]">
             <div className="absolute top-[0px] left-[0px] rounded-tl-none rounded-tr-8xs rounded-br-8xs rounded-bl-none [background:linear-gradient(90deg,_rgba(236,_13,_255,_0.2)_60%,_rgba(255,_255,_255,_0))] w-full h-full z-[1]" />
@@ -30,9 +93,9 @@ const Patient_Home = () => {
               src="/person.svg"
             />
           </div>
-          <nav className="m-0 self-stretch bg-mediumpurple-200 flex flex-col items-center justify-start py-[193px] pr-[92px] pl-[37px] gap-[33px_0px] text-left text-base text-gray-1100 font-nunito mq750:pt-[125px] mq750:pb-[125px] mq750:box-border">
-      <div className="w-[218px] h-[1186px] relative bg-mediumpurple-200 hidden" />
-      <div className="flex flex-row items-start justify-start py-0 pr-2 pl-1">
+          <nav className="m-0 self-stretch bg-gradient-to-r from-sky-500 to-indigo-500 flex flex-col items-center justify-start py-[193px] pr-[92px] pl-[37px] gap-[33px_0px] text-left text-base text-gray-1100 font-nunito mq750:pt-[125px] mq750:pb-[125px] mq750:box-border sticky top-0">
+      <div className="w-[218px] h-[1186px] relative bg-mediumpurple-200 hidden " />
+      <div className="flex flex-row items-start justify-start py-0 pr-2 sticky top-0 ">
         <div className="flex flex-row items-start justify-start gap-[0px_13px]">
           <img
             className="h-[17px] w-5 relative z-[1]"
@@ -45,6 +108,10 @@ const Patient_Home = () => {
       </div>
       <div className="flex flex-row items-start justify-start py-0 pr-1 pl-[37px] text-text">
         <Link to="#" className="relative font-semibold z-[1] no-underline text-black">Profile</Link>
+      </div>
+      <div className="flex flex-row items-start justify-start py-0 pr-1 pl-[37px] text-text">
+     
+        <Link to="/Appointments" className="relative font-semibold z-[1] no-underline text-black"> Upcoming</Link>
       </div>
       <div className="flex flex-row items-center justify-start gap-[0px_13px]">
         <img
@@ -89,7 +156,7 @@ const Patient_Home = () => {
             <div className="absolute top-[20px] left-[0px] w-[82px] flex flex-col items-start justify-start">
               <div className="self-stretch h-[17px] flex flex-row items-start justify-start pt-0 px-0 pb-0 box-border">
                 <b className="mb-[-3px] h-[19.5px] flex-1 relative inline-block whitespace-nowrap">
-                  {patientProfile.patName} <span> </span> {getPatientDetails.lastName}
+                  {patientProfile.patName} 
                 </b>
               </div>
               <button onClick={()=>{logoutAPICall()}} className="bg-white cursor-pointer w-16 relative text-3xs font-light inline-block box-border whitespace-nowrap pr-5">
@@ -132,20 +199,22 @@ const Patient_Home = () => {
         </div>
         <div className="absolute top-[308px] left-[215px] w-[882px] flex flex-row items-center justify-between gap-[20px] max-w-full mq450:flex-wrap">
           <h2 className="m-0 h-[61.7px] w-[238.9px] relative text-inherit font-bold font-inherit inline-block shrink-0 z-[1] mq1025:text-5xl mq450:text-lg">
-          {patient.firstName} <span> </span> {patient.lastName}
+          {patientProfile.patName} 
           </h2>
           <div className="flex flex-col items-start justify-start pt-[5px] px-0 pb-0">
             <button className="cursor-pointer py-3 pr-[42px] pl-[45px] bg-[transparent] rounded-3xs flex flex-row items-center justify-center whitespace-nowrap z-[1] border-[1px] border-solid border-mediumpurple-200 hover:bg-slateblue-200 hover:box-border hover:border-[1px] hover:border-solid hover:border-slateblue-100">
               <div className="h-[44.7px] w-[172px] relative rounded-3xs box-border hidden border-[1px] border-solid border-mediumpurple-200" />
-              <div className="relative text-base font-semibold font-nunito text-mediumpurple-200 text-left z-[2]">
+              <div onClick={openEditModal} className="relative text-base font-semibold font-nunito text-mediumpurple-200 text-left z-[2]">
                 Edit Profile
               </div>
             </button>
+           
           </div>
         </div>
       </div>
+
     </div>
-    <div className="w-[1117px] flex flex-row items-start justify-start py-0 pr-5 pl-0 box-border gap-[0px_75px] max-w-full text-left text-base text-navy-200 font-nunito mq750:gap-[0px_75px] mq1025:flex-wrap mq1125:gap-[0px_75px]">
+    <div style={{fontFamily: '"Platypi", serif'}} className="w-[1117px] flex flex-row items-start justify-start py-0 pr-5 pl-0 box-border gap-[0px_75px] max-w-full text-left text-base text-navy-200 font-nunito mq750:gap-[0px_75px] mq1025:flex-wrap mq1125:gap-[0px_75px]">
       <div className="h-[399px] w-[260px] rounded-3xs bg-neutral-colors-white flex flex-col items-start justify-start  pb-[80px] pr-0.5 pl-[22px] box-border gap-[20px] min-w-[260px] mq1025:flex-1 mq450:pt-[25px] mq450:pb-[34px] mq450:box-border">
         <div className="w-[260px] h-[399px] relative rounded-3xs bg-neutral-colors-white hidden" />
         <div className="h-7 flex flex-row items-start justify-start pt-0 px-[3px] pb-2 box-border text-xl text-mediumpurple-200">
@@ -244,7 +313,7 @@ const Patient_Home = () => {
           </div>
         </div>
       </div>
-      <div className="flex-1 flex flex-col items-start justify-start pt-6 px-0 pb-0 box-border min-w-[495px] max-w-full text-base-1 text-black font-montserrat mq750:min-w-full">
+      <div  style={{fontFamily: '"Platypi", serif'}} className="flex-1 flex flex-col items-start justify-start pt-6 px-0 pb-0 box-border min-w-[495px] max-w-full text-base-1 text-black font-montserrat mq750:min-w-full">
         <div className="self-stretch flex flex-row items-start justify-start relative max-w-full">
           <div className="h-1 w-5 absolute my-0 mx-[!important] top-[42px] left-[227px] rounded-8xs bg-goldenrod" />
           <div className="flex-1 rounded-xl bg-neutral-colors-white overflow-hidden flex flex-col items-center justify-start pt-[49px] px-0 pb-0 box-border gap-[65px_0px] max-w-full z-[1] mq1025:gap-[65px_0px] mq450:gap-[65px_0px] mq450:pt-8 mq450:box-border">
@@ -272,25 +341,23 @@ const Patient_Home = () => {
                         JPG, PNG or PDF, file size no more than 10MB
                       </div>
                     </div>
-                    <div className="rounded-[3.77px] bg-gray-600 flex flex-row items-center justify-start py-[9.058441162109375px] pr-2.5 pl-[12.077921867370605px] whitespace-nowrap text-5xs-5 text-steelblue-100 border-[0.8px] border-solid border-steelblue-200">
+                    <div className="rounded-[3.77px] bg-gradient-to-r from-sky-500 to-indigo-500 flex flex-row items-center justify-start py-[9.058441162109375px] pr-2.5 pl-[12.077921867370605px] whitespace-nowrap text-5xs-5 text-steelblue-100 border-[0.8px] border-solid border-steelblue-200">
                       <div className="relative uppercase">Select file</div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-            <div className="self-stretch rounded-t-none rounded-b-[7.55px] bg-gray-600 shadow-[0px_0.8px_0.75px_rgba(0,_0,_0,_0.1)_inset] overflow-hidden flex flex-row items-start justify-start py-[15px] pr-11 pl-[574px] gap-[0px_5px] mq750:flex-wrap mq1025:pl-[287px] mq1025:pr-[22px] mq1025:box-border mq450:pl-5 mq450:box-border">
-              <button className="cursor-pointer [border:none] p-[9px] bg-neutral-colors-white flex-1 rounded-[3.77px] flex flex-row items-center justify-center box-border min-w-[45px] hover:bg-gainsboro-100">
-                <div className="relative text-2xs-6 capitalize font-helvetica text-black text-left">
-                  Cancel
-                </div>
-              </button>
+            <div className="self-stretch rounded-t-none rounded-b-[7.55px] bg-gradient-to-r from-sky-500 to-indigo-500 shadow-[0px_0.8px_0.75px_rgba(0,_0,_0,_0.1)_inset] overflow-hidden flex flex-row items-start justify-start py-[15px] pr-11 pl-[574px] gap-[0px_5px] mq750:flex-wrap mq1025:pl-[287px] mq1025:pr-[22px] mq1025:box-border mq450:pl-5 mq450:box-border">
+              
               <button className="cursor-pointer py-[9px] pr-[17px] pl-[18px] bg-neutral-colors-white rounded-[3.77px] shadow-[0px_0.8px_0.75px_rgba(0,_0,_0,_0.16)] flex flex-row items-center justify-center border-[0.8px] border-solid border-gray-1600 hover:bg-gainsboro-100 hover:box-border hover:border-[0.8px] hover:border-solid hover:border-darkslategray-200">
                 <div className="relative text-2xs-6 capitalize font-helvetica text-gray-1500 text-left">
                   upload
                 </div>
+                
               </button>
             </div>
+           
           </div>
         </div>
       </div>
@@ -298,8 +365,53 @@ const Patient_Home = () => {
         </section>
       </main>
     </div>
-    
-    
+   {/* Edit profile prompt */}
+   {isEditModalOpen && (
+        <div className=" fixed inset-0 flex items-center justify-center bg-gradient-to-r from-sky-500 to-indigo-500  ">
+          <div className="bg-white rounded-lg p-8 w-96">
+            <h2 className="text-2xl font-bold mb-4">Edit Profile</h2>
+            <form onSubmit={handleEdit}>
+              <div className="mb-4">
+                <label htmlFor="editName" className="block text-sm font-semibold">Name:</label>
+                <input
+                  type="text"
+                  id="editName"
+                  name="editName"
+                  value={editedDetails.editName}
+                  onChange={handleInputChange}
+                  className="w-full border border-gray-300 rounded-md px-3 py-2 mt-1"
+                />
+              </div>
+              <div className="mb-4">
+                <label htmlFor="editBloodGroup" className="block text-sm font-semibold">Blood Group:</label>
+                <input
+                  type="text"
+                  id="editBloodGroup"
+                  name="editBloodGroup"
+                  value={editedDetails.editBloodGroup}
+                  onChange={handleInputChange}
+                  className="w-full border border-gray-300 rounded-md px-3 py-2 mt-1"
+                />
+              </div>
+              <div className="mb-4">
+                <label htmlFor="editPhone" className="block text-sm font-semibold">Phone Number:</label>
+                <input
+                  type="text"
+                  id="editPhone"
+                  name="editPhone"
+                  value={editedDetails.editPhone}
+                  onChange={handleInputChange}
+                  className="w-full border border-gray-300 rounded-md px-3 py-2 mt-1"
+                />
+              </div>
+              <div className="flex justify-end">
+                <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded-md mr-2">Submit</button>
+                <button onClick={closeEditModal} className="bg-gray-300 text-gray-700 px-4 py-2 rounded-md">Cancel</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </>
   )
 }

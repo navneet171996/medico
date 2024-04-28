@@ -1,6 +1,7 @@
 package com.medico.app.controllers;
 
 import com.medico.app.dto.DoctorDTO;
+import com.medico.app.dto.SocketDto;
 import com.medico.app.entities.Consultation;
 import com.medico.app.entities.Doctor;
 import com.medico.app.services.DoctorService;
@@ -44,6 +45,11 @@ public class DoctorController {
     @GetMapping(path = "/getPendingConsultationsOfDoc/{docId}")
     public ResponseEntity<List<Consultation>> getPendingConsultationsOfDoc(@PathVariable Long docId) {
         return new ResponseEntity<>(doctorService.getPendingConsultationsOfDoc(docId), HttpStatus.OK);
+    }
+
+    @PostMapping(path = "/putSocketOfDoctor")
+    public ResponseEntity<?> putSocketOfDoctor(@RequestBody SocketDto socketDto){
+        return new ResponseEntity<>(doctorService.putSocketOfDoctor(socketDto),HttpStatus.OK);
     }
 
 

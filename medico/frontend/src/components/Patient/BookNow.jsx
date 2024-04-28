@@ -17,7 +17,7 @@ const BookNow = () => {
     const [success,setSuccess] = useState()
 
     const navi =()=>{
-         navigate('/bookingDone')
+         
     }   
 
     useEffect(() => {

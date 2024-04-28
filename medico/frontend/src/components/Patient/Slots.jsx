@@ -1,24 +1,25 @@
-import React, { useEffect,useContext } from 'react';
+import React, { useEffect, useContext } from 'react';
 import { useNavigate } from "react-router-dom";
 import AuthContext from '../../../Context/AuthContext';
 import { Card, Button } from 'antd';
-const Slots = () => {
-   const {appointment} = useContext(AuthContext)
-  useEffect(() => {
-    const id = localStorage.getItem('doctor')
-    const date = localStorage.getItem('dateChoosed') 
-       let payload = {
-            docId:id,
-            date:date
-       }
-       console.log(payload);
-       appointment(payload)
-       
-}, []);
 
-  const navigate = useNavigate()
-  const slotChoice = localStorage.getItem('slotChoosen')
-  console.log("choice of slot is" , slotChoice);
+const Slots = () => {
+  const { appointment } = useContext(AuthContext);
+  useEffect(() => {
+    const id = localStorage.getItem('doctor');
+    const date = localStorage.getItem('dateChoosed');
+    let payload = {
+      docId: id,
+      date: date
+    };
+    console.log(payload);
+    appointment(payload);
+
+  }, []);
+
+  const navigate = useNavigate();
+  const slotChoice = localStorage.getItem('slotChoosen');
+  console.log("choice of slot is", slotChoice);
   const timeSlots = [];
   const totalSlots = JSON.parse(localStorage.getItem('totalSlots'));
   let startTime = 0, endTime = 0;
@@ -41,36 +42,26 @@ const Slots = () => {
   }
 
   const handleSlotSelection = (time) => {
-    localStorage.setItem('timeChoosed',time);
+    localStorage.setItem('timeChoosed', time);
     console.log(localStorage.getItem('timeChoosed'));
-       navigate('/checkout')
+    navigate('/checkout');
   };
-  
- 
 
   return (
-    <div className="slots-availability grid grid-cols-4  px-10 py-5 justify-center">
-      
-          {timeSlots.map((time, index) => (
-            // <tr key={index}>
-            //   <td>{time}</td>
-            //   <td>{totalSlots[index] === true ? 'Available' : 'Not Available'}</td>
-            // </tr>
-            <Card
-            className='bg-mediumpurple-200 font-extrabold mx-5 mt-5 text-center text-whitesmoke-300'
-            title={time}
-            style={{ width: 250 }}
-            hoverable
-            onClick={() => handleSlotSelection(time)}
-          >
-            {totalSlots[index] === true ? <p>Available</p> : <p className='text-slate-600'>Not Available</p>}
-            {totalSlots[index] === true && (
-      <Button type="primary"  className="font-extrabold">Select</Button>
-    )}
-          </Card>
-          ))}
-        
+    <div className="slots-availability grid grid-cols-3 md:grid-cols-4 gap-4 px-5 py-5 justify-center">
+      {timeSlots.map((time, index) => (
+        <Card
+          key={index}
+          className='shadow-md bg-gray-100 hover:shadow-lg'
+          title={time}
+          extra={<Button type="primary" disabled={!totalSlots[index]} onClick={() => handleSlotSelection(time)}>Select</Button>}
+        >
+          {totalSlots[index] ? <p className="text-green-500 font-semibold">Available</p> : <p className="text-red-500 font-semibold">Not Available</p>}
+        </Card>
+      ))}
+
     </div>
+
   );
 };
 
