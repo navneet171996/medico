@@ -61,8 +61,8 @@ const BookNow = () => {
               <Header />
             </div>
            <div>
-           <div className="flex items-center justify-center min-h-screen  w-[450px] ml-[350px] bg-gray-100 mb-[50px]">
-      <Card className="max-w-lg w-full bg-mediumpurple-100 font-semibold text-center "  title={<div className="text-center text-[30px] font-extrabold">Checkout</div>}>
+           <div className="flex items-center justify-center min-h-screen  w-full ml-[350px] bg-gray-100 mb-[50px]">
+      <Card className="max-w-lg w-full bg-blue-300 font-semibold text-center "  title={<div className="text-center text-[30px] font-extrabold">Checkout</div>}>
         {/* Order Summary */}
         <div className="mb-6">
           <h3 className="text-lg font-extrabold pb-[15px] text-center">Order Summary</h3>

@@ -68,7 +68,7 @@ const Appointments = () => {
       render: (text, record) => (
         moment().isBefore(moment(`${record.date} ${record.time}`)) ? (
           <div>
-            You can join in: <span className='font-semibold '>{calculateTimeRemaining(record.date, record.time)}</span> 
+            You can join in: <span className='font-semibold'>{calculateTimeRemaining(record.date, record.time)}</span> 
           </div>
         ) : moment().isBefore(moment(`${record.date} ${record.time}`).add(30, 'minutes')) ? (
           <Button className='bg-purple-700'>
@@ -84,7 +84,7 @@ const Appointments = () => {
       <Navbar />
       <main className="flex-1 flex flex-col p-5">
         <Header />
-        <div className="bg-white rounded-lg p-6 shadow-md">
+        <div className="bg-white rounded-lg p-6 shadow-md border-solid border-t-5 border-blue-500">
           <h1 className="text-3xl font-bold mb-6">Upcoming Consultations</h1>
           <Table dataSource={consultations} columns={columns} pagination={false} />
         </div>

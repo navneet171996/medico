@@ -19,8 +19,8 @@ const BookAppointment = () => {
               <Header />
             </div>
          
-            <div className="slots-availability">
-              <h2>Available Time Slots</h2>
+            <div className="slots-availability text-center ">
+              <h2 className='ml-[50%]'>Available Time Slots</h2>
               <Slots  /> {/* Pass availableSlots to Slots component */}
             </div>
           </section>

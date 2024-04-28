@@ -48,11 +48,11 @@ const Slots = () => {
   };
 
   return (
-    <div className="slots-availability grid grid-cols-3 md:grid-cols-4 gap-4 px-5 py-5 justify-center">
+    <div className="slots-availability grid grid-cols-4 md:grid-cols-4 gap-5 px-5 py-5 justify-center items-center relative left-[20%]">
       {timeSlots.map((time, index) => (
         <Card
           key={index}
-          className='shadow-md bg-gray-100 hover:shadow-lg'
+          className='shadow-md bg-gray-100 hover:shadow-lg '
           title={time}
           extra={<Button type="primary" disabled={!totalSlots[index]} onClick={() => handleSlotSelection(time)}>Select</Button>}
         >
