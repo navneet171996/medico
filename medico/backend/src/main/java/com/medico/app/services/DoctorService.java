@@ -131,4 +131,11 @@ public class DoctorService {
 
         return new Socket();
     }
+
+    public Doctor resignFromHospital(Long doctorId) {
+        Doctor doctor = doctorRepository.findById(doctorId).orElseThrow();
+        doctor.setHospital(null);
+        doctorRepository.save(doctor);
+        return doctor;
+    }
 }
