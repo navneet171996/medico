@@ -112,7 +112,7 @@ const Register_admin = () => {
                     required className="outline-none relative text-lg  font-inter text-gray-300 text-left z-[2] mq450:text-lgi mq450:leading-[80px]"/>
             
         </div>
-        
+       
       
        <div className='flex flex-row h-[30px] mt-10'>
         <div className="flex flex-row items-center justify-start py-0 px-[11px]">

@@ -33,7 +33,7 @@ export const NavbarDoc = () => {
       
 
       <div className="flex flex-row items-start justify-start py-0 pr-1 pl-[37px] text-text">
-        <Link to="/patient" className="relative font-semibold z-[1] no-underline text-black">Profile</Link>
+        <Link to="/doctor" className="relative font-semibold z-[1] no-underline text-black">Profile</Link>
       </div>
       <div className="flex flex-row items-start justify-start py-0 pr-1 pl-[37px] text-text">
         <Link to="/video_call_doc" className="relative font-semibold z-[1] no-underline text-black">Call</Link>

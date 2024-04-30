@@ -58,6 +58,7 @@ public class DoctorService {
         doctorDTO.setRate(doctorDTO.getRate());
         doctorDTO.setGender(doctor.getGender());
         doctorDTO.setPhoneNo(doctor.getPhoneNo());
+        doctorDTO.setRate(doctor.getRate());
         doctorDTO.setSpeciality(doctor.getSpeciality());
         doctorDTO.setHospitalName(doctor.getHospital().getHospitalName());
 

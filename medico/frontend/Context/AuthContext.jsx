@@ -4,6 +4,7 @@ import { jwtDecode } from "jwt-decode";
 const AuthContext = createContext({})
 import { useNavigate } from "react-router-dom";
 import { notification,message } from 'antd';
+import { Spin } from 'antd';
 
 export const AuthContextProvider = ({children}) =>{
 
@@ -86,6 +87,13 @@ export const AuthContextProvider = ({children}) =>{
     setSuccess(false)
     navigate("/loginPatient");
   };
+  const registerDoc = async(payload) =>{
+    console.log(payload);
+    let apiResponse = await axios.post("http://localhost:8081/api/auth/registerDoctor",payload);
+       console.log(apiResponse);
+    navigate('/doctor');
+        
+  }
 
   
 
@@ -131,11 +139,9 @@ export const AuthContextProvider = ({children}) =>{
     console.log(apiResponse);
     localStorage.setItem("userProfile", JSON.stringify(apiResponse.data));
     localStorage.setItem('token', (apiResponse.data.token))
-    console.log("The token is "+localStorage.getItem('token'));
     let userProfle = localStorage.getItem("userProfile");
     if (userProfle) {
       const decodedToken = jwtDecode(JSON.parse(userProfle).token);
-      console.log("here",decodedToken);
       setUser(decodedToken);
       navigate('/patient')
     }
@@ -223,10 +229,12 @@ export const AuthContextProvider = ({children}) =>{
   }
 
 
-    
+ 
     
 
+
     return <AuthContext.Provider value={{success, getDocConsultation,docConsultation,docProfile,getDoctorProfile,docId,slots,appointment,consultation,getConsultation,docDetails,getDoctorDetails,sortDoctorByPrice,doctorBySpecialization,doctorList1,spec,getSepecificSpecialization,specializationId,setSpecializationId,patientProfile,hospitals,getAllHospitals,getPatientDetails,registerPatient,loginApiCallAdmin,loginApiCallDoctor,loginApiCallPatient,user,logoutAPICall,getSpecialization,specialization,registerAdmin}}>{children}</AuthContext.Provider>
+
 
    
 }

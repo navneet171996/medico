@@ -16,13 +16,14 @@ import Register_admin from './components/General/Register_admin'
 import Patient_History from './components/Patient/Patient_History'
 import AuthContext, { AuthContextProvider } from '../Context/AuthContext'
 import Session_Out from './components/Session_out/Session_Out'
+import { PrivateRoute } from '../routes/PrivateRoutes'
 import Patient_View from './components/Patient/Patient_View'
 import Login_Patient from './components/General/Login_Patient'
 import Login_Doctor from './components/General/Login_Doctor'
 import SpecializationPage from './components/Patient/SpecializationPage'
 import SpecializationPage2 from './components/Patient/SpecializationPage2'
 import DoctorDetails from './components/Patient/DoctorDetails'
-import PrivateRoute from '../routes/PrivateRoutes'
+import PrivateRoute from '../routes/privateRoutes'
 import BookAppointment from './components/Patient/BookAppointment'
 import BookSlot from './components/Patient/BookSlot'
 import BookNow from './components/Patient/BookNow'
@@ -32,6 +33,9 @@ import Doctor_History from './components/Doctor/Doctor_History'
 import VideoCallDoc from './components/Doctor/VideoCallDoc'
 import VideoCallPatient from './components/Patient/VideoCallPatient'
 import Appointments from './components/Patient/Appointments'
+import Landing2 from './components/General/Landing2'
+import DocDet from './components/Patient/DocDet'
+import EnterHospital from './components/Patient/EnterHospital'
 // import VideoCall from './components/Patient/video call/VideoCall'
 
 function App() {
@@ -49,13 +53,14 @@ function App() {
 
         
             <>
-            <Route path="/" element={ <PrivateRoute  accessBy="non-authenticated"><Landing /></PrivateRoute>} />
+            <Route path="/" element={ <PrivateRoute  accessBy="non-authenticated"><Landing2 /></PrivateRoute>} />
               <Route path="/login" element={<PrivateRoute  accessBy="non-authenticated"><Login /></PrivateRoute>} />
               <Route path="/loginPatient" element={<PrivateRoute  accessBy="non-authenticated"><Login_Patient /></PrivateRoute>} />
               <Route path="/loginDoctor" element={<PrivateRoute  accessBy="non-authenticated"><Login_Doctor /></PrivateRoute>} />
               <Route path="/register_patient" element={<PrivateRoute  accessBy="non-authenticated"><Register_patient /></PrivateRoute>} />
               <Route path="/register_doctor" element={<PrivateRoute  accessBy="non-authenticated"><Regiester_doctor /></PrivateRoute>} />
               <Route path="/register_admin" element={<PrivateRoute  accessBy="non-authenticated"><Register_admin /></PrivateRoute>} />
+
             </>
         
           {/* protected Routes */}
@@ -72,6 +77,9 @@ function App() {
             <Route path='/bookingDone'   element={ <PrivateRoute  accessBy="authenticated">  <PatientRoutes>  <Success />  </PatientRoutes> </PrivateRoute>}> </Route>
             <Route path='/videoCallPatient'   element={ <PrivateRoute  accessBy="authenticated">  <PatientRoutes>  <VideoCallPatient />  </PatientRoutes> </PrivateRoute>}> </Route>
             <Route path='/appointments'   element={ <PrivateRoute  accessBy="authenticated">  <PatientRoutes>  <Appointments />  </PatientRoutes> </PrivateRoute>}> </Route>
+            <Route path='/details'   element={ <PrivateRoute  accessBy="authenticated">  <PatientRoutes>  <DocDet />  </PatientRoutes> </PrivateRoute>}> </Route>
+            <Route path='/hospital'   element={ <PrivateRoute  accessBy="authenticated">  <PatientRoutes>  <EnterHospital />  </PatientRoutes> </PrivateRoute>}> </Route>
+
 
             {/* <Route path='/videoCall'   element={ <PrivateRoute  accessBy="authenticated">  <PatientRoutes>  <VideoCall/>  </PatientRoutes> </PrivateRoute>}> </Route> */}
               <Route path='/doctor'   element={ <PrivateRoute  accessBy="authenticated"> <DoctorRoutes>  <Doctor_Home />  </DoctorRoutes></PrivateRoute> }> </Route>
