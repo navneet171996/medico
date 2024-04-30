@@ -23,15 +23,16 @@ public class PatientService {
     private final DoctorRepository doctorRepository;
     private final ConsultationRepository consultationRepository;
     private final RatingAndReviewRepository ratingAndReviewRepository;
-
+    private final HospitalRepository hospitalRepository;
     private final SlotsRepository slotsRepository;
 
-    public PatientService(PatientRepository patientRepository, DoctorRepository doctorRepository, ConsultationRepository consultationRepository, RatingAndReviewRepository ratingAndReviewRepository, SlotsRepository slotsRepository) {
+    public PatientService(PatientRepository patientRepository, DoctorRepository doctorRepository, ConsultationRepository consultationRepository, RatingAndReviewRepository ratingAndReviewRepository, SlotsRepository slotsRepository ,HospitalRepository hospitalRepository) {
         this.patientRepository = patientRepository;
         this.doctorRepository = doctorRepository;
         this.consultationRepository = consultationRepository;
         this.ratingAndReviewRepository = ratingAndReviewRepository;
         this.slotsRepository = slotsRepository;
+        this.hospitalRepository = hospitalRepository;
     }
 
 
@@ -59,7 +60,7 @@ public class PatientService {
     }
     public void setRating(RatingDto ratingDto) {
         Optional<Consultation> optionalConsultation = consultationRepository.findById(ratingDto.getConsultationId());
-        if(optionalConsultation.isPresent()){
+        if (optionalConsultation.isPresent()) {
             Consultation consultation = optionalConsultation.get();
             RatingsAndReviews ratingsAndReviews = new RatingsAndReviews();
             ratingsAndReviews.setRating(ratingDto.getRating());
@@ -67,14 +68,38 @@ public class PatientService {
             ratingsAndReviews = ratingAndReviewRepository.save(ratingsAndReviews);
             consultation.setRatingsAndReviews(ratingsAndReviews);
             consultationRepository.save(consultation);
+
+            // Update doctor's rating
             Doctor doctor = doctorRepository.findById(consultation.getDoctor().getDocId()).orElseThrow();
-            Double avgRating = doctor.getRating();
-            Long totalRatedUsers = (ratingAndReviewRepository.getTotalNumberOfRatingsOfADoctor(doctor.getDocId()))-1;
-            Double newRating = ((avgRating * totalRatedUsers)+ratingDto.getRating())/(totalRatedUsers+1);
-            doctor.setRating(newRating);
+            Double currentDoctorRating = doctor.getRating();
+            Long totalRatedUsers = ratingAndReviewRepository.getTotalNumberOfRatingsOfADoctor(doctor.getDocId()) - 1;
+
+            // Calculate new rating for the doctor
+            Double newDoctorRating = ((currentDoctorRating * totalRatedUsers) + ratingDto.getRating()) / (totalRatedUsers + 1);
+            doctor.setRating(newDoctorRating);
             doctorRepository.save(doctor);
+
+            // Calculate and update hospital's rating
+            Hospital hospital = doctor.getHospital();
+            if (hospital != null) {
+                // Retrieve all doctors in the hospital
+                List<Doctor> doctorsInHospital = doctorRepository.findDoctorByHospital(hospital.getHospitalId()).orElse(new ArrayList<>());
+
+                // Calculate average rating of all doctors in the hospital
+                double totalRating = 0;
+                for (Doctor d : doctorsInHospital) {
+                    totalRating += d.getRating();
+                }
+
+                double averageDoctorRating = totalRating / doctorsInHospital.size();
+
+                // Set the hospital's rating
+                hospital.setRating(averageDoctorRating);
+                hospitalRepository.save(hospital);
+            }
         }
     }
+
 
     public List<Boolean> getDoctorSlots(Long docId, LocalDate date){
         List<Boolean> retSlots = new ArrayList<>(24);

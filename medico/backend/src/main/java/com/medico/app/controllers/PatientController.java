@@ -55,7 +55,7 @@ public class PatientController {
         return new ResponseEntity<>(specialities,HttpStatus.OK);
     }
     @GetMapping(path = "/getDocBySpecialityandHospital/{specialityId}/{hospitalId}")
-    public ResponseEntity<List<Doctor>> getDocBySpecialityandHospital(@PathVariable Long specialityId , Long hospitalId){
+    public ResponseEntity<List<Doctor>> getDocBySpecialityandHospital(@PathVariable Long specialityId ,@PathVariable Long hospitalId){
         List<Doctor> doctors = doctorService.getDoctorsBySpecialityAndHospital(specialityId, hospitalId);
         return new ResponseEntity<>(doctors,HttpStatus.OK);
     }
