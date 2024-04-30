@@ -1,6 +1,7 @@
 package com.medico.app.services;
 
 import com.medico.app.dto.AcceptDoctorDto;
+import com.medico.app.dto.AssignJrDoctorDto;
 import com.medico.app.entities.Admin;
 import com.medico.app.entities.Doctor;
 import com.medico.app.repositories.AdminRepository;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class AdminService {
@@ -33,16 +35,20 @@ public class AdminService {
             Admin admin = adminOptional.get();
             Optional<List<Doctor>> doctorsByHospitalId = this.hospitalRepository.findDoctorsByHospitalId(admin.getHospital().getHospitalId());
             if(doctorsByHospitalId.isPresent()){
-                return doctorsByHospitalId.get();
+                return doctorsByHospitalId.get().stream().filter(Doctor::getIsActive).collect(Collectors.toList());
             }
         }
         return new ArrayList<>();
     }
 
-    public Doctor removeDoctorFromHospital(Long docId) {
+    public Doctor removeDoctorFromHospital(Long adminId, Long docId) {
+        Admin admin = adminRepository.findById(adminId).orElseThrow();
         Doctor doctor = doctorRepository.findById(docId).orElseThrow();
-        doctor.setHospital(null);
-        doctorRepository.save(doctor);
+        if(admin.getHospital().getHospitalId().equals(doctor.getHospital().getHospitalId())){
+            doctor.setHospital(null);
+            doctor.setIsActive(Boolean.FALSE);
+            doctorRepository.save(doctor);
+        }
         return doctor;
     }
     public String acceptOrRejectDoctor(AcceptDoctorDto doctorDto) {
@@ -51,7 +57,30 @@ public class AdminService {
             doctor.setIsActive(Boolean.TRUE);
             doctorRepository.save(doctor);
             return String.format("Doctor %s is accepted", doctor.getDocName());
+        }else{
+            doctor.setIsActive(Boolean.FALSE);
+            doctor.setHospital(null);
+            doctorRepository.save(doctor);
+            return String.format("Doctor %s is rejected", doctor.getDocName());
         }
-        return String.format("Doctor %s is rejected", doctor.getDocName());
+    }
+
+    public String assignJrDoctorsToSrDoctor(AssignJrDoctorDto assignJrDoctorDto) {
+        Doctor srDoctor = doctorRepository.findById(assignJrDoctorDto.getSrDoctorId()).orElseThrow();
+        assignJrDoctorDto.getJrDoctorIds().forEach(jrDoctorId -> {
+            Doctor doctor = doctorRepository.findById(jrDoctorId).orElseThrow();
+            doctor.setSrDoctor(srDoctor);
+            doctorRepository.save(doctor);
+        });
+        return "Assigned doctors successfully";
+    }
+
+    public List<Doctor> getAppliedDoctorsList(Long adminId) {
+        Admin admin = adminRepository.findById(adminId).orElseThrow();
+        Optional<List<Doctor>> doctorsByHospitalIdOptional = hospitalRepository.findDoctorsByHospitalId(admin.getHospital().getHospitalId());
+        if(doctorsByHospitalIdOptional.isPresent()){
+            return doctorsByHospitalIdOptional.get().stream().filter(doctor -> !doctor.getIsActive()).collect(Collectors.toList());
+        }
+        return new ArrayList<>();
     }
 }

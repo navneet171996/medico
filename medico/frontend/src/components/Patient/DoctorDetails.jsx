@@ -65,7 +65,9 @@ const DoctorDetails = ({ docId }) => { // Destructure docId from props
     const toggle = document.querySelector('.js-change-theme');
 
     if (body.classList.contains('text-gray-900')) {
+
       toggle.innerHTML = "☀️";
+
       body.classList.remove('text-gray-900');
       body.classList.add('text-white');
       profile.classList.remove('bg-white');
