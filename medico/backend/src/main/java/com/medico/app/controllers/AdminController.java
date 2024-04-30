@@ -25,9 +25,9 @@ public class AdminController {
         return new ResponseEntity<>(this.adminService.getDoctorsOfHospital(adminId), HttpStatus.OK);
     }
 
-    @DeleteMapping(path = "/removeDoctorFromHospital/{docId}")
-    public ResponseEntity<Doctor> removeDoctorFromHospital(@PathVariable Long docId){
-        return new ResponseEntity<>(this.adminService.removeDoctorFromHospital(docId),HttpStatus.OK);
+    @DeleteMapping(path = "/removeDoctorFromHospital/{adminId}/{docId}")
+    public ResponseEntity<Doctor> removeDoctorFromHospital(@PathVariable Long adminId, @PathVariable Long docId){
+        return new ResponseEntity<>(this.adminService.removeDoctorFromHospital(adminId, docId),HttpStatus.OK);
     }
 
     @PostMapping(path = "/acceptOrRejectDoctor")
@@ -38,5 +38,10 @@ public class AdminController {
     @PostMapping(path = "/assignJrDoctorsToSrDoctor")
     public ResponseEntity<String> assignJrDoctorsToSrDoctor(@RequestBody AssignJrDoctorDto assignJrDoctorDto){
         return new ResponseEntity<>(adminService.assignJrDoctorsToSrDoctor(assignJrDoctorDto), HttpStatus.OK);
+    }
+
+    @PostMapping(path = "/getAppliedDoctorsList/{adminId}")
+    public ResponseEntity<List<Doctor>> getAppliedDoctorsList(@PathVariable Long adminId){
+        return new ResponseEntity<>(adminService.getAppliedDoctorsList(adminId), HttpStatus.OK);
     }
 }

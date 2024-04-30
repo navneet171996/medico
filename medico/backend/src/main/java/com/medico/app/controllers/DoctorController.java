@@ -59,4 +59,9 @@ public class DoctorController {
         return new ResponseEntity<>(doctorService.resignFromHospital(doctorId), HttpStatus.OK);
     }
 
+    @GetMapping(path = "/applyToHospital/{doctorId}/{hospitalId}")
+    public ResponseEntity<Doctor> applyToHospital(@PathVariable Long doctorId, @PathVariable Long hospitalId){
+        return new ResponseEntity<>(doctorService.applyToHospital(doctorId, hospitalId), HttpStatus.OK);
+    }
+
 }

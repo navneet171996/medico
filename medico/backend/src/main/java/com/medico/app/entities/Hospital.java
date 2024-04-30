@@ -22,14 +22,17 @@ public class Hospital {
     @Column(name = "hospital_id")
     private Long hospitalId;
 
-    @Column(name = "hospital_name")
+    @Column(name = "name")
     private String hospitalName;
 
     @Column(name = "address")
     private String hospitalAddress;
 
     @Column(name = "phone_no")
-    private String phoneNo;
+    private String hospitalPhoneNo;
+
+    @Column(name = "email_id")
+    private String hospitalEmailId;
 
     @OneToOne(mappedBy = "hospital")
     @JsonIgnore

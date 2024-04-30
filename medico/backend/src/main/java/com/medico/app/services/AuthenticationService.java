@@ -104,11 +104,11 @@ public class AuthenticationService {
             doctor.setSpeciality(speciality);
         }
 
-        Optional<Hospital> optionalHospital = hospitalRepository.findById(request.getHospitalId());
-        if(optionalHospital.isPresent()){
-            Hospital hospital = optionalHospital.get();
-            doctor.setHospital(hospital);
-        }
+//        Optional<Hospital> optionalHospital = hospitalRepository.findById(request.getHospitalId());
+//        if(optionalHospital.isPresent()){
+//            Hospital hospital = optionalHospital.get();
+//            doctor.setHospital(hospital);
+//        }
 
 
 
