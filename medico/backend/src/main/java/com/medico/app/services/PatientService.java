@@ -13,6 +13,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class PatientService {
@@ -80,7 +81,7 @@ public class PatientService {
             retSlots.add(Boolean.TRUE);
         }
         List<Slots> slots = slotsRepository.getSlotsByDoctor_DocId(docId).orElseThrow();
-        slots = slots.stream().filter(slot -> slot.getDate().equals(date)).toList();
+        slots = slots.stream().filter(slot -> slot.getDate().equals(date)).collect(Collectors.toList());
         slots.forEach(slot -> {
             if(slot.getStartTime().getHour() == 9 && slot.getStartTime().getMinute() == 0)
                 retSlots.set(0, Boolean.FALSE);

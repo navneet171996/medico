@@ -2,6 +2,7 @@ package com.medico.app.controllers;
 
 import com.medico.app.dto.*;
 import com.medico.app.entities.*;
+import com.medico.app.services.DoctorQueueService;
 import com.medico.app.services.DoctorService;
 import com.medico.app.services.HospitalService;
 import com.medico.app.entities.Consultation;
@@ -21,13 +22,15 @@ public class PatientController {
     private final PatientService patientService;
     private final DoctorService doctorService;
     private final HospitalService hospitalService;
+    private final DoctorQueueService doctorQueueService;
 
 
-    public PatientController(PatientService patientService,HospitalService hospitalService ,DoctorService doctorService) {
+    public PatientController(PatientService patientService, HospitalService hospitalService , DoctorService doctorService, DoctorQueueService doctorQueueService) {
 
         this.patientService = patientService;
         this.hospitalService =  hospitalService;
         this.doctorService = doctorService;
+        this.doctorQueueService = doctorQueueService;
     }
 
     @PostMapping(path = "/getDoctorSlots")
@@ -92,5 +95,9 @@ public class PatientController {
     @GetMapping(path = "/getSocketOfDoctor/{doctorId}")
     public ResponseEntity<Socket> getSocketOfDoctor(@PathVariable Long doctorId){
         return new ResponseEntity<>(doctorService.getSocketOfDoctor(doctorId), HttpStatus.OK);
+    }
+
+    public ResponseEntity<Integer> enterIntoQueue(@RequestBody DoctorQueueDto doctorQueueDto){
+        return new ResponseEntity<>(doctorQueueService.enterIntoQueue(doctorQueueDto), HttpStatus.OK);
     }
 }
