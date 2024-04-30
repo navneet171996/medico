@@ -40,7 +40,7 @@ public class AdminController {
         return new ResponseEntity<>(adminService.assignJrDoctorsToSrDoctor(assignJrDoctorDto), HttpStatus.OK);
     }
 
-    @PostMapping(path = "/getAppliedDoctorsList/{adminId}")
+    @GetMapping(path = "/getAppliedDoctorsList/{adminId}")
     public ResponseEntity<List<Doctor>> getAppliedDoctorsList(@PathVariable Long adminId){
         return new ResponseEntity<>(adminService.getAppliedDoctorsList(adminId), HttpStatus.OK);
     }
