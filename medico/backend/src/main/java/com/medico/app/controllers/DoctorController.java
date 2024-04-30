@@ -4,6 +4,7 @@ import com.medico.app.dto.DoctorDTO;
 import com.medico.app.dto.SocketDto;
 import com.medico.app.entities.Consultation;
 import com.medico.app.entities.Doctor;
+import com.medico.app.services.DoctorQueueService;
 import com.medico.app.services.DoctorService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,11 +21,13 @@ import java.util.stream.Collectors;
 public class DoctorController {
 
     private final DoctorService doctorService;
+    private final DoctorQueueService doctorQueueService;
 
 
-    public DoctorController(DoctorService doctorService) {
+    public DoctorController(DoctorService doctorService, DoctorQueueService doctorQueueService) {
 
         this.doctorService = doctorService;
+        this.doctorQueueService = doctorQueueService;
     }
 
     @GetMapping(path = "/getDoctorDetails/{doctorId}")
@@ -52,5 +55,13 @@ public class DoctorController {
         return new ResponseEntity<>(doctorService.putSocketOfDoctor(socketDto),HttpStatus.OK);
     }
 
+    @GetMapping(path = "/getSocketOfNextPatient/{doctorId}")
+    public ResponseEntity<String> getSocketOfNextPatientFromQueue(@PathVariable Long doctorId){
+        return new ResponseEntity<>(doctorQueueService.getSocketOfNextPatientFromQueue(doctorId), HttpStatus.OK);
+    }
 
+    @GetMapping(path = "/deleteQueueOfDoctor{doctorId}")
+    public ResponseEntity<String> deleteQueueOfDoctor(@PathVariable Long doctorId){
+        return new ResponseEntity<>(doctorQueueService.deleteQueueOfDoctor(doctorId), HttpStatus.OK);
+    }
 }
