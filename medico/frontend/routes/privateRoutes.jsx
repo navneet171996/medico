@@ -4,6 +4,7 @@ import { Navigate } from 'react-router-dom';
 import { jwtDecode } from "jwt-decode";
 import { Spin } from 'antd';
 
+
 const PrivateRoute = ({ children, accessBy }) => {
   const [decodedToken, setDecodedToken] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -72,6 +73,7 @@ const PrivateRoute = ({ children, accessBy }) => {
       localStorage.clear();
       return <Navigate to="/loginPatient" />;
     }
+
   }
 };
 

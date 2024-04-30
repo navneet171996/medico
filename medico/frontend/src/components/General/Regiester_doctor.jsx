@@ -45,6 +45,7 @@ const Regiester_doctor = () => {
   
       const handleRegister_doctor=async (e)=>{
              e.preventDefault();
+             console.log("register him");
              let payload={
               docName:docName,
               docDob:docDob,
@@ -55,6 +56,7 @@ const Regiester_doctor = () => {
               password:docPassword,
               specialityId: 1,
               profilePicture:"",
+              
 
              }
              await registerDoc(payload)

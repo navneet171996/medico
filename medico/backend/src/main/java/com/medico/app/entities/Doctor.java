@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -47,8 +48,16 @@ public class Doctor implements UserDetails {
     @Column(name = "rating")
     private Double rating;
 
-    @Column(name = "is_senior")
-    private Boolean srDoctor;
+    @Column(name = "profile_pic")
+    private String profilePicture;
+
+    @ManyToOne()
+    @JoinColumn(name = "sr_doctor")
+    @JsonBackReference
+    private Doctor srDoctor;
+
+    @OneToMany(mappedBy = "srDoctor")
+    private List<Doctor> jrDoctors;
 
     @Column(name = "email_id")
     private String email;

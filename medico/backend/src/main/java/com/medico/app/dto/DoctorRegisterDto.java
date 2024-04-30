@@ -16,8 +16,9 @@ public class DoctorRegisterDto {
     private String phoneNo;
     private Character gender;
     private Double rate;
+    private String profilePicture;
     private String email;
     private String password;
     private Long specialityId;
-    private Long hospitalId;
+//    private Long hospitalId;
 }

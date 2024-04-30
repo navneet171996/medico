@@ -91,9 +91,12 @@ public class AuthenticationService {
         doctor.setGender(request.getGender());
         doctor.setRate(request.getRate());
         doctor.setRating(0.0);
+        doctor.setProfilePicture(request.getProfilePicture());
         doctor.setEmail(request.getEmail());
         doctor.setPassword(passwordEncoder.encode(request.getPassword()));
         doctor.setRole(Role.DOCTOR);
+
+        doctor.setSrDoctor(null);
 
         Optional<Speciality> optionalSpeciality = specialityRepository.findById(request.getSpecialityId());
         if(optionalSpeciality.isPresent()){
@@ -101,11 +104,11 @@ public class AuthenticationService {
             doctor.setSpeciality(speciality);
         }
 
-        Optional<Hospital> optionalHospital = hospitalRepository.findById(request.getHospitalId());
-        if(optionalHospital.isPresent()){
-            Hospital hospital = optionalHospital.get();
-            doctor.setHospital(hospital);
-        }
+//        Optional<Hospital> optionalHospital = hospitalRepository.findById(request.getHospitalId());
+//        if(optionalHospital.isPresent()){
+//            Hospital hospital = optionalHospital.get();
+//            doctor.setHospital(hospital);
+//        }
 
 
 

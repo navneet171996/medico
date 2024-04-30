@@ -4,6 +4,8 @@ import com.medico.app.dto.DoctorDTO;
 import com.medico.app.dto.SocketDto;
 import com.medico.app.entities.Consultation;
 import com.medico.app.entities.Doctor;
+import com.medico.app.entities.Hospital;
+import com.medico.app.entities.Socket;
 import com.medico.app.services.DoctorService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -48,9 +50,18 @@ public class DoctorController {
     }
 
     @PostMapping(path = "/putSocketOfDoctor")
-    public ResponseEntity<?> putSocketOfDoctor(@RequestBody SocketDto socketDto){
+    public ResponseEntity<Socket> putSocketOfDoctor(@RequestBody SocketDto socketDto){
         return new ResponseEntity<>(doctorService.putSocketOfDoctor(socketDto),HttpStatus.OK);
     }
 
+    @GetMapping(path = "/resignFromHospital/{doctorId}")
+    public ResponseEntity<Doctor> resignFromHospital(@PathVariable Long doctorId){
+        return new ResponseEntity<>(doctorService.resignFromHospital(doctorId), HttpStatus.OK);
+    }
+
+    @GetMapping(path = "/applyToHospital/{doctorId}/{hospitalId}")
+    public ResponseEntity<Doctor> applyToHospital(@PathVariable Long doctorId, @PathVariable Long hospitalId){
+        return new ResponseEntity<>(doctorService.applyToHospital(doctorId, hospitalId), HttpStatus.OK);
+    }
 
 }
