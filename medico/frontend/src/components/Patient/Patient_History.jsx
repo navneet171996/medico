@@ -1,52 +1,141 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import Header from './Header';
+import Navbar from './Navbar';
+import axios from 'axios';
+import { Rate, Input, Button, Modal } from 'antd';
 
 const Patient_History = () => {
+  const { TextArea } = Input;
+  const [orders, setOrders] = useState([]);
+  const [selectedOrder, setSelectedOrder] = useState(null);
+  const [rating, setRating] = useState(0);
+  const [isRated, setIsRated] = useState(false);
+  const [review, setReview] = useState('');
+  const [modalVisible, setModalVisible] = useState(false);
+
+  useEffect(() => {
+    const fetchOrders = async () => {
+      const patId = parseInt(localStorage.getItem('patId'));
+      try {
+        const response = await axios.get(`http://localhost:8081/api/patient/getAllConsultationsOfPat/${patId}`);
+        setOrders(response.data);
+      } catch (error) {
+        console.error('Error fetching orders:', error);
+      }
+    };
+
+    fetchOrders();
+  }, []);
+
+  const openDetailsPopup = (order) => {
+    setSelectedOrder(order);
+    setModalVisible(true);
+  };
+
+  const closeDetailsPopup = () => {
+    setSelectedOrder(null);
+    setModalVisible(false);
+  };
+
+  const handleRateChange = (value) => {
+    setRating(value);
+    setIsRated(false);
+  };
+
+  const handleReviewChange = (e) => {
+    setReview(e.target.value);
+    setIsRated(false);
+  };
+
+  const handleSubmit = async () => {
+    try {
+      await axios.post('http://localhost:8081/api/patient/setRating', {
+        consultationId: selectedOrder.consultationId,
+        rating: rating,
+        review: review,
+      });
+      setIsRated(true);
+    } catch (error) {
+      console.error('Error submitting rating and review:', error);
+    }
+  };
+
   return (
     <>
-     <div className="w-full relative bg-whitesmoke-400 overflow-hidden flex flex-row items-start justify-start gap-[0px_32px] tracking-[normal] mq750:gap-[0px_32px] mq1025:pl-5 mq1025:pr-5 mq1025:box-border">
-      <div className="h-[1186px] flex flex-col items-center justify-center py-0 pr-0 pl-1 box-border mq1025:hidden">
-        <div className="flex-1 flex flex-row items-start justify-start relative">
-          <div className="h-12 w-[82px] absolute my-0 mx-[!important] top-[234px] left-[-4px]">
-            <div className="absolute top-[0px] left-[0px] rounded-tl-none rounded-tr-8xs rounded-br-8xs rounded-bl-none [background:linear-gradient(90deg,_rgba(236,_13,_255,_0.2)_60%,_rgba(255,_255,_255,_0))] w-full h-full z-[1]" />
-            <img
-              className="absolute top-[12px] left-[43px] w-6 h-6 overflow-hidden z-[2]"
-              loading="eager"
-              alt=""
-              src="/person.svg"
-            />
+      <div className="flex gap-4 bg-gray-100 min-h-screen">
+        <Navbar />
+        <main className="flex-1 p-5">
+          <h1 className="text-3xl font-semibold mb-8 text-center">Appointment History</h1>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {orders.map((order) => (
+              <div
+                key={order.consultationId}
+                onClick={() => openDetailsPopup(order)}
+                className="rounded-lg overflow-hidden shadow-md hover:shadow-xl transition duration-300 relative"
+              >
+                <div className="bg-gradient-to-b from-blue-400 to-blue-500 px-6 py-4 text-white ">
+                  <h2 className="text-[30px] font-extrabold text-white ">Order #{order.consultationId}</h2>
+                  <span className="bg-green-500 text-white px-2 py-1 rounded-full text-xs">Completed</span>
+                </div>
+                <div className="p-6">
+                  <p className="text-gray-600 font-bold"><span className="font-extrabold">Patient:</span> {order.patient.patName}</p>
+                  <p className="text-gray-600 font-bold"><span className="font-extrabold">Doctor:</span> {order.doctor.docName}</p>
+                  <p className="text-gray-600 font-bold"><span className="font-extrabold">Date:</span> {order.date}</p>
+                  <p className="text-gray-600 font-bold"><span className="font-extrabold">Time:</span> {order.time}</p>
+                </div>
+              </div>
+            ))}
           </div>
-          <nav className="m-0 self-stretch bg-mediumpurple-200 flex flex-col items-center justify-start py-[193px] pr-[92px] pl-[37px] gap-[33px_0px] text-left text-base text-gray-1100 font-nunito mq750:pt-[125px] mq750:pb-[125px] mq750:box-border">
-      <div className="w-[218px] h-[1186px] relative bg-mediumpurple-200 hidden" />
-      <div className="flex flex-row items-start justify-start py-0 pr-2 pl-1">
-        <div className="flex flex-row items-start justify-start gap-[0px_13px]">
-          <img
-            className="h-[17px] w-5 relative z-[1]"
-            loading="eager"
-            alt=""
-            src="/home.svg"
-          />
-          <Link to="/patient_View" className="relative font-semibold z-[1] no-underline text-black">Home</Link>
-        </div>
-      </div>
-      <div className="flex flex-row items-start justify-start py-0 pr-1 pl-[37px] text-text">
-        <Link to="/patient" className="relative font-semibold z-[1] no-underline text-black">Profile</Link>
-      </div>
-      <div className="flex flex-row items-center justify-start gap-[0px_13px]">
-        <img
-          className="h-6 w-6 relative object-cover min-h-[24px] z-[1]"
-          loading="eager"
-          alt=""
-          src="/iconlybolddocument@2x.png"
-        />
-        <Link to="/patient_History" className="relative font-semibold z-[1] no-underline text-black">History</Link>
-      </div>
-    </nav>
-        </div>
-      </div>
-      
+          <Modal
+            title={`Order #${selectedOrder?.consultationId}`}
+            visible={modalVisible}
+            onCancel={closeDetailsPopup}
+            footer={null}
+            className="max-w-md"
+          >
+            <p className="text-lg font-semibold mb-4">Appointment Details</p>
+            <p><span className="font-semibold">Patient:</span> {selectedOrder?.patient.patName}</p>
+            <p><span className="font-semibold">Doctor:</span> {selectedOrder?.doctor.docName}</p>
+            <p><span className="font-semibold">Date:</span> {selectedOrder?.date}</p>
+            <p><span className="font-semibold">Time:</span> {selectedOrder?.time}</p>
+            <p><span className="font-semibold">Amount Paid:</span> ₹ {selectedOrder?.doctor.rate}</p>
+            <p><span className="font-semibold">Prescription:</span> <button className='bg-purple-600 text-white font-semibold rounded p-1 cursor-pointer'>Download</button></p>
+            {selectedOrder?.doctor.rating !== null ? (
+              <p>You have already rated this doctor.</p>
+            ) : (
+              <div>
+                <p className="text-lg font-semibold mt-6">Rate the doctor:</p>
+                <Rate
+                  onChange={handleRateChange}
+                  className='text-purple-600 mt-2'
+                  allowHalf
+                  defaultValue={2.5}
+                />
+                <p className="text-lg font-semibold mt-4">Write a review:</p>
+                <TextArea
+                  rows={4}
+                  value={review}
+                  onChange={handleReviewChange}
+                  className="mt-2"
+                />
+                <Button
+                  type="primary"
+                  onClick={handleSubmit}
+                  className="mt-4"
+                >
+                  Submit
+                </Button>
+                {isRated && (
+                  <p className="mt-2 text-green-600">Thank you for your feedback!</p>
+                )}
+              </div>
+            )}
+          </Modal>
+        </main>
       </div>
     </>
-  )
-}
+  );
+};
 
-export default Patient_History
+export default Patient_History;

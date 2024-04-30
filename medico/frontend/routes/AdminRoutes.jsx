@@ -5,14 +5,15 @@ import { useContext } from "react"
 const AdminRoutes = ({children}) => {
     const {user} = useContext(AuthContext)
    //  && user.role=="ADMIN"
-    if(user ){
+   let token = localStorage.getItem("token")
+    if(user||token ){
          
       return children;
     
    }
    else{
    localStorage.clear();
-   return <Navigate to="/login" />
+   return <Navigate to="/loginPatinet" />
    }
 }
 

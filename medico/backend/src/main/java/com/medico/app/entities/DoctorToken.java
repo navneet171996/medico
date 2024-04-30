@@ -11,8 +11,8 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "tokens")
-public class Token {
+@Table(name = "doctor_tokens")
+public class DoctorToken {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,11 +23,9 @@ public class Token {
     private String token;
 
     @Column(name = "is_logged_in")
-    private Boolean isLoggedIn;
+    private Boolean isLoggedOut;
 
-    @Enumerated(value = EnumType.STRING)
-    private Role role;
-
-    @Column(name = "user_id")
-    private Long userId;
+    @ManyToOne
+    @JoinColumn(name = "doctor_id")
+    private Doctor doctor;
 }

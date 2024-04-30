@@ -23,5 +23,6 @@ public class DoctorDto {
     private String password;
     private Long specialityId;
     private Long hospitalId;
+    private Double rating;
 
 }

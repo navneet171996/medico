@@ -13,6 +13,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -27,8 +28,11 @@ public class AuthenticationService {
     private final JwtUtil jwtUtil;
     private final AuthenticationManager authenticationManager;
     private final CustomUserDetailsService userDetailsService;
+    private final AdminTokenRepository adminTokenRepository;
+    private final PatientTokenRepository patientTokenRepository;
+    private final DoctorTokenRepository doctorTokenRepository;
 
-    public AuthenticationService(AdminRepository adminRepository, SpecialityRepository specialityRepository, HospitalRepository hospitalRepository, DoctorRepository doctorRepository, PatientRepository patientRepository, PasswordEncoder passwordEncoder, JwtUtil jwtUtil, AuthenticationManager authenticationManager, CustomUserDetailsService userDetailsService) {
+    public AuthenticationService(AdminRepository adminRepository, SpecialityRepository specialityRepository, HospitalRepository hospitalRepository, DoctorRepository doctorRepository, PatientRepository patientRepository, PasswordEncoder passwordEncoder, JwtUtil jwtUtil, AuthenticationManager authenticationManager, CustomUserDetailsService userDetailsService, AdminTokenRepository adminTokenRepository, PatientTokenRepository patientTokenRepository, DoctorTokenRepository doctorTokenRepository) {
         this.adminRepository = adminRepository;
         this.specialityRepository = specialityRepository;
         this.hospitalRepository = hospitalRepository;
@@ -38,6 +42,9 @@ public class AuthenticationService {
         this.jwtUtil = jwtUtil;
         this.authenticationManager = authenticationManager;
         this.userDetailsService = userDetailsService;
+        this.adminTokenRepository = adminTokenRepository;
+        this.patientTokenRepository = patientTokenRepository;
+        this.doctorTokenRepository = doctorTokenRepository;
     }
 
     public RegisterResponse registerAdmin(Admin request){
@@ -45,7 +52,7 @@ public class AuthenticationService {
         admin.setAdminEmail(request.getAdminEmail());
         admin.setAdminName(request.getAdminName());
         admin.setAdminPassword(passwordEncoder.encode(request.getPassword()));
-        admin.setRole(request.getRole());
+        admin.setRole(Role.ADMIN);
 
         admin = adminRepository.save(admin);
 
@@ -58,7 +65,22 @@ public class AuthenticationService {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         Admin admin = adminRepository.getAdminByAdminEmail(request.getEmail()).orElseThrow(() -> new UsernameNotFoundException("Admin not found !!!"));
         String token = jwtUtil.generateToken(authentication, Role.ADMIN.name());
-        return new LoginResponse(admin.getAdminEmail(), token);
+
+        Optional<List<AdminToken>> prevAdminTokensOptional = adminTokenRepository.findAllByAdmin_AdminId(admin.getAdminId());
+        if(prevAdminTokensOptional.isPresent()){
+            List<AdminToken> prevAdminTokens = prevAdminTokensOptional.get();
+            prevAdminTokens.forEach(t -> {
+                t.setIsLoggedOut(true);
+            });
+            adminTokenRepository.saveAll(prevAdminTokens);
+        }
+
+        AdminToken adminToken = new AdminToken();
+        adminToken.setToken(token);
+        adminToken.setIsLoggedOut(false);
+        adminToken.setAdmin(admin);
+        adminTokenRepository.save(adminToken);
+        return new LoginResponse(admin.getAdminEmail(), admin.getAdminId(), token);
     }
 
     public RegisterResponse registerDoctor(DoctorRegisterDto request){
@@ -71,6 +93,7 @@ public class AuthenticationService {
         doctor.setRating(0.0);
         doctor.setEmail(request.getEmail());
         doctor.setPassword(passwordEncoder.encode(request.getPassword()));
+        doctor.setRole(Role.DOCTOR);
 
         Optional<Speciality> optionalSpeciality = specialityRepository.findById(request.getSpecialityId());
         if(optionalSpeciality.isPresent()){
@@ -83,6 +106,8 @@ public class AuthenticationService {
             Hospital hospital = optionalHospital.get();
             doctor.setHospital(hospital);
         }
+
+
 
         doctor.setIsActive(Boolean.FALSE);
 
@@ -98,7 +123,22 @@ public class AuthenticationService {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         Doctor doctor = doctorRepository.getDoctorByEmail(request.getEmail()).orElseThrow();
         String token = jwtUtil.generateToken(authentication, Role.DOCTOR.name());
-        return new LoginResponse(doctor.getEmail(), token);
+
+        Optional<List<DoctorToken>> prevDoctorTokensOptional = doctorTokenRepository.findAllByDoctor_DocId(doctor.getDocId());
+        if(prevDoctorTokensOptional.isPresent()){
+            List<DoctorToken> prevDoctorTokens = prevDoctorTokensOptional.get();
+            prevDoctorTokens.forEach(t -> {
+                t.setIsLoggedOut(true);
+            });
+            doctorTokenRepository.saveAll(prevDoctorTokens);
+        }
+
+        DoctorToken doctorToken = new DoctorToken();
+        doctorToken.setToken(token);
+        doctorToken.setIsLoggedOut(false);
+        doctorToken.setDoctor(doctor);
+        doctorTokenRepository.save(doctorToken);
+        return new LoginResponse(doctor.getEmail(), doctor.getDocId(), token);
     }
 
     public RegisterResponse registerPatient(PatientRegisterDto request){
@@ -110,6 +150,7 @@ public class AuthenticationService {
         patient.setPatGender(request.getGender());
         patient.setPatEmail(request.getEmail());
         patient.setPatPassword(passwordEncoder.encode(request.getPassword()));
+        patient.setRole(Role.PATIENT);
 
         patient = patientRepository.save(patient);
 
@@ -122,6 +163,20 @@ public class AuthenticationService {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
         Patient patient = patientRepository.getPatientByPatEmail(request.getEmail()).orElseThrow();
         String token = jwtUtil.generateToken(authentication, Role.PATIENT.name());
-        return new LoginResponse(patient.getPatEmail(), token);
+
+        Optional<List<PatientToken>> prevPatientTokensOptional = patientTokenRepository.findAllByPatient_PatientID(patient.getPatientID());
+        if(prevPatientTokensOptional.isPresent()){
+            List<PatientToken> prevPatientTokens = prevPatientTokensOptional.get();
+            prevPatientTokens.forEach(t -> {
+                t.setIsLoggedOut(true);
+            });
+            patientTokenRepository.saveAll(prevPatientTokens);
+        }
+        PatientToken patientToken = new PatientToken();
+        patientToken.setToken(token);
+        patientToken.setIsLoggedOut(false);
+        patientToken.setPatient(patient);
+        patientTokenRepository.save(patientToken);
+        return new LoginResponse(patient.getPatEmail(), patient.getPatientID(), token);
     }
 }

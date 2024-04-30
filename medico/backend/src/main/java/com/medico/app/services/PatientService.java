@@ -10,9 +10,7 @@ import com.medico.app.repositories.ConsultationRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -145,6 +143,7 @@ public class PatientService {
         patientDto.setPatGender(patient.getPatGender());
         patientDto.setPatEmail(patient.getPatEmail());
         patientDto.setPatGender(patient.getPatGender());
+        patientDto.setPatPhoneNo(patient.getPatPhoneNo());
 
         return patientDto;
     }
