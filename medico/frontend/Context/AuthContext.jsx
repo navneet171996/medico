@@ -193,6 +193,14 @@ export const AuthContextProvider = ({children}) =>{
       setSlots(apiResponse.data)
       localStorage.setItem('totalSlots', JSON.stringify(apiResponse.data));
   }
+  
+  const registerDoc = async(payload) =>{
+    console.log(payload);
+    let apiResponse = await axios.post("http://localhost:8081/api/auth/registerDoctor",payload);
+       console.log(apiResponse);
+    navigate('/doctor');
+        
+  }
 
 
   //   await axios.get("http://localhost:4000/logout");
@@ -225,7 +233,7 @@ export const AuthContextProvider = ({children}) =>{
  
     
 
-    return <AuthContext.Provider value={{success, getDocConsultation,docConsultation,docProfile,getDoctorProfile,docId,slots,appointment,consultation,getConsultation,docDetails,getDoctorDetails,sortDoctorByPrice,doctorBySpecialization,doctorList1,spec,getSepecificSpecialization,specializationId,setSpecializationId,patientProfile,hospitals,getAllHospitals,getPatientDetails,registerPatient,loginApiCallAdmin,loginApiCallDoctor,loginApiCallPatient,user,logoutAPICall,getSpecialization,specialization,registerAdmin}}>{children}</AuthContext.Provider>
+    return <AuthContext.Provider value={{success,registerDoc, getDocConsultation,docConsultation,docProfile,getDoctorProfile,docId,slots,appointment,consultation,getConsultation,docDetails,getDoctorDetails,sortDoctorByPrice,doctorBySpecialization,doctorList1,spec,getSepecificSpecialization,specializationId,setSpecializationId,patientProfile,hospitals,getAllHospitals,getPatientDetails,registerPatient,loginApiCallAdmin,loginApiCallDoctor,loginApiCallPatient,user,logoutAPICall,getSpecialization,specialization,registerAdmin}}>{children}</AuthContext.Provider>
 
    
 }
