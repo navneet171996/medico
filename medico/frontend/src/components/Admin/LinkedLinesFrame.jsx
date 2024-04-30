@@ -1,3 +1,4 @@
+
 import React from 'react'
 
 const LinkedLinesFrame = () => {
@@ -33,3 +34,4 @@ const LinkedLinesFrame = () => {
 }
 
 export default LinkedLinesFrame
+

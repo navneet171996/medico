@@ -143,6 +143,7 @@ public class PatientService {
         patientDto.setPatGender(patient.getPatGender());
         patientDto.setPatEmail(patient.getPatEmail());
         patientDto.setPatGender(patient.getPatGender());
+        patientDto.setPatPhoneNo(patient.getPatPhoneNo());
 
         return patientDto;
     }

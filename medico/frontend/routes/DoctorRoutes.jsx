@@ -21,14 +21,14 @@ const DoctorRoutes = ({children}) => {
        if (!decodedToken || !decodedToken.role) {
            // If decodedToken is null or if it doesn't have a role property, redirect to login
            localStorage.clear();
-           return <Navigate to="/login" />;
+           return <Navigate to="/loginPatient" />;
        }
 
        // Check if role is "DOCTOR"
        if (decodedToken.role !== "DOCTOR") {
            // If role is not "DOCTOR", clear local storage and redirect to login
            localStorage.clear();
-           return <Navigate to="/login" />;
+           return <Navigate to="/loginPatient" />;
        }
 
        // If decodedToken exists, has a role property, and role is "DOCTOR", allow access to children

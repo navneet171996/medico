@@ -29,112 +29,77 @@ const Login_Doctor = () => {
     
    }
   return (
-    <div className="w-full relative bg-whitesmoke-100 overflow-hidden flex flex-row items-center justify-start pt-[37px] px-0 pb-36 box-border [row-gap:20px] tracking-[normal] mq1325:flex-wrap">
-      <img
-        className="h-[607.4px] w-[726px] relative max-w-full mq1325:flex-1"
-        loading="eager"
-        alt=""
-        src="/vector.svg"
-      />
-
-
-     <form   className="m-0 w-[670px] rounded-6xl bg-gainsboro flex flex-col items-center justify-start pt-[5px] pb-[49px] pr-[63px] pl-[76px] box-border gap-[4px] min-w-[670px] max-w-full mq800:pl-[38px] mq800:pr-[31px] mq800:box-border mq800:min-w-full mq450:pb-[21px] mq450:box-border mq1125:pt-5 mq1125:pb-8 mq1125:box-border mq1325:flex-1">
-      <div className="w-[670px] h-[813px] relative rounded-6xl bg-gainsboro hidden max-w-full" />
-      <div className="self-stretch flex flex-col items-center justify-start pt-0 px-0 pb-[61px] gap-[1px_0px]">
-        <div className="w-[237px] flex flex-row items-start justify-start py-0 pr-0 pl-[35px] box-border">
-          <img
-            className="h-[115px] flex-1 relative max-w-full overflow-hidden object-cover z-[1]"
-            loading="eager"
-            alt=""
-            src="/logo@2x.png"
-          />
-        </div>
-
-        
-        <div className="mb-[-58px] self-stretch rounded-11xl bg-mediumblue overflow-hidden flex flex-row items-start justify-between py-0 pr-[61px] pl-[81px] gap-[20px] z-[1] mq800:pl-10 mq800:pr-[30px] mq800:box-border mq450:flex-wrap">
-          <div className="h-[74px] w-[74px] flex flex-col items-start justify-end pt-0 px-0 pb-0 box-border">
-            <div className="mt-[-8px] self-stretch h-[82px] flex flex-col items-start justify-start pt-0 px-0 pb-0 box-border">
-              <div className="self-stretch flex flex-row items-start justify-start relative">
-                <div className="h-[60px] w-[263px] absolute my-0 mx-[!important] top-[15px] right-[-119px] rounded-26xl bg-gray-100" />
-                <div className="mb-[-26px] flex-1 relative text-5xl left-[20px] leading-[90px] font-semibold font-inter text-black text-left z-[1] mq450:text-lgi mq450:leading-[100px]">
-                 <Link className='no-underline text-black'>Login</Link> 
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="h-[74px] w-[131px] flex flex-col items-start justify-end pt-0 px-0 pb-0 box-border">
-            <div className="mt-[-8px] self-stretch h-[82px] flex flex-col items-start justify-start pt-0 px-0 pb-0 box-border">
-              <div className="mb-[-26px]  self-stretch h-[108px] relative text-5xl leading-[125px] font-semibold font-inter text-black text-left flex items-end shrink-0 mq450:text-lgi mq450:leading-[100px]">
-              <Link to="/register_patient" className='no-underline text-white font-semibold'> Register</Link> 
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div className='text-[40px] pt-[10px]'>Doctor's Login</div>
-      <div className="self-stretch flex flex-col  items-center justify-center max-w-full">
-        <div className="flex flex-row items-start justify-start py-0 px-[11px]">
-          <div className="relative text-[22px] leading-[100px] font-normal text-black text-left z-[1] mq450:text-lgi mq450:leading-[80px]">
-            Email Id
-          </div>
-        </div>
-        <div className=" rounded-3xs bg-white box-border flex flex-row items-center justify-start py-0 px-[19px] max-w-full z-[1] mt-[-30px] border-[2px] border-solid border-neutral-colors-white">
-          <div className="h-[95px] w-[531px] relative rounded-3xs bg-gray-500 box-border hidden max-w-full border-[2px] border-solid border-neutral-colors-white" />
-          <input  type="text"
-                    id="username"
-                   
-                    autoComplete="off"
-                    onChange={(e) => setUser(e.target.value)}
-                    value={user}
-                    required className="outline-none relative text-5xl  font-inter text-gray-300 text-left z-[2] mq450:text-lgi mq450:leading-[80px]"/>
-        </div>
-      </div>
-
-
-      <div className="self-stretch h-[226px] relative max-w-full mq450:h-auto mq450:min-h-[226]">
-
-      <div className="self-stretch flex flex-col items-center justify-center max-w-full">
-        <div className="flex flex-row items-start justify-start py-0 px-[11px]">
-          <div className="relative text-[22px] leading-[100px] font-normal text-black text-left z-[1] mq450:text-lgi mq450:leading-[80px]">
-            Password
-          </div>
-        </div>
-        <div className=" rounded-3xs bg-white box-border flex flex-row items-center justify-start py-0 px-[19px] max-w-full z-[1] mt-[-30px] border-[2px] border-solid border-neutral-colors-white">
-          <div className="h-[95px] w-[531px] relative rounded-3xs bg-gray-500 box-border hidden max-w-full border-[2px] border-solid border-neutral-colors-white" />
-          <input   type="password"
-                    id="password"
-                    onChange={(e) => setPwd(e.target.value)}
-                    value={pwd}
-                   
-                    required className="outline-none relative text-5xl  font-inter text-gray-300 text-left z-[2] mq450:text-lgi mq450:leading-[80px]"/>
-            
-            
-        </div>
-      </div>
-
-        <div className='flex justify-center text-center mt-8'>
-      <Link to="/loginPatient" className=' bg-mediumpurple-100 p-2 rounded-sm  text-black no-underline hover:text-mediumpurple-200 hover:text-whitesmoke-100'>Login as Patient</Link>
-      </div>
-        <div className="absolute top-[178px] left-[180px] text-xl leading-[125%] font-normal text-black text-left z-[1] mq450:text-base mq450:leading-[20px]">
-          
-          Forgot password?
-        
-        </div>
-      </div>
-
-
-      <div cursor-pointer className="self-stretch flex flex-row items-start justify-start py-0 pr-0 pl-[13px] box-border max-w-full">
-        <div className="flex-1 flex flex-row items-center justify-start max-w-full">
-          <div className="h-[72px] w-[518px] relative rounded-6xl bg-mediumpurple-100 max-w-full z-[1]" />
-          <button onClick={handleSubmit} className="relative text-17xl bg-transparent font-inter text-neutral-colors-white text-left z-[2] ml-[-321px]">
-            Login
-          </button>
-        </div>
-      </div>
-    </form>
+    <div className='flex lg:flex-row sm:flex-col md:flex-col'>
+    <div className='sm:hidden md:hidden opacity-100 bg-slate-300'>
+      <img className='mt-[110px] ' src="/vector.svg" alt="" />
     </div>
-       
+  
+    <div className="flex flex-col items-center justify-center w-full h-screen bg-gradient-to-r from-sky-500 to-indigo-500 px-5 sm:px-0 ">
+      <img src="/logo.png" alt="" />
+      <div className="flex bg-white rounded-lg shadow-lg border overflow-hidden max-w-sm lg:max-w-4xl w-full">
+        <div
+          className="hidden md:block bg-cover bg-center"
+          style={{
+            backgroundImage: `url('/vector.svg')`,
+          }}
+        ></div>
+        
+        <div className="w-full p-8 ">
+          <div className="text-[25px] text-center mb-4 font-bold space-x-1 " style={{ fontFamily: '"Alfa Slab One", serif' }}>Doctor's Login</div>
+          <div className="mt-4">
+            <label className="block text-gray-700 text-sm font-bold mb-2 ">
+              Email Address
+            </label>
+            <input
+              className="text-gray-700 border border-gray-300 rounded py-2 px-4 block w-full focus:outline-2 focus:outline-blue-700"
+              type="text"
+              id="username"
+              autoComplete="off"
+              onChange={(e) => setUser(e.target.value)}
+              value={user}
+              required
+            />
+          </div>
+          <div className="mt-4">
+            <label className="block text-gray-700 text-sm font-bold mb-2">
+              Password
+            </label>
+            <input
+              className="text-gray-700 border border-gray-300 rounded py-2 px-4 block w-full focus:outline-2 focus:outline-blue-700"
+              type="password"
+              id="password"
+              onChange={(e) => setPwd(e.target.value)}
+              value={pwd}
+              required
+            />
+            <a
+              href="#"
+              className="text-xs text-gray-500 hover:text-gray-900 text-end w-full mt-2"
+            >
+              Forget Password?
+            </a>
+          </div>
+          <div className="mt-8">
+            <button
+              onClick={handleSubmit}
+              className=" bg-blue-800 text-white font-bold py-2 px-4 w-full rounded hover:bg-blue-600"
+            >
+              Login
+            </button>
+          </div>
+          <div className="flex justify-center mt-8">
+            <Link
+              to="/loginPatient"
+              className=" bg-blue-600 hover:bg-blue-400 p-2 rounded-sm text-white no-underline"
+            >
+              Login as Patient
+            </Link>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
   )
 }
 
