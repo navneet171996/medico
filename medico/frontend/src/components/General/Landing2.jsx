@@ -11,7 +11,8 @@ import "../../css/bootstrap-icons.css"
 import "../../css/bootstrap.min.css"
 import { Link } from 'react-router-dom'
 import Phone from './Phone.jsx'
-
+import Chat from './chat.jsx'
+import {WechatOutlined} from '@ant-design/icons'
 
 
 const Landing2 = () => {
@@ -43,6 +44,9 @@ const Landing2 = () => {
         >
           <span className="navbar-toggler-icon" />
         </button>
+        
+      <Chat  />
+
         <div className="navbar-collapse" id="navbarNav">
           <ul className="navbar-nav mx-auto">
             <li className="nav-item active">
@@ -424,6 +428,9 @@ const Landing2 = () => {
     </div>
   </footer>
   </div>
+
+
+  
     </>
   )
 }
