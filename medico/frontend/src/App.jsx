@@ -35,6 +35,7 @@ import Appointments from './components/Patient/Appointments'
 import Landing2 from './components/General/Landing2'
 import DocDet from './components/Patient/DocDet'
 import EnterHospital from './components/Patient/EnterHospital'
+import Approvals from './components/Admin/Approvals'
 // import VideoCall from './components/Patient/video call/VideoCall'
 
 function App() {
@@ -64,6 +65,8 @@ function App() {
         
           {/* protected Routes */}
            <Route path='/admin'  element={ <PrivateRoute  accessBy="authenticated"> <AdminRoutes>  <Admin_Home />  </AdminRoutes> </PrivateRoute> }> </Route>
+           <Route path='/adminApproval'  element={ <PrivateRoute  accessBy="authenticated"> <AdminRoutes>  <Approvals />  </AdminRoutes> </PrivateRoute> }> </Route>
+
            <Route path='/patient'  element={ <PrivateRoute  accessBy="authenticated"> <PatientRoutes>  <Patient_Home />  </PatientRoutes> </PrivateRoute> }> </Route>
             <Route path='/patient_History'   element={ <PrivateRoute  accessBy="authenticated">  <PatientRoutes>  <Patient_History />  </PatientRoutes> </PrivateRoute>}> </Route>
             <Route path='/patient_View'   element={ <PrivateRoute  accessBy="authenticated">  <PatientRoutes>  <Patient_View />  </PatientRoutes> </PrivateRoute>}> </Route>
