@@ -16,15 +16,14 @@ import Register_admin from './components/General/Register_admin'
 import Patient_History from './components/Patient/Patient_History'
 import AuthContext, { AuthContextProvider } from '../Context/AuthContext'
 import Session_Out from './components/Session_out/Session_Out'
-import { PrivateRoute } from '../routes/PrivateRoutes'
 import Patient_View from './components/Patient/Patient_View'
 import Login_Patient from './components/General/Login_Patient'
 import Login_Doctor from './components/General/Login_Doctor'
-<<<<<<< Updated upstream
+
 import SpecializationPage from './components/Patient/SpecializationPage'
 import SpecializationPage2 from './components/Patient/SpecializationPage2'
 import DoctorDetails from './components/Patient/DoctorDetails'
-import PrivateRoute from '../routes/privateRoutes'
+import PrivateRoute from '../routes/PrivateRoute'
 import BookAppointment from './components/Patient/BookAppointment'
 import BookSlot from './components/Patient/BookSlot'
 import BookNow from './components/Patient/BookNow'
@@ -38,9 +37,7 @@ import Landing2 from './components/General/Landing2'
 import DocDet from './components/Patient/DocDet'
 import EnterHospital from './components/Patient/EnterHospital'
 // import VideoCall from './components/Patient/video call/VideoCall'
-=======
-import PrivateRoute from '../routes/privateRoutes'
->>>>>>> Stashed changes
+
 
 function App() {
  

@@ -25,14 +25,18 @@ const Regiester_doctor = () => {
       const plainOptions = ['M', 'F', 'O'];
 
       function handleChange(value) {
-        console.log(`Selected: ${value}`);
-        setGender(value)
+        console.log('Selected:', value);
+        setGender(value);
       }
-    
-
-    const onChange = (e) => {
-      console.log(`radio checked:${e.target.value}`);
+      const radioStyle = {
+        color: 'white',
     };
+
+      const onChange = (e) => {
+        console.log(`radio checked: ${e.target.value}`);
+    };
+    
+      
       const dob = (date, dateString) => {
         console.log(date, dateString);
         setDocDob(dateString)
@@ -41,6 +45,7 @@ const Regiester_doctor = () => {
   
       const handleRegister_doctor=async (e)=>{
              e.preventDefault();
+             console.log("register him");
              let payload={
               docName:docName,
               docDob:docDob,
@@ -50,215 +55,86 @@ const Regiester_doctor = () => {
               email:docEmail,
               password:docPassword,
               specialityId: 1,
-              hospitalId: 1
+              profilePicture:"",
+              
 
              }
              await registerDoc(payload)
   
       }
-      return (
-    
-        <>
-        <div className="w-full relative bg-whitesmoke-100 overflow-hidden flex flex-row items-center justify-start pt-[67px] px-0 pb-36 box-border [row-gap:20px] tracking-[normal] mq1325:flex-wrap">
-            <img
-              className="h-[607.4px] w-[726px] relative max-w-full mq1325:flex-1"
-              loading="eager"
-              alt=""
-              src="/vector.svg"
-            />
-      
-      
-      <form   className="m-0 w-[670px]  overflow-visible rounded-6xl bg-gainsboro flex flex-col items-center justify-start pt-[5px] pb-[388px] pr-[63px] pl-[66px] box-border gap-[4px] min-w-[370px] max-w-full mq800:pl-[38px] mq800:pr-[31px] mq800:box-border mq800:min-w-full mq450:pb-[21px] mq450:box-border mq1125:pt-5 mq1125:pb-8 mq1125:box-border mq1325:flex-1">
-            <div className="w-[670px]  relative rounded-6xl  hidden max-w-full" />
-            <div className="self-stretch flex flex-col items-center justify-start pt-0 px-0 pb-[21px] gap-[1px_0px]">
-              <div className="w-[237px] flex flex-row items-start justify-start py-0 pr-0 pl-[35px] box-border">
-                <img
-                  className="h-[115px] flex-1 relative max-w-full overflow-hidden object-cover z-[1]"
-                  loading="eager"
-                  alt=""
-                  src="/logo@2x.png"
-                />
-              </div>
-      
-              
-              <div className="self-stretch rounded-11xl bg-mediumblue overflow-hidden flex flex-row items-start justify-between py-0 pr-[61px] pl-[81px] gap-[20px] z-[1] mq800:pl-10 mq800:pr-[30px] mq800:box-border mq450:flex-wrap">
-              
-                <div className="h-[74px] w-[131px] flex flex-col items-start justify-end pt-0 px-0 pb-0 box-border">
-                  <div className="mt-[-8px] self-stretch h-[82px] flex flex-col items-start justify-start pt-0 px-0 pb-0 box-border">
-                    <div className="mb-[-26px] self-stretch h-[108px] relative text-5xl leading-[125px] font-semibold font-inter text-black text-left flex items-end shrink-0 mq450:text-lgi mq450:leading-[100px]">
-                    <Link to="/login" className='no-underline'> Login</Link> 
-                    </div>
-                  </div>
-                </div>
-                <div className="h-[74px] w-[74px] flex flex-col items-start justify-end pt-0 px-0 pb-0 box-border">
-                  <div className="mt-[-8px] self-stretch h-[82px] flex flex-col items-start justify-start pt-0 px-0 pb-0 box-border">
-                    <div className="self-stretch flex flex-row items-start justify-start relative">
-                      <div className="h-[60px] w-[263px] absolute my-0 mx-[!important] top-[15px] right-[-49px] rounded-26xl bg-gray-100" />
-                      <div className="mb-[-80px] flex-1 relative right-[30px] text-5xl leading-[90px] font-semibold font-inter text-black text-left z-[1] mq450:text-lgi mq450:leading-[100px]">
-                       <Link className='no-underline text-black '>Register</Link> 
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-      
-      
-            <div className="self-stretch flex flex-col  items-center justify-center max-w-full">
-              <div className="flex flex-row items-start justify-start py-0 px-[11px]">
-                <div className="relative text-3xl leading-[100px] font-inter text-black text-left z-[1] mq450:text-lgi mq450:leading-[80px]">
-                      Doctor Name
-                </div>
-              </div>
-              <div className="  bg-white box-border flex flex-row items-center justify-start py-0 px-[19px] max-w-full z-[1] mt-[-30px] border-[2px] border-solid border-neutral-colors-white">
-                <div className="h-[95px] w-[531px] relative rounded-3xs bg-gray-500 box-border hidden max-w-full border-[1px] border-solid border-neutral-colors-white" />
-                <input  type="text"
-                autoComplete="off"
-                onChange={(e) => setdocName(e.target.value)}
-                value={docName}
-                          className="outline-none relative text-lg  font-inter text-gray-300 text-left z-[2] mq450:text-lgi mq450:leading-[80px]"/>
-                  
-              </div>
-            </div>
-      
-      
-            <div className="self-stretch h-[226px] relative max-w-full mq450:h-auto mq450:min-h-[226]">
-      
-            <div className="self-stretch flex flex-col items-center justify-center max-w-full">
-              <div className="flex flex-row items-start justify-start py-0 px-[11px]">
-                <div className="relative text-3xl leading-[100px] font-inter text-black text-left z-[1] mq450:text-lgi mq450:leading-[80px]">
-                     Contact Number
-                </div>
-              </div>
-              <div className="  bg-white box-border flex flex-row items-center justify-start py-0 px-[19px] max-w-full z-[1] mt-[-30px] border-[2px] border-solid border-neutral-colors-white">
-                <div className="h-[95px] w-[531px] relative rounded-3xs bg-gray-500 box-border hidden max-w-full border-[1px] border-solid border-neutral-colors-white" />
-                <input   type="tel"
-                onChange={(e) => setPhoneNo(e.target.value)}
-                value={phoneNo}
-                          required className="outline-none relative text-lg  font-inter text-gray-300 text-left z-[2] mq450:text-lgi mq450:leading-[80px]"/>
-                  
-              </div>
 
-              
-              
-       
-        <div className='flex flex-row mt-7 pr-[11px] '>
-        <div className="flex flex-row items-center justify-start py-0 px-[5px]">
-          <div className="relative text-3xl leading-[-50px] font-inter text-black text-left z-[1] mq450:text-lgi mq450:leading-[80px]">
-               Date Of Birth:
-          </div>
-        </div>
-        <div>
-        <Space direction="vertical" size={12}>
-        <DatePicker onChange={dob} needConfirm />
-      </Space>
-        </div>
-        </div>
-        <div className='flex flex-row '>
-        <div className="flex flex-row items-center justify-start py-0 px-[11px]">
-          <div className="relative text-3xl leading-[100px] font-inter text-black text-left z-[1] mq450:text-lgi mq450:leading-[80px]">
-               Gender:
-          </div>
-        </div>
-        <div>
-        <Checkbox.Group className='pt-10' options={plainOptions} defaultValue={['Apple']} onChange={onChange} />
-        </div>
-        </div>
-              
-            
-             <div className='flex flex-row h-[30px] mt-5'>
-              <div className="flex flex-row items-center justify-start py-0 px-[11px]">
-                <div className="relative text-3xl leading-[100px] font-inter text-black text-left z-[1] mq450:text-lgi mq450:leading-[80px]">
-                     Email ID
-                </div>
-              </div>
-              <div className="   bg-white border-white  flex flex-row items-center justify-start py-[-20px] px-[19px] max-w-full z-[1] border-[1px] border-solid ">
-                <div className="w-[531px] h-[20px] relative bg-gray-500 box-border hidden max-w-full border-[1px] border-solid " />
-                <input   type="email"
-                autoComplete="off"
-                onChange={(e) => setdocEmail(e.target.value)}
-                value={docEmail}
-                          required className="outline-none  text-lg  font-inter text-gray-300 text-left z-[2] mq450:text-lgi mq450:leading-[80px]"/>
-                  
-              </div>
-              </div>
-      
-              <div className='flex flex-row h-[30px] py-3'>
-              <div className="flex flex-row items-center justify-start py-0 px-[11px]">
-                <div className="relative text-3xl leading-[100px] font-inter text-black text-left z-[1] mq450:text-lgi mq450:leading-[80px]">
-                      Password
-                </div>
-              </div>
-              <div className="   bg-white border-white  flex flex-row items-center justify-start py-[-20px] px-[19px] max-w-full z-[1] border-[1px] border-solid ">
-                <div className="w-[531px] h-[20px] relative bg-gray-500 box-border hidden max-w-full border-[1px] border-solid " />
-                <input   type="email"
-                autoComplete="off"
-                onChange={(e) => setdocPassword(e.target.value)}
-                value={docPassword}
-                          required className="outline-none  text-lg  font-inter text-gray-300 text-left z-[2] mq450:text-lgi mq450:leading-[80px]"/>
-                  
-              </div>
-              </div>
-      
-              <div className='flex flex-row h-[30px]  relative right-[40px] '>
-              <div className="flex  flex-row items-center justify-start py-0 px-[11px]">
-                <div className="relative text-3xl leading-[100px] font-inter text-black text-left z-[1] mq450:text-lgi mq450:leading-[80px]">
-                      Confirm Password
-                </div>
-              </div>
-              <div className="  border-white bg-white  flex flex-row items-center justify-start py-[-20px] px-[19px] max-w-full z-[1] border-[1px] border-solid ">
-                <div className="w-[531px] h-[20px] relative bg-gray-500 box-border hidden max-w-full border-[1px] border-solid " />
-                <input   type="email"
-                          required className="outline-none  text-lg  font-inter text-gray-300 text-left z-[2] mq450:text-lgi mq450:leading-[80px]"/>
-                  
-              </div>
-              </div>
-      
-              {/* <div className='flex flex-row h-[30px]  relative right-[40px] '>
-              <div className="flex  flex-row items-center justify-start py-0 px-[11px]">
-                <div className="relative text-3xl leading-[100px] font-inter text-black text-left z-[1] mq450:text-lgi mq450:leading-[80px]">
-                      Confirm Password
-                </div>
-              </div>
-              <Flex vertical gap="middle">
-          <Radio.Group onChange={onChange} defaultValue="a" className='mt-2'>
-            <Radio.Button value="a">Hangzhou</Radio.Button>
-            <Radio.Button value="b">Shanghai</Radio.Button>
-            <Radio.Button value="c">Beijing</Radio.Button>
-            <Radio.Button value="d">Chengdu</Radio.Button>
-          </Radio.Group>
-          </Flex>
-              </div> */}
-              
-      
-      
-              
-             
-            </div>
-      
-      
-              {/* <div className="absolute top-[178px] left-[200px] text-xl leading-[125%] font-inter text-black text-left z-[1] mq450:text-base mq450:leading-[20px]">
-                Forgot password?
-              </div> */}
-      
-      <div className="cursor-pointer self-stretch flex flex-row items-start justify-start py-10 pr-0 pl-[13px] box-border max-w-full">
-              <div className="flex-1 flex flex-row items-center justify-start max-w-full">
-                <div className="h-[72px] w-[518px] relative rounded-6xl bg-mediumpurple-100 max-w-full z-[1]" />
-                <button onClick={handleRegister_doctor} className="relative text-17xl bg-transparent font-inter text-neutral-colors-white text-left z-[2] ml-[-321px]">
-                  Register
-                </button>
-              </div>
-            </div>
-            </div>
-      
-      
+    return (
+        <div className="w-full bg-gray-800 h-[1400px]">
+            <div className=" bg-gradient-to-b from-blue-800 to-blue-600 h-96"></div>
           
-          </form>
-          </div>
-        </>
+              <div className='text-center relative bottom-[370px]'><img src="/logo.png"  alt="" /></div>
+            <div className="max-w-5xl relative bottom-[70px] mx-auto px-6 sm:px-6 lg:px-8 ">
+                <div className="bg-gray-900 w-full shadow rounded p-8 sm:p-12 -mt-72">
+                    <p className="text-3xl font-bold leading-7 text-center text-white">Doctor Sign Up</p>
+                    <form onSubmit={handleRegister_doctor}>
+                        <div className="md:flex items-center mt-12">
+                            <div className="w-full md:w-1/2 flex flex-col">
+                                <label className="font-semibold leading-none text-gray-300">Doctor Name</label>
+                                <input type="text" className="leading-none text-gray-50 p-3 focus:outline-none focus:border-blue-700 mt-4 border-0 bg-gray-800 rounded" onChange={(e) => setdocName(e.target.value)} value={docName} />
+                            </div>
+                            <div className="w-full md:w-1/2 flex flex-col md:ml-6 md:mt-0 mt-4">
+                                <label className="font-semibold leading-none text-gray-300">Contact Number</label>
+                                <input type="tel" className="leading-none text-gray-50 p-3 focus:outline-none focus:border-blue-700 mt-4 border-0 bg-gray-800 rounded" onChange={(e) => setPhoneNo(e.target.value)} value={phoneNo} />
+                            </div>
+                        </div>
+                        <div className="md:flex items-center mt-8">
+                            <div className="w-full flex flex-col">
+                                <label className="font-semibold leading-none text-gray-300">Email ID</label>
+                                <input type="email" className="leading-none text-gray-50 p-3 focus:outline-none focus:border-blue-700 mt-4 border-0 bg-gray-800 rounded" onChange={(e) => setdocEmail(e.target.value)} value={docEmail} />
+                            </div>
+                        </div>
+                        <div className='flex flex-row mt-8 text-gray-300'>
+                            <div className="flex flex-row items-center justify-start py-0 px-[11px]">
+                                <div className="relative text-[18px] leading-[100px] font-normal text-gray-300 text-left z-[1] mq450:text-lgi mq450:leading-[80px]">
+                                    Gender:
+                                </div>
+                            </div>
+                            <div>
+                                <Radio.Group style={radioStyle}className=' pt-10 ' options={['M', 'F', 'O']} value={gender} onChange={onChange} />
+                            </div>
+                        </div>
+                        <div className='flex flex-row pb-3 mb-3 pr-[11px] '>
+                            <div className="flex flex-row items-center justify-start py-0 px-[5px]">
+                                <div className="relative text-[18px] leading-[-50px] font-normal text-gray-300 text-left z-[1] mq450:text-lgi mq450:leading-[80px]">
+                                    fees:
+                                </div>
+                            </div>
+                            <div>
+                               
+                            </div>
+                        </div>
+                        <div className='flex flex-row pb-3 mb-3 pr-[11px] '>
+                            <div className="flex flex-row items-center justify-start py-0 px-[5px]">
+                                <div className="relative text-[18px] leading-[-50px] font-normal text-gray-300 text-left z-[1] mq450:text-lgi mq450:leading-[80px]">
+                                    Date Of Birth:
+                                </div>
+                            </div>
+                            <div>
+                                <Space direction="vertical" size={12}>
+                                    <DatePicker onChange={dob} needConfirm />
+                                </Space>
+                            </div>
+                        </div>
+                        <div className="w-full flex flex-col mt-8">
+                            <label className="font-semibold leading-none text-gray-300">Password</label>
+                            <input type="password" className="leading-none text-gray-50 p-3 focus:outline-none focus:border-blue-700 mt-4 border-0 bg-gray-800 rounded" onChange={(e) => setdocPassword(e.target.value)} value={docPassword} />
+                        </div>
+                        <div className="flex items-center justify-center w-full">
+                            <button type="submit" className="mt-9 font-semibold leading-none text-white py-4 px-10 bg-blue-700 rounded hover:bg-blue-600 focus:ring-2 focus:ring-offset-2 focus:ring-blue-700 focus:outline-none">
+                                Register
+                            </button>
+                        </div>
+                    </form>
+                </div>
+              
+            </div>
+        </div>
+    );
+};
 
-
-        )
-
-  }
-export default Regiester_doctor
+export default  Regiester_doctor ;

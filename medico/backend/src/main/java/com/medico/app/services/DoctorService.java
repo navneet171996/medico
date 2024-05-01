@@ -11,8 +11,10 @@ import java.util.stream.Collectors;
 import com.medico.app.dto.DoctorDTO;
 import com.medico.app.dto.SocketDto;
 import com.medico.app.entities.Consultation;
+import com.medico.app.entities.Hospital;
 import com.medico.app.entities.Socket;
 import com.medico.app.repositories.ConsultationRepository;
+import com.medico.app.repositories.HospitalRepository;
 import com.medico.app.repositories.SocketRepository;
 import org.springframework.stereotype.Service;
 import com.medico.app.entities.Doctor;
@@ -24,12 +26,14 @@ public class DoctorService {
     private final DoctorRepository doctorRepository;
     private final ConsultationRepository consultationRepository;
     private final SocketRepository socketRepository;
+    private final HospitalRepository hospitalRepository;
 
-    public DoctorService(DoctorRepository doctorRepository, ConsultationRepository consultationRepository, SocketRepository socketRepository) {
+    public DoctorService(DoctorRepository doctorRepository, ConsultationRepository consultationRepository, SocketRepository socketRepository, HospitalRepository hospitalRepository) {
 
         this.doctorRepository = doctorRepository;
         this.consultationRepository = consultationRepository;
         this.socketRepository = socketRepository;
+        this.hospitalRepository = hospitalRepository;
     }
 
     public List<Doctor> getAllDoctor(){
@@ -51,6 +55,7 @@ public class DoctorService {
         doctorDTO.setDocDob(doctor.getDocDob());
         doctorDTO.setEmail(doctor.getEmail());
         doctorDTO.setRating(doctor.getRating());
+        doctorDTO.setRate(doctorDTO.getRate());
         doctorDTO.setGender(doctor.getGender());
         doctorDTO.setPhoneNo(doctor.getPhoneNo());
         doctorDTO.setRate(doctor.getRate());
@@ -130,5 +135,26 @@ public class DoctorService {
         }
 
         return new Socket();
+    }
+
+    public Doctor resignFromHospital(Long doctorId) {
+        Doctor doctor = doctorRepository.findById(doctorId).orElseThrow();
+        doctor.setHospital(null);
+        doctorRepository.save(doctor);
+        return doctor;
+    }
+
+    public Doctor applyToHospital(Long doctorId, Long hospitalId) {
+        Doctor doctor = doctorRepository.findById(doctorId).orElseThrow();
+        if(doctor.getHospital() == null){
+            Hospital hospital = hospitalRepository.findById(hospitalId).orElseThrow();
+            doctor.setHospital(hospital);
+            doctorRepository.save(doctor);
+        }
+        if(doctor.getHospital().getHospitalId().equals(hospitalId)){
+            return doctor;
+        }
+
+        return doctor;
     }
 }

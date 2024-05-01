@@ -21,7 +21,6 @@ const configuration = {
 }
 
 export const getLocalPreview = () => {
-   
     
   navigator.mediaDevices
     .getUserMedia(defaultConstraints)

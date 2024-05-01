@@ -59,6 +59,15 @@ public class DoctorController {
     public ResponseEntity<String> getSocketOfNextPatientFromQueue(@PathVariable Long doctorId){
         return new ResponseEntity<>(doctorQueueService.getSocketOfNextPatientFromQueue(doctorId), HttpStatus.OK);
     }
+    @GetMapping(path = "/resignFromHospital/{doctorId}")
+    public ResponseEntity<Doctor> resignFromHospital(@PathVariable Long doctorId){
+        return new ResponseEntity<>(doctorService.resignFromHospital(doctorId), HttpStatus.OK);
+    }
+
+    @GetMapping(path = "/applyToHospital/{doctorId}/{hospitalId}")
+    public ResponseEntity<Doctor> applyToHospital(@PathVariable Long doctorId, @PathVariable Long hospitalId){
+        return new ResponseEntity<>(doctorService.applyToHospital(doctorId, hospitalId), HttpStatus.OK);
+    }
 
     @GetMapping(path = "/deleteQueueOfDoctor{doctorId}")
     public ResponseEntity<String> deleteQueueOfDoctor(@PathVariable Long doctorId){

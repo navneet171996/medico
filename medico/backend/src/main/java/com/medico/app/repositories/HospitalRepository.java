@@ -14,4 +14,6 @@ public interface HospitalRepository extends JpaRepository<Hospital, Long> {
 
     @Query("SELECT d FROM Hospital h INNER JOIN Doctor d ON d.hospital.hospitalId=h.hospitalId")
     Optional<List<Doctor>> findDoctorsByHospitalId(Long hospitalId);
+
+    Optional<Hospital> findHospitalByHospitalEmailId(String emailId);
 }
