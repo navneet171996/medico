@@ -1,5 +1,6 @@
 package com.medico.app.controllers;
 
+import com.medico.app.dao.SocketQueueDao;
 import com.medico.app.dto.DoctorDTO;
 import com.medico.app.dto.SocketDto;
 import com.medico.app.entities.Consultation;
@@ -68,8 +69,8 @@ public class DoctorController {
     }
 
     @GetMapping(path = "/getSocketOfNextPatient/{doctorId}")
-    public ResponseEntity<String> getSocketOfNextPatientFromQueue(@PathVariable Long doctorId){
-        return new ResponseEntity<>(doctorQueueService.getSocketOfNextPatientFromQueue(doctorId), HttpStatus.OK);
+    public ResponseEntity<SocketQueueDao> getSocketOfNextPatientFromQueue(@PathVariable Long doctorId){
+        return new ResponseEntity<>(doctorQueueService.getNextPatient(doctorId), HttpStatus.OK);
     }
 
     @GetMapping(path = "/deleteQueueOfDoctor{doctorId}")

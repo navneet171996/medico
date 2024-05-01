@@ -13,4 +13,5 @@ public class DoctorQueueDto {
 
     private Long docId;
     private String socketId;
+    private Long patientId;
 }
