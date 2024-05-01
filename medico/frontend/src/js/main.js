@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", function() {
 webRTCHandler.getLocalPreview();
 
 // register event listeners for connection buttons
-
+setTimeout( function(){
 const personalCodeChatButton = document.getElementById(
   "personal_code_chat_button"
 );
@@ -174,5 +174,8 @@ const hangUpChatButton = document.getElementById('finish_chat_call_button');
 hangUpChatButton.addEventListener('click', () => {
   webRTCHandler.handleHangUp();
 });
+
+},30);
+
 });
 
