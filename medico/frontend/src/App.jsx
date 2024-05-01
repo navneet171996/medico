@@ -16,14 +16,13 @@ import Register_admin from './components/General/Register_admin'
 import Patient_History from './components/Patient/Patient_History'
 import AuthContext, { AuthContextProvider } from '../Context/AuthContext'
 import Session_Out from './components/Session_out/Session_Out'
-import { PrivateRoute } from '../routes/PrivateRoutes'
 import Patient_View from './components/Patient/Patient_View'
 import Login_Patient from './components/General/Login_Patient'
 import Login_Doctor from './components/General/Login_Doctor'
 import SpecializationPage from './components/Patient/SpecializationPage'
 import SpecializationPage2 from './components/Patient/SpecializationPage2'
 import DoctorDetails from './components/Patient/DoctorDetails'
-import PrivateRoute from '../routes/PrivateRoutes'
+import PrivateRoute from '../routes/PrivateRoute'
 import BookAppointment from './components/Patient/BookAppointment'
 import BookSlot from './components/Patient/BookSlot'
 import BookNow from './components/Patient/BookNow'
@@ -37,6 +36,7 @@ import Landing2 from './components/General/Landing2'
 import DocDet from './components/Patient/DocDet'
 import EnterHospital from './components/Patient/EnterHospital'
 import Approvals from './components/Admin/Approvals'
+import QueueVideoCall from './components/Doctor/QueueVideoCall'
 // import VideoCall from './components/Patient/video call/VideoCall'
 
 function App() {
@@ -89,6 +89,7 @@ function App() {
               <Route path='/doctor_home'   element={ <PrivateRoute  accessBy="authenticated"> <DoctorRoutes>  <Doctor_View />  </DoctorRoutes></PrivateRoute> }> </Route>
               <Route path='/doctor_history'   element={ <PrivateRoute  accessBy="authenticated"> <DoctorRoutes>  <Doctor_History />  </DoctorRoutes></PrivateRoute> }> </Route>
               <Route path='/video_call_doc'   element={ <PrivateRoute  accessBy="authenticated"> <DoctorRoutes>  <VideoCallDoc />  </DoctorRoutes></PrivateRoute> }> </Route>
+              <Route path='/queue'   element={ <PrivateRoute  accessBy="authenticated"> <DoctorRoutes>  <QueueVideoCall />  </DoctorRoutes></PrivateRoute> }> </Route>
 
 
           {/* 404 page  */}
