@@ -5,6 +5,8 @@ const AuthContext = createContext({})
 import { useNavigate } from "react-router-dom";
 import { notification,message } from 'antd';
 import { Spin } from 'antd';
+import * as wss from "../src/js/wss.js";
+import io from "socket.io-client";
 
 export const AuthContextProvider = ({children}) =>{
 
@@ -39,6 +41,8 @@ export const AuthContextProvider = ({children}) =>{
             console.log("The token is test "+localStorage.getItem('token'));
         
             let userProfle = localStorage.getItem("userProfile");
+           
+
             if (userProfle) {
               setSuccess(true)
               const decodedToken = jwtDecode(JSON.parse(userProfle).token);
@@ -134,6 +138,9 @@ export const AuthContextProvider = ({children}) =>{
     localStorage.setItem("userProfile", JSON.stringify(apiResponse.data));
     localStorage.setItem('token', (apiResponse.data.token))
     let userProfle = localStorage.getItem("userProfile");
+    //webrtc
+    
+
     if (userProfle) {
       const decodedToken = jwtDecode(JSON.parse(userProfle).token);
       setUser(decodedToken);

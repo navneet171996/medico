@@ -6,12 +6,13 @@ import { Card, Button, Modal } from 'antd';
 import { DatePicker, Space } from 'antd';
 import { useNavigate } from "react-router-dom";
 
+
 const BookSlot = () => {
     const navigate = useNavigate();
     const { appointment } = useContext(AuthContext);
     const [dateString, setDateString] = useState('');
     const [showModal, setShowModal] = useState(false);
-
+  const [clicked, setClicked] = useState(true)
     useEffect(() => {
         const fetchData = async () => {
             if (dateString) {
@@ -45,6 +46,16 @@ const BookSlot = () => {
         setShowModal(false);
     };
 
+    // const handleQueue=()=>{
+    //     if(clicked===true){
+    //     console.log("enterend in handle queue");
+    //     const ENDPOINT = "http://127.0.0.1:3001/";
+    //     const socket = io.connect(ENDPOINT);
+    //     wss.registerSocketEvents(socket);
+    //     console.log(socket);
+    //     setClicked(false)}
+    // }
+
     return (
         <div className="flex">
             <Navbar />
@@ -74,7 +85,7 @@ const BookSlot = () => {
                                 className='w-64'
                                 title="Noon Slot"
                                 hoverable
-                                onClick={() => handleSlotSelection('noon')}
+                                // onClick={handleQueue}
                             >
                                 <p className='font-bold'>Between 12:00pm to 3:00 pm</p>
                                 <Button type="primary">Select</Button>

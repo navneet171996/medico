@@ -19,7 +19,6 @@ import Session_Out from './components/Session_out/Session_Out'
 import Patient_View from './components/Patient/Patient_View'
 import Login_Patient from './components/General/Login_Patient'
 import Login_Doctor from './components/General/Login_Doctor'
-<<<<<<< Updated upstream
 import SpecializationPage from './components/Patient/SpecializationPage'
 import SpecializationPage2 from './components/Patient/SpecializationPage2'
 import DoctorDetails from './components/Patient/DoctorDetails'
@@ -40,9 +39,7 @@ import Approvals from './components/Admin/Approvals'
 import QueueVideoCall from './components/Doctor/QueueVideoCall'
 import Hospital_Detail from './components/Admin/Hospital_Detail'
 // import VideoCall from './components/Patient/video call/VideoCall'
-=======
-import PrivateRoute from '../routes/privateRoutes'
->>>>>>> Stashed changes
+
 
 function App() {
  

@@ -12,6 +12,11 @@ import { useState } from "react";
 
 
 
+ 
+
+
+
+
 document.addEventListener("DOMContentLoaded", function() {
   // if(window.location.pathname === '/video_call_doc')
   // {
@@ -19,17 +24,10 @@ document.addEventListener("DOMContentLoaded", function() {
   // }
 //register event listener for personal code copy button
 
-    const ENDPOINT = "http://127.0.0.1:3001/";
-    const socket = io.connect(ENDPOINT);
-    wss.registerSocketEvents(socket);
-    console.log(socket);
-setTimeout( function()
-{
-
 webRTCHandler.getLocalPreview();
 
 // register event listeners for connection buttons
-setTimeout( function(){
+
 const personalCodeChatButton = document.getElementById(
   "personal_code_chat_button"
 );
@@ -172,8 +170,5 @@ const hangUpChatButton = document.getElementById('finish_chat_call_button');
 hangUpChatButton.addEventListener('click', () => {
   webRTCHandler.handleHangUp();
 });
-
-},30);
 });
 
-})

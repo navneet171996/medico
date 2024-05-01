@@ -5,7 +5,6 @@ import { Table, Button } from 'antd';
 import Header from './Header';
 import Navbar from './Navbar';
 import { Link } from 'react-router-dom';
-
 const Appointments = () => {
   const [consultations, setConsultations] = useState([]);
 
@@ -14,16 +13,17 @@ const Appointments = () => {
     fetchData();
   }, []);
 
-  const storeId = (value, value2) => {
-    console.log("doc id stored is", value);
-    localStorage.setItem("detailToDisplayOnVideoCall", JSON.stringify(value2))
-    localStorage.setItem("consulId", value);
+  const storeId = (value,value2)=>{
+       console.log("doc id stored is",value);
+       localStorage.setItem("detailToDisplayOnVideoCall",JSON.stringify(value2))
+       localStorage.setItem("consulId",value);
   }
+
 
   const fetchData = async () => {
     try {
-      const patId = parseInt(localStorage.getItem('patId'));
-      const response = await axios.get(`http://localhost:8081/api/patient/getAllConsultationsOfPat/${patId}`);
+      const patId = (localStorage.getItem('patId'));
+      const response = await axios.get(`http://localhost:8081/api/patient/getAllConsultationsOfPat/4`);
       const data = response.data;
 
       setConsultations(data);
@@ -68,11 +68,11 @@ const Appointments = () => {
       render: (text, record) => (
         moment().isBefore(moment(`${record.date} ${record.time}`)) ? (
           <div>
-            You can join in: <span className='font-semibold'>{calculateTimeRemaining(record.date, record.time)}</span> 
+            You can join in: <span className='font-semibold '>{calculateTimeRemaining(record.date, record.time)}</span> 
           </div>
         ) : moment().isBefore(moment(`${record.date} ${record.time}`).add(30, 'minutes')) ? (
-          <Button className='bg-purple-700'>
-            <Link onClick={() => storeId(consultations[0].doctor.docId, consultations[0])} to="/videoCallPatient"> Join Now </Link> 
+          <Button  className=' bg-mediumpurple-100'>
+          <Link onClick={storeId(consultations[0].doctor.docId,consultations[0])} to="/videoCallPatient"> Join Now </Link> 
           </Button>
         ) : null
       ),
@@ -80,16 +80,21 @@ const Appointments = () => {
   ];
 
   return (
-    <div className="flex h-full">
-      <Navbar />
-      <main className="flex-1 flex flex-col p-5">
-        <Header />
-        <div className="bg-white rounded-lg p-6 shadow-md border-solid border-t-5 border-blue-500">
-          <h1 className="text-3xl font-bold mb-6">Upcoming Consultations</h1>
-          <Table dataSource={consultations} columns={columns} pagination={false} />
+    <div className="w-full relative bg-whitesmoke-400 overflow-hidden flex flex-row items-start justify-start gap-[0px_32px] tracking-[normal] mq750:gap-[0px_32px] mq1025:pl-5 mq1025:pr-5 mq1025:box-border">
+    <Navbar />
+    <main className="flex-1 flex flex-col items-start justify-start pt-5 px-0 pb-0 box-border max-w-[calc(100%_-_254px)] mq1025:max-w-full">
+      <section className="self-stretch flex flex-col items-start justify-start gap-[30px_0px] max-w-full">
+        <div className="self-stretch flex flex-col items-start justify-start gap-[22px_0px] max-w-full text-left text-xs text-navy-100 font-nunito">
+          <Header />
         </div>
-      </main>
+        <div>
+      <h1>Upcoming Consultations</h1>
+      <Table style={{ backgroundColor: 'blue' }} dataSource={consultations} columns={columns} pagination={false} />
     </div>
+      </section>
+    </main>
+  </div>
+    
   );
 };
 
