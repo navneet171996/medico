@@ -82,7 +82,10 @@ personalCodeVideoButton.addEventListener("click", () => {
     }
   })
 });
+//// this is for queue butttons
 
+const currentEvent = document.getElementById("current_video_button");
+const nextEvent = document.getElementById("next_video_button")
 
 // event listner for video call buttons
 

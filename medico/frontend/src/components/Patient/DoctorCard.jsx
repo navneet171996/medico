@@ -64,7 +64,7 @@ const DoctorCard = ( doctor,propWidth) => {
               {doctor.doctor.email}
             </div>
             <div style={fontStyle} className="self-stretch relative text-[20px] mt-6  leading-[-33px]  z-[1] ">
-              {doctor.doctor.hospital.hospitalName}
+              {doctor.doctor.hospital?doctor.doctor.hospital.hospitalName:"no hospital joined"}
             </div>
             <div className='rating position bottom-10'>
             <Rate disabled value={doctor.doctor.rating ?? 0}  style={{ color: '#9370DB' }} />

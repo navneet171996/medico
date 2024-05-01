@@ -2,17 +2,79 @@ import React, { useState, useEffect, useContext, useRef } from 'react';
 import { NavbarDoc } from './NavbarDoc';
 import HeaderDoc from './HeaderDoc';
 import AuthContext from '../../../Context/AuthContext';
-import { Table, Card, Space, Divider } from 'antd';
+import { Table, Card, Space, Divider,Button } from 'antd';
 import axios from 'axios';
 import Chart from 'chart.js/auto';
 import './style.css';
 import BarChart from '../Patient/BarChart';
+import { Modal,Select } from 'antd';
 
 const Doctor_View = () => {
     const { getDocConsultation, docConsultation } = useContext(AuthContext);
     const [monthlyData, setMonthlyData] = useState({});
     const chartRef = useRef(null);
     const [consultations, setConsultations] = useState([]);
+    const [doctorDetails, setDoctorDetails] = useState({});
+    const [hospitals, setHospitals] = useState([]);
+    const [selectedHospital, setSelectedHospital] = useState('');
+
+    useEffect(() => {
+      // Fetch doctor details
+      const fetchDoctorDetails = async () => {
+        const profile = JSON.parse(localStorage.getItem('userProfile'));
+            const id = profile.id;
+          try {
+              const response = await axios.get(`http://localhost:8081/api/doctor/getDoctorDetails/${id}`);
+              setDoctorDetails(response.data);
+          } catch (error) {
+              console.error('Error fetching doctor details:', error);
+          }
+      };
+
+      // Fetch hospitals
+      const fetchHospitals = async () => {
+          try {
+              const response = await axios.get('http://localhost:8081/api/patient/getAllHospitals');
+              setHospitals(response.data);
+          } catch (error) {
+              console.error('Error fetching hospitals:', error);
+          }
+      };
+
+      fetchDoctorDetails();
+      fetchHospitals();
+  }, []);
+
+  const handleHospitalChange = (value) => {
+      setSelectedHospital(value);
+  };
+
+  const handleJoinHospital = async() => {
+    // Handle join hospital logic here
+    const profile = JSON.parse(localStorage.getItem('userProfile'));
+    const id = profile.id;
+    console.log('Join Hospital:', selectedHospital);
+
+    try {
+        const response = await axios.get(`http://localhost:8081/api/doctor/applyToHospital/${id}/${selectedHospital}`);
+        console.log(response.data);
+        Modal.success({
+            title: 'Request Sent!',
+            content: 'Your request to join the hospital has been sent to the admin. Please wait for the approval. Thank you!!',
+        });
+    } catch (error) {
+        console.error('Error fetching hospitals:', error);
+        Modal.error({
+            title: 'Error',
+            content: 'An error occurred while sending the request. Please try again later.',
+        });
+    }
+};
+
+  const handleResignHospital = () => {
+      // Handle resign hospital logic here
+      console.log('Resign from Hospital');
+  };
 
     useEffect(() => {
         const fetchData = async () => {
@@ -114,6 +176,35 @@ const Doctor_View = () => {
                         <div className="self-stretch flex flex-col items-start justify-start gap-5 max-w-full text-left text-xs text-navy-100 font-nunito">
                             <HeaderDoc />
                         </div>
+                        <Card title="Join/Resign from Hospital" className="w-[90%]">
+            {doctorDetails.hospitalName === null ? (
+                <>
+                    <div className="text-center">Select the Hospital you want to Join:</div>
+                    <Select
+                        className="w-full"
+                        placeholder="Select Hospital"
+                        onChange={handleHospitalChange}
+                        value={selectedHospital}
+                    >
+                        {hospitals.map((hospital) => (
+                            <Option key={hospital.id} value={hospital.hospitalId}>
+                                {hospital.hospitalName}
+                            </Option>
+                        ))}
+                    </Select>
+                    <Button type="primary" className="mt-3" onClick={handleJoinHospital}>
+                        Join Hospital
+                    </Button>
+                </>
+            ) : (
+                 <div>
+                  <div className='text-center pb-[10px]'> Doctor in <span className='text-[20px] font-extrabold text-blue-600'> {doctorDetails.hospitalName} Hospital</span> </div>
+                <Button type="primary" danger className='w-full h-[50px]' onClick={handleResignHospital}>
+                    Resign from Hospital
+                </Button>
+                </div>
+            )}
+        </Card>
                         <Card title="Upcoming Appointments" className="ml-10 mb-5" style={{ width: '90%' }}>
                             <Table dataSource={dataSource} columns={columns} pagination={false} />
                         </Card>
