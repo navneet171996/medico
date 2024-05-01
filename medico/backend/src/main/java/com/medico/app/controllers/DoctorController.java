@@ -1,9 +1,12 @@
 package com.medico.app.controllers;
 
+import com.medico.app.dao.SocketQueueDao;
 import com.medico.app.dto.DoctorDTO;
 import com.medico.app.dto.SocketDto;
 import com.medico.app.entities.Consultation;
 import com.medico.app.entities.Doctor;
+import com.medico.app.entities.Hospital;
+import com.medico.app.entities.Socket;
 import com.medico.app.services.DoctorQueueService;
 import com.medico.app.services.DoctorService;
 import org.springframework.http.HttpStatus;
@@ -55,19 +58,21 @@ public class DoctorController {
         return new ResponseEntity<>(doctorService.putSocketOfDoctor(socketDto),HttpStatus.OK);
     }
 
-    @GetMapping(path = "/getSocketOfNextPatient/{doctorId}")
-    public ResponseEntity<String> getSocketOfNextPatientFromQueue(@PathVariable Long doctorId){
-        return new ResponseEntity<>(doctorQueueService.getSocketOfNextPatientFromQueue(doctorId), HttpStatus.OK);
-    }
     @GetMapping(path = "/resignFromHospital/{doctorId}")
     public ResponseEntity<Doctor> resignFromHospital(@PathVariable Long doctorId){
         return new ResponseEntity<>(doctorService.resignFromHospital(doctorId), HttpStatus.OK);
     }
 
     @GetMapping(path = "/applyToHospital/{doctorId}/{hospitalId}")
-    public ResponseEntity<Doctor> applyToHospital(@PathVariable Long doctorId, @PathVariable Long hospitalId){
+    public ResponseEntity<Doctor> applyToHospital(@PathVariable Long doctorId, @PathVariable Long hospitalId) {
         return new ResponseEntity<>(doctorService.applyToHospital(doctorId, hospitalId), HttpStatus.OK);
     }
+
+    @GetMapping(path = "/getSocketOfNextPatient/{doctorId}")
+    public ResponseEntity<SocketQueueDao> getSocketOfNextPatientFromQueue(@PathVariable Long doctorId){
+        return new ResponseEntity<>(doctorQueueService.getNextPatient(doctorId), HttpStatus.OK);
+    }
+
 
     @GetMapping(path = "/deleteQueueOfDoctor{doctorId}")
     public ResponseEntity<String> deleteQueueOfDoctor(@PathVariable Long doctorId){

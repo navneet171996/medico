@@ -34,7 +34,8 @@ public class Prescription {
     private String patientName;
 
     @Column(name = "medicines")
-    private String medicines;
+    @OneToMany(mappedBy = "prescription")
+    private List<MedicineAndDosage> medicinesAndDosage;
 
     @JsonIgnore
     @OneToMany(mappedBy = "prescription")

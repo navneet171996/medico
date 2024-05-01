@@ -60,7 +60,8 @@ public class DoctorService {
         doctorDTO.setPhoneNo(doctor.getPhoneNo());
         doctorDTO.setRate(doctor.getRate());
         doctorDTO.setSpeciality(doctor.getSpeciality());
-        doctorDTO.setHospitalName(doctor.getHospital().getHospitalName());
+        if(doctor.getHospital() != null)
+            doctorDTO.setHospitalName(doctor.getHospital().getHospitalName());
 
         return doctorDTO;
     }

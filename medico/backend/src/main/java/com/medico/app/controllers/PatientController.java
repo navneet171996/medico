@@ -1,5 +1,6 @@
 package com.medico.app.controllers;
 
+import com.medico.app.dao.SocketQueueDao;
 import com.medico.app.dto.*;
 import com.medico.app.entities.*;
 import com.medico.app.services.DoctorQueueService;
@@ -97,7 +98,13 @@ public class PatientController {
         return new ResponseEntity<>(doctorService.getSocketOfDoctor(doctorId), HttpStatus.OK);
     }
 
+    @PostMapping(path = "/enterIntoQueue")
     public ResponseEntity<Integer> enterIntoQueue(@RequestBody DoctorQueueDto doctorQueueDto){
         return new ResponseEntity<>(doctorQueueService.enterIntoQueue(doctorQueueDto), HttpStatus.OK);
+    }
+
+    @PostMapping(path = "/getWaitingList")
+    public ResponseEntity<Integer> getWaitingList(@RequestBody DoctorQueueDto doctorQueueDto){
+        return new ResponseEntity<>(doctorQueueService.getWaitingCount(doctorQueueDto), HttpStatus.OK);
     }
 }

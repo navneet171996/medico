@@ -1,4 +1,4 @@
-package com.medico.app.dto;
+package com.medico.app.dao;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,9 +9,8 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class DoctorQueueDto {
+public class SocketQueueDao {
 
-    private Long docId;
-    private String socketId;
     private Long patientId;
+    private String socketId;
 }

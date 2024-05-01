@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", function() {
 webRTCHandler.getLocalPreview();
 
 // register event listeners for connection buttons
-
+setTimeout( function(){
 const personalCodeChatButton = document.getElementById(
   "personal_code_chat_button"
 );
@@ -82,7 +82,10 @@ personalCodeVideoButton.addEventListener("click", () => {
     }
   })
 });
+//// this is for queue butttons
 
+const currentEvent = document.getElementById("current_video_button");
+const nextEvent = document.getElementById("next_video_button")
 
 // event listner for video call buttons
 
@@ -171,5 +174,8 @@ const hangUpChatButton = document.getElementById('finish_chat_call_button');
 hangUpChatButton.addEventListener('click', () => {
   webRTCHandler.handleHangUp();
 });
+
+},30);
+
 });
 
