@@ -2,6 +2,7 @@ package com.medico.app.services;
 
 import com.medico.app.dto.AcceptDoctorDto;
 import com.medico.app.dto.AssignJrDoctorDto;
+import com.medico.app.dto.DoctorDTO;
 import com.medico.app.entities.Admin;
 import com.medico.app.entities.Doctor;
 import com.medico.app.repositories.AdminRepository;
@@ -67,6 +68,7 @@ public class AdminService {
 
     public String assignJrDoctorsToSrDoctor(AssignJrDoctorDto assignJrDoctorDto) {
         Doctor srDoctor = doctorRepository.findById(assignJrDoctorDto.getSrDoctorId()).orElseThrow();
+        srDoctor.setIsSenior(Boolean.TRUE);
         assignJrDoctorDto.getJrDoctorIds().forEach(jrDoctorId -> {
             Doctor doctor = doctorRepository.findById(jrDoctorId).orElseThrow();
             doctor.setSrDoctor(srDoctor);
@@ -82,5 +84,12 @@ public class AdminService {
             return doctorsByHospitalIdOptional.get().stream().filter(doctor -> !doctor.getIsActive()).collect(Collectors.toList());
         }
         return new ArrayList<>();
+    }
+
+    public DoctorDTO appointSrDoctor(Long docId) {
+        Doctor doctor = doctorRepository.findById(docId).orElseThrow();
+        doctor.setIsSenior(Boolean.TRUE);
+        doctorRepository.save(doctor);
+        return new DoctorDTO(doctor);
     }
 }

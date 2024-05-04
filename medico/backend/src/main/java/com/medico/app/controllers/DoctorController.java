@@ -74,10 +74,16 @@ public class DoctorController {
         return new ResponseEntity<>(doctorQueueService.getNextPatient(doctorId), HttpStatus.OK);
     }
 
-    @GetMapping(path = "/deleteQueueOfDoctor{doctorId}")
+    @GetMapping(path = "/deleteQueueOfDoctor/{doctorId}")
     public ResponseEntity<String> deleteQueueOfDoctor(@PathVariable Long doctorId){
         return new ResponseEntity<>(doctorQueueService.deleteQueueOfDoctor(doctorId), HttpStatus.OK);
     }
+
+    @GetMapping(path = "/getJrDoctorsOfSrDoctor/{srDoctorId}")
+    public ResponseEntity<List<Doctor>> getJrDoctorsOfSrDoctor(@PathVariable Long srDoctorId) {
+        return new ResponseEntity<>(doctorService.getJrDoctorsOfSrDoctor(srDoctorId), HttpStatus.OK);
+    }
+
     @PostMapping(path = "/uploadDoctorFiles/{docId}")
     public ResponseEntity<String> uploadDoctorFile(@PathVariable Long docId, @RequestParam(value = "file") MultipartFile file) {
         return new ResponseEntity<>(doctorService.uploadDoctorFiles(file,docId) , HttpStatus.OK);
@@ -86,5 +92,6 @@ public class DoctorController {
     @GetMapping(path = "/downloadDoctorFiles/{docId}")
     public ResponseEntity<List<byte[]>> downloadDoctorFile(@PathVariable Long docId) {
         return new ResponseEntity<>(doctorService.downloadDoctorFiles(docId) , HttpStatus.OK);
+
     }
 }
