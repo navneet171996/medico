@@ -39,6 +39,7 @@ public class AuxService {
         doctorDtos.forEach(dto -> {
             Doctor doctor = new Doctor();
             doctor.setDocName(dto.getDocName());
+            doctor.setRating(0.0);
             doctor.setDocDob(dto.getDocDob());
             doctor.setPhoneNo(dto.getPhoneNo());
             doctor.setGender(dto.getGender());
@@ -59,7 +60,7 @@ public class AuxService {
             Hospital hospital = new Hospital();
             hospital.setHospitalName(dto.getHospitalName());
             hospital.setHospitalAddress(dto.getHospitalAddress());
-
+            hospital.setRating(0.0);
             this.hospitalRepository.save(hospital);
         });
     }

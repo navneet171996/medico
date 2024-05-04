@@ -84,6 +84,10 @@ public class AuthenticationService {
     }
 
     public RegisterResponse registerDoctor(DoctorRegisterDto request){
+        Optional<Doctor> doctorOptional = doctorRepository.getDoctorByEmail(request.getEmail());
+        if(doctorOptional.isPresent()){
+            return new RegisterResponse(doctorOptional.get().getEmail(), String.format("Doctor with email id %s already exists",request.getEmail()));
+        }
         Doctor doctor = new Doctor();
         doctor.setDocName(request.getDocName());
         doctor.setDocDob(request.getDocDob());
@@ -97,6 +101,7 @@ public class AuthenticationService {
         doctor.setRole(Role.DOCTOR);
 
         doctor.setSrDoctor(null);
+        doctor.setIsSenior(Boolean.FALSE);
 
         Optional<Speciality> optionalSpeciality = specialityRepository.findById(request.getSpecialityId());
         if(optionalSpeciality.isPresent()){
