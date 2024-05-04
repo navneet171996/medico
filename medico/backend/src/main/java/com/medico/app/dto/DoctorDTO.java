@@ -29,17 +29,17 @@ public class DoctorDTO {
     private Boolean isSenior;
 
     public DoctorDTO(Doctor doctor) {
-        this.setDocName(doctor.getDocName());
-        this.setDocDob(doctor.getDocDob());
-        this.setEmail(doctor.getEmail());
-        this.setRating(doctor.getRating());
-        this.setRate(doctor.getRate());
-        this.setGender(doctor.getGender());
-        this.setPhoneNo(doctor.getPhoneNo());
-        this.setRate(doctor.getRate());
-        this.setSpeciality(doctor.getSpeciality());
-        this.setIsSenior(doctor.getIsSenior());
+        this.docId = doctor.getDocId();
+        this.docName = doctor.getDocName();
+        this.docDob = doctor.getDocDob();
+        this.email = doctor.getEmail();
+        this.rating = doctor.getRating();
+        this.gender = doctor.getGender();
+        this.phoneNo = doctor.getPhoneNo();
+        this.rate = doctor.getRate();
+        this.speciality = doctor.getSpeciality();
+        this.isSenior = doctor.getIsSenior();
         if(doctor.getHospital() != null)
-            this.setHospitalName(doctor.getHospital().getHospitalName());
+            this.hospitalName = doctor.getHospital().getHospitalName();
     }
 }
