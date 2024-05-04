@@ -44,6 +44,7 @@ public class AuxService {
             doctor.setPhoneNo(dto.getPhoneNo());
             doctor.setGender(dto.getGender());
             doctor.setRate(dto.getRate());
+            doctor.setRating(dto.getRating());
             doctor.setEmail(dto.getEmail());
             doctor.setPassword(dto.getPassword());
             doctor.setRole(Role.DOCTOR);

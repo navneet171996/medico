@@ -1,29 +1,40 @@
 package com.medico.app.services;
 
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import com.medico.app.dto.DoctorDTO;
-import com.medico.app.entities.Consultation;
-import com.medico.app.repositories.ConsultationRepository;
+import com.medico.app.dto.SocketDto;
+import com.medico.app.entities.*;
+import com.medico.app.repositories.*;
 import org.springframework.stereotype.Service;
-import com.medico.app.entities.Doctor;
-import com.medico.app.repositories.DoctorRepository;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class DoctorService {
     
     private final DoctorRepository doctorRepository;
     private final ConsultationRepository consultationRepository;
+    private final SocketRepository socketRepository;
+    private final HospitalRepository hospitalRepository;
+    private final StorageService storageService;
+    private final DoctorFilesRepository doctorFilesRepository;
 
-    public DoctorService(DoctorRepository doctorRepository,ConsultationRepository consultationRepository) {
+    public DoctorService(DoctorRepository doctorRepository, ConsultationRepository consultationRepository, SocketRepository socketRepository, HospitalRepository hospitalRepository, StorageService storageService, DoctorFilesRepository doctorFilesRepository) {
 
         this.doctorRepository = doctorRepository;
         this.consultationRepository = consultationRepository;
+        this.socketRepository = socketRepository;
+        this.hospitalRepository = hospitalRepository;
+        this.storageService = storageService;
+        this.doctorFilesRepository = doctorFilesRepository;
     }
 
     public List<Doctor> getAllDoctor(){
@@ -40,17 +51,7 @@ public class DoctorService {
 
     public DoctorDTO getDoctorDetails(Long doctorId){
         Doctor doctor = doctorRepository.findById(doctorId).orElseThrow();
-        DoctorDTO doctorDTO = new DoctorDTO();
-        doctorDTO.setDocName(doctor.getDocName());
-        doctorDTO.setDocDob(doctor.getDocDob());
-        doctorDTO.setEmail(doctor.getEmail());
-        doctorDTO.setRating(doctor.getRating());
-        doctorDTO.setGender(doctor.getGender());
-        doctorDTO.setPhoneNo(doctor.getPhoneNo());
-        doctorDTO.setSpeciality(doctor.getSpeciality());
-        doctorDTO.setHospitalName(doctor.getHospital().getHospitalName());
-
-        return doctorDTO;
+        return new DoctorDTO(doctor);
     }
     public Doctor editDoctorDetails(DoctorDTO doctorDTO){
         Doctor doctor = doctorRepository.findById(doctorDTO.getDocId()).orElseThrow();
@@ -100,4 +101,92 @@ public class DoctorService {
         return pendingConsultations;
     }
 
+    public Socket getSocketOfDoctor(Long doctorId) {
+        return socketRepository.findSocketByDoctor_DocId(doctorId).orElseThrow();
+    }
+
+    public Socket putSocketOfDoctor(SocketDto socketDto) {
+        Optional<Socket> socketAlreadyPresent = socketRepository.findSocketByDoctor_DocId(socketDto.getDocId());
+        if(socketAlreadyPresent.isPresent()){
+            Socket socket = socketAlreadyPresent.get();
+            socket.setSocketId(socketDto.getSocketId());
+            return socketRepository.save(socket);
+        }else{
+            Optional<Doctor> doctorOptional= doctorRepository.findById(socketDto.getDocId());
+            if(doctorOptional.isPresent()){
+                Doctor doctor = doctorOptional.get();
+                Socket socket = new Socket();
+                socket.setDoctor(doctor);
+                socket.setSocketId(socketDto.getSocketId());
+
+                return socketRepository.save(socket);
+            }
+        }
+
+        return new Socket();
+    }
+
+    public Doctor resignFromHospital(Long doctorId) {
+        Doctor doctor = doctorRepository.findById(doctorId).orElseThrow();
+        doctor.setHospital(null);
+        doctorRepository.save(doctor);
+        return doctor;
+    }
+
+    public Doctor applyToHospital(Long doctorId, Long hospitalId) {
+        Doctor doctor = doctorRepository.findById(doctorId).orElseThrow();
+        if(doctor.getHospital() == null){
+            Hospital hospital = hospitalRepository.findById(hospitalId).orElseThrow();
+            doctor.setHospital(hospital);
+            doctorRepository.save(doctor);
+        }
+        if(doctor.getHospital().getHospitalId().equals(hospitalId)){
+            return doctor;
+        }
+
+        return doctor;
+    }
+
+
+    public List<Doctor> getJrDoctorsOfSrDoctor(Long srDoctorId) {
+        Doctor doctor = doctorRepository.findById(srDoctorId).orElseThrow();
+        if(doctor.getIsSenior() && doctor.getJrDoctors() != null){
+            return doctor.getJrDoctors();
+        }
+        return new ArrayList<>();
+    }
+
+    public String uploadDoctorFiles(MultipartFile file , Long docId){
+        try {
+            String filename = "FILE_"+docId+"_"+file.getOriginalFilename();
+            Doctor doctor = doctorRepository.findById(docId).orElseThrow();
+            DoctorFiles doctorFiles = new DoctorFiles();
+            doctorFiles.setFileName(filename);
+            doctorFiles.setDoctor(doctor);
+            doctorFilesRepository.save(doctorFiles);
+            String fileName = storageService.uploadFile(file, filename);
+            return "File uploaded for patient" + docId + ": " + fileName;
+        }
+        catch (IOException e){
+            return "Failed to upload file" + e.getMessage();
+        }
+    }
+
+    public List<byte[]> downloadDoctorFiles(Long docId){
+        try {
+            List<byte[]> files = new ArrayList<>();
+            List<DoctorFiles> doctorFiles = doctorFilesRepository.findDoctorFilesByDoctor_DocId(docId).orElseThrow();
+            doctorFiles.forEach(doctorFiles1 -> {
+                byte[] content = storageService.downloadFile(doctorFiles1.getFileName());
+                if(content != null){
+                    files.add(content);
+                }
+            });
+            return files;
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
 }

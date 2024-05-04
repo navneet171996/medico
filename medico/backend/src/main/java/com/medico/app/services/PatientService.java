@@ -3,18 +3,21 @@ package com.medico.app.services;
 import com.medico.app.dto.ConsultationDto;
 import com.medico.app.dto.RatingDto;
 import com.medico.app.entities.*;
+import com.medico.app.extras.dto.PatientFileDto;
 import com.medico.app.repositories.*;
 import com.medico.app.dto.PatientDto;
 import com.medico.app.entities.Consultation;
 import com.medico.app.repositories.ConsultationRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class PatientService {
@@ -24,15 +27,20 @@ public class PatientService {
     private final ConsultationRepository consultationRepository;
     private final RatingAndReviewRepository ratingAndReviewRepository;
     private final HospitalRepository hospitalRepository;
+    private final PatientFilesRepository patientFilesRepository;
     private final SlotsRepository slotsRepository;
+    private final StorageService storageService;
 
-    public PatientService(PatientRepository patientRepository, DoctorRepository doctorRepository, ConsultationRepository consultationRepository, RatingAndReviewRepository ratingAndReviewRepository, SlotsRepository slotsRepository ,HospitalRepository hospitalRepository) {
+
+    public PatientService(PatientRepository patientRepository, DoctorRepository doctorRepository, ConsultationRepository consultationRepository, RatingAndReviewRepository ratingAndReviewRepository, HospitalRepository hospitalRepository, PatientFilesRepository patientFilesRepository, SlotsRepository slotsRepository, StorageService storageService) {
         this.patientRepository = patientRepository;
         this.doctorRepository = doctorRepository;
         this.consultationRepository = consultationRepository;
         this.ratingAndReviewRepository = ratingAndReviewRepository;
-        this.slotsRepository = slotsRepository;
         this.hospitalRepository = hospitalRepository;
+        this.patientFilesRepository = patientFilesRepository;
+        this.slotsRepository = slotsRepository;
+        this.storageService = storageService;
     }
 
 
@@ -107,7 +115,7 @@ public class PatientService {
             retSlots.add(Boolean.TRUE);
         }
         List<Slots> slots = slotsRepository.getSlotsByDoctor_DocId(docId).orElseThrow();
-        slots = slots.stream().filter(slot -> slot.getDate().equals(date)).toList();
+        slots = slots.stream().filter(slot -> slot.getDate().equals(date)).collect(Collectors.toList());
         slots.forEach(slot -> {
             if(slot.getStartTime().getHour() == 9 && slot.getStartTime().getMinute() == 0)
                 retSlots.set(0, Boolean.FALSE);
@@ -170,6 +178,7 @@ public class PatientService {
         patientDto.setPatGender(patient.getPatGender());
         patientDto.setPatEmail(patient.getPatEmail());
         patientDto.setPatGender(patient.getPatGender());
+        patientDto.setPatPhoneNo(patient.getPatPhoneNo());
 
         return patientDto;
     }
@@ -186,6 +195,53 @@ public class PatientService {
     }
     public List<Consultation> getAllConsultationOfPat(Long patientId){
         return this.consultationRepository.findConsultationByPatient_PatientID(patientId).orElseThrow();
+    }
+
+    public String uploadPatientFiles(MultipartFile file, Long patientId, String placeholder){
+        try {
+            String filename = "FILE_"+patientId+"_"+file.getOriginalFilename();
+            Patient patient = patientRepository.findById(patientId).orElseThrow();
+            PatientFiles patientFiles = new PatientFiles();
+            patientFiles.setFileName(filename);
+            patientFiles.setPlaceholder(placeholder);
+            patientFiles.setPatient(patient);
+            patientFilesRepository.save(patientFiles);
+            String fileName = storageService.uploadFile(file,filename);
+            return "File uploaded for patient" + patientId + ": " + fileName;
+        }
+        catch (IOException e) {
+            return "Failed to upload file: " + e.getMessage();
+        }
+    }
+    public List<byte[]> downloadPatientFiles(Long patientId){
+        try {
+            List<byte[]> files = new ArrayList<>();
+            List<PatientFiles> patientFiles = patientFilesRepository.findPatientFilesByPatient_PatientID(patientId).orElseThrow();
+            patientFiles.forEach(patientFile -> {
+                byte[] content = storageService.downloadFile(patientFile.getFileName());
+                if(content != null)
+                    files.add(content);
+            });
+            return files;
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public List<PatientFileDto> getPatientFiles(Long patientId){
+        Patient patient = patientRepository.findById(patientId)
+                .orElseThrow(() -> new EntityNotFoundException("Patient not found with id: " + patientId));
+        List<PatientFileDto> patientFileDtos = new ArrayList<>();
+        for(PatientFiles patientFiles : patient.getPatientFiles()){
+            PatientFileDto dto = new PatientFileDto();
+            dto.setFileName(patientFiles.getFileName());
+            dto.setPlaceholder(patientFiles.getPlaceholder());
+            dto.setPatientName(patient.getPatName());
+            patientFileDtos.add(dto);
+        }
+        return patientFileDtos;
     }
 
 }

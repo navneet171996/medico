@@ -1,6 +1,20 @@
 import { useMemo } from "react";
+import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import AuthContext from "../../../Context/AuthContext";
 
-const Card = ({ container, imageIcon, cardHeading, propWidth }) => {
+
+const Card = ({ container, imageIcon, cardHeading, propWidth,specialityId,description }) => {
+  const navigate = useNavigate()
+  const {setSpecializationId} = useContext(AuthContext)
+  const {specializationId} = useContext(AuthContext)
+  const callSpecialization = () =>{
+       setSpecializationId(specialityId);
+       localStorage.setItem('sId',specialityId)
+       console.log("The id we are setting is  "+specializationId);
+       navigate("/specialization");
+  }
+
   const cardHeadingStyle = useMemo(() => {
     return {
       width: propWidth,
@@ -8,7 +22,7 @@ const Card = ({ container, imageIcon, cardHeading, propWidth }) => {
   }, [propWidth]);
 
   return (
-    <div className="w-[392px] rounded-3xl bg-gray-200 flex flex-col items-center justify-start pt-6 pb-[50px] pr-[23px] pl-6 box-border gap-[24px] max-w-full z-[1] text-left text-5xl text-mediumpurple-200 font-text-single-200-regular mq750:pt-5 mq750:pb-8 mq750:box-border">
+    <div className="w-[392px] rounded-3xl bg-gray-200 flex flex-col items-center justify-start pt-6 pb-[20px] pr-[23px] pl-6 box-border gap-[24px] max-w-full z-[1] text-left text-5xl text-mediumpurple-200 font-text-single-200-regular mq750:pt-5 mq750:pb-8 mq750:box-border">
       <div className="w-[391.8px] h-[506px] relative rounded-3xl bg-gray-200 hidden max-w-full" />
       <img
         className="w-5 h-5 relative overflow-hidden shrink-0 hidden"
@@ -37,13 +51,19 @@ const Card = ({ container, imageIcon, cardHeading, propWidth }) => {
             {cardHeading}
           </b>
           <div className="self-stretch flex flex-col items-start justify-start gap-[32px_0px] text-lg text-dimgray mq450:gap-[32px_0px]">
-            <div className="self-stretch relative leading-[30px] z-[1]">
-              Lorem ipsum dolor sit amet consecte tur adipiscing elit semper
-              dalaracc lacus vel facilisis volutpat est velitolm.
+            <div   style={{
+      maxHeight: '90px', // Approximately 3 lines with a line height of 30px
+      overflow: 'hidden',
+      textOverflow: 'ellipsis',
+      display: '-webkit-box',
+      WebkitLineClamp: 3,
+      WebkitBoxOrient: 'vertical',
+    }} className="self-stretch relative leading-[30px] z-[1]">
+              {description}
             </div>
             <button className="cursor-pointer">
-            <div className="flex flex-row items-center justify-start gap-[0px_5px] text-center text-mediumpurple-200">
-              <b className="relative leading-[18px] whitespace-nowrap z-[1]">
+            <div onClick={callSpecialization} className="flex flex-row items-center justify-start gap-[0px_5px] text-center text-mediumpurple-200">
+              <b  className="relative leading-[18px] whitespace-nowrap z-[1]">
                 Learn more
               </b>
               <img

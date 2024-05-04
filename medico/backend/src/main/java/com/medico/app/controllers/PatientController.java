@@ -1,10 +1,10 @@
 package com.medico.app.controllers;
 
-import com.medico.app.dto.ConsultationDto;
-import com.medico.app.dto.RatingDto;
-import com.medico.app.dto.SlotDto;
-import com.medico.app.dto.PatientDto;
+import com.medico.app.dao.SocketQueueDao;
+import com.medico.app.dto.*;
 import com.medico.app.entities.*;
+import com.medico.app.extras.dto.PatientFileDto;
+import com.medico.app.services.DoctorQueueService;
 import com.medico.app.services.DoctorService;
 import com.medico.app.services.HospitalService;
 import com.medico.app.entities.Consultation;
@@ -13,6 +13,8 @@ import com.medico.app.services.PatientService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
 import java.util.List;
 import java.util.Set;
 
@@ -24,13 +26,15 @@ public class PatientController {
     private final PatientService patientService;
     private final DoctorService doctorService;
     private final HospitalService hospitalService;
+    private final DoctorQueueService doctorQueueService;
 
 
-    public PatientController(PatientService patientService,HospitalService hospitalService ,DoctorService doctorService) {
+    public PatientController(PatientService patientService, HospitalService hospitalService , DoctorService doctorService, DoctorQueueService doctorQueueService) {
 
         this.patientService = patientService;
         this.hospitalService =  hospitalService;
         this.doctorService = doctorService;
+        this.doctorQueueService = doctorQueueService;
     }
 
     @PostMapping(path = "/getDoctorSlots")
@@ -75,6 +79,7 @@ public class PatientController {
         return new ResponseEntity<>(patientService.getAllConsultationOfPat(patientId),HttpStatus.OK);
     }
 
+    
     @PostMapping(path = "/setRating")
     public ResponseEntity<?> setRating(@RequestBody RatingDto ratingDto){
         patientService.setRating(ratingDto);
@@ -90,4 +95,36 @@ public class PatientController {
     public ResponseEntity<List<Doctor>> getSortedListOfDoctorsP(@PathVariable Long specialityId){
         return new ResponseEntity<>(doctorService.getSortedPDoctorsBySpeciality(specialityId), HttpStatus.OK);
     }
+
+    @GetMapping(path = "/getSocketOfDoctor/{doctorId}")
+    public ResponseEntity<Socket> getSocketOfDoctor(@PathVariable Long doctorId){
+        return new ResponseEntity<>(doctorService.getSocketOfDoctor(doctorId), HttpStatus.OK);
+    }
+
+    @PostMapping(path = "/enterIntoQueue")
+    public ResponseEntity<Integer> enterIntoQueue(@RequestBody DoctorQueueDto doctorQueueDto){
+        return new ResponseEntity<>(doctorQueueService.enterIntoQueue(doctorQueueDto), HttpStatus.OK);
+    }
+
+    @PostMapping(path = "/getWaitingList")
+    public ResponseEntity<Integer> getWaitingList(@RequestBody DoctorQueueDto doctorQueueDto){
+        return new ResponseEntity<>(doctorQueueService.getWaitingCount(doctorQueueDto), HttpStatus.OK);
+    }
+
+    @PostMapping(path = "/uploadPatientsFiles/{patientId}/{placeholder}")
+    public ResponseEntity<String> uploadPatientsFiles(@PathVariable Long patientId, @RequestParam(value = "file") MultipartFile file, @PathVariable String placeholder){
+        return new ResponseEntity<>(patientService.uploadPatientFiles(file, patientId, placeholder), HttpStatus.OK);
+    }
+
+    @GetMapping(path = "/downloadPatientFiles/{patientId}")
+    public ResponseEntity<List<byte[]>> downloadFile(@PathVariable Long patientId) {
+        return new ResponseEntity<>(patientService.downloadPatientFiles(patientId), HttpStatus.OK);
+    }
+
+    @GetMapping(path = "/files/{patientId}")
+    public ResponseEntity<List<PatientFileDto>> getPatientFiles(@PathVariable Long patientId){
+        List<PatientFileDto> patientFileDtos = patientService.getPatientFiles(patientId);
+        return ResponseEntity.ok(patientFileDtos);
+    }
+
 }

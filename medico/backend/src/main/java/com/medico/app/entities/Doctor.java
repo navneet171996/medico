@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -47,8 +48,19 @@ public class Doctor implements UserDetails {
     @Column(name = "rating")
     private Double rating;
 
+    @Column(name = "profile_pic")
+    private String profilePicture;
+
     @Column(name = "is_senior")
-    private Boolean srDoctor;
+    private Boolean isSenior;
+
+    @ManyToOne()
+    @JoinColumn(name = "sr_doctor")
+    @JsonBackReference
+    private Doctor srDoctor;
+
+    @OneToMany(mappedBy = "srDoctor")
+    private List<Doctor> jrDoctors;
 
     @Column(name = "email_id")
     private String email;
@@ -72,15 +84,26 @@ public class Doctor implements UserDetails {
 
     @JsonIgnore
     @OneToMany(mappedBy = "doctor")
+    private List<DoctorFiles> doctorFiles;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "doctor")
     private Set<Consultation> consultation;
 
     @JsonIgnore
     @OneToMany(mappedBy = "doctor")
     private List<Slots> slots;
 
+    @OneToMany(mappedBy = "doctor")
+    @JsonIgnore
+    private List<DoctorToken> tokens;
+
+    @OneToOne(mappedBy = "doctor")
+    private Socket socket;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(role.name()));
+        return List.of(new SimpleGrantedAuthority("ROLE_"+role.name()));
     }
 
     @Override

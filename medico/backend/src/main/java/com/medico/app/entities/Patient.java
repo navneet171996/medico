@@ -54,12 +54,20 @@ public class Patient implements UserDetails {
     private Role role;
 
     @JsonIgnore
+    @OneToMany(mappedBy = "id")
+    private List<PatientFiles> patientFiles;
+
+    @JsonIgnore
     @OneToMany(mappedBy = "patient")
     private Set<Consultation> consultations;
 
+    @OneToMany(mappedBy = "patient")
+    @JsonIgnore
+    private List<PatientToken> tokens;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(role.name()));
+        return List.of(new SimpleGrantedAuthority("ROLE_"+role.name()));
     }
 
     @Override

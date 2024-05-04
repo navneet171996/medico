@@ -1,5 +1,6 @@
 package com.medico.app.security.config;
 
+import com.medico.app.entities.Role;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -8,6 +9,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -25,9 +27,11 @@ import java.util.Arrays;
 public class SecurityConfig{
 
     private final JwtTokenFilter jwtTokenFilter;
+    private final CustomLogoutHandler customLogoutHandler;
 
-    public SecurityConfig(JwtTokenFilter jwtTokenFilter) {
+    public SecurityConfig(JwtTokenFilter jwtTokenFilter, CustomLogoutHandler customLogoutHandler) {
         this.jwtTokenFilter = jwtTokenFilter;
+        this.customLogoutHandler = customLogoutHandler;
     }
 
 
@@ -39,7 +43,9 @@ public class SecurityConfig{
                 new AntPathRequestMatcher("/api/aux/**"),
                 new AntPathRequestMatcher("/api/patient/**"),
                 new AntPathRequestMatcher("/api/doctor/**"),
-                new AntPathRequestMatcher("/api/admin/**")
+                new AntPathRequestMatcher("/api/admin/**"),
+                new AntPathRequestMatcher("/api/superAdmin/**"),
+                new AntPathRequestMatcher("/api/filesaws/**")
         };
         return http
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
@@ -48,11 +54,20 @@ public class SecurityConfig{
                        req -> req
                                .requestMatchers(requestMatchers)
                                .permitAll()
+//                               .requestMatchers("/api/patient/**")
+//                               .authenticated()
+//                               .requestMatchers("/api/doctor/**")
+//                               .authenticated()
+//                               .requestMatchers("/api/admin/**")
+//                               .authenticated()
                                .anyRequest()
                                .authenticated())
                .sessionManagement(
                        sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                .addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class)
+                .logout( l -> l.logoutUrl("/api/auth/logout")
+                        .addLogoutHandler(customLogoutHandler)
+                        .logoutSuccessHandler(((request, response, authentication) -> SecurityContextHolder.clearContext())))
                .build();
    }
 
