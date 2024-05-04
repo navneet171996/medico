@@ -54,6 +54,10 @@ public class Patient implements UserDetails {
     private Role role;
 
     @JsonIgnore
+    @OneToMany(mappedBy = "id")
+    private List<PatientFiles> patientFiles;
+
+    @JsonIgnore
     @OneToMany(mappedBy = "patient")
     private Set<Consultation> consultations;
 
