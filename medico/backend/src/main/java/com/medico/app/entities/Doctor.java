@@ -51,6 +51,9 @@ public class Doctor implements UserDetails {
     @Column(name = "profile_pic")
     private String profilePicture;
 
+    @Column(name = "is_senior")
+    private Boolean isSenior;
+
     @ManyToOne()
     @JoinColumn(name = "sr_doctor")
     @JsonBackReference

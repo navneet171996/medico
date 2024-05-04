@@ -73,8 +73,13 @@ public class DoctorController {
         return new ResponseEntity<>(doctorQueueService.getNextPatient(doctorId), HttpStatus.OK);
     }
 
-    @GetMapping(path = "/deleteQueueOfDoctor{doctorId}")
+    @GetMapping(path = "/deleteQueueOfDoctor/{doctorId}")
     public ResponseEntity<String> deleteQueueOfDoctor(@PathVariable Long doctorId){
         return new ResponseEntity<>(doctorQueueService.deleteQueueOfDoctor(doctorId), HttpStatus.OK);
+    }
+
+    @GetMapping(path = "/getJrDoctorsOfSrDoctor/{srDoctorId}")
+    public ResponseEntity<List<Doctor>> getJrDoctorsOfSrDoctor(@PathVariable Long srDoctorId){
+        return new ResponseEntity<>(doctorService.getJrDoctorsOfSrDoctor(srDoctorId), HttpStatus.OK);
     }
 }

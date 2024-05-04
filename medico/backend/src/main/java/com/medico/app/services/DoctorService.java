@@ -3,6 +3,7 @@ package com.medico.app.services;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -50,20 +51,7 @@ public class DoctorService {
 
     public DoctorDTO getDoctorDetails(Long doctorId){
         Doctor doctor = doctorRepository.findById(doctorId).orElseThrow();
-        DoctorDTO doctorDTO = new DoctorDTO();
-        doctorDTO.setDocName(doctor.getDocName());
-        doctorDTO.setDocDob(doctor.getDocDob());
-        doctorDTO.setEmail(doctor.getEmail());
-        doctorDTO.setRating(doctor.getRating());
-        doctorDTO.setRate(doctorDTO.getRate());
-        doctorDTO.setGender(doctor.getGender());
-        doctorDTO.setPhoneNo(doctor.getPhoneNo());
-        doctorDTO.setRate(doctor.getRate());
-        doctorDTO.setSpeciality(doctor.getSpeciality());
-        if(doctor.getHospital() != null)
-            doctorDTO.setHospitalName(doctor.getHospital().getHospitalName());
-
-        return doctorDTO;
+        return new DoctorDTO(doctor);
     }
     public Doctor editDoctorDetails(DoctorDTO doctorDTO){
         Doctor doctor = doctorRepository.findById(doctorDTO.getDocId()).orElseThrow();
@@ -157,5 +145,13 @@ public class DoctorService {
         }
 
         return doctor;
+    }
+
+    public List<Doctor> getJrDoctorsOfSrDoctor(Long srDoctorId) {
+        Doctor doctor = doctorRepository.findById(srDoctorId).orElseThrow();
+        if(doctor.getIsSenior() && doctor.getJrDoctors() != null){
+            return doctor.getJrDoctors();
+        }
+        return new ArrayList<>();
     }
 }
