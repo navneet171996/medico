@@ -8,7 +8,9 @@ import com.medico.app.dto.PatientDto;
 import com.medico.app.entities.Consultation;
 import com.medico.app.repositories.ConsultationRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,15 +24,19 @@ public class PatientService {
     private final DoctorRepository doctorRepository;
     private final ConsultationRepository consultationRepository;
     private final RatingAndReviewRepository ratingAndReviewRepository;
+    private final PatientFilesRepository patientFilesRepository;
 
     private final SlotsRepository slotsRepository;
+    private final StorageService storageService;
 
-    public PatientService(PatientRepository patientRepository, DoctorRepository doctorRepository, ConsultationRepository consultationRepository, RatingAndReviewRepository ratingAndReviewRepository, SlotsRepository slotsRepository) {
+    public PatientService(PatientRepository patientRepository, DoctorRepository doctorRepository, ConsultationRepository consultationRepository, RatingAndReviewRepository ratingAndReviewRepository, PatientFilesRepository patientFilesRepository, SlotsRepository slotsRepository, StorageService storageService) {
         this.patientRepository = patientRepository;
         this.doctorRepository = doctorRepository;
         this.consultationRepository = consultationRepository;
         this.ratingAndReviewRepository = ratingAndReviewRepository;
+        this.patientFilesRepository = patientFilesRepository;
         this.slotsRepository = slotsRepository;
+        this.storageService = storageService;
     }
 
 
@@ -161,6 +167,38 @@ public class PatientService {
     }
     public List<Consultation> getAllConsultationOfPat(Long patientId){
         return this.consultationRepository.findConsultationByPatient_PatientID(patientId).orElseThrow();
+    }
+
+    public String uploadPatientFiles(MultipartFile file, Long patientId){
+        try {
+            String filename = "FILE_"+patientId+"_"+file.getOriginalFilename();
+            Patient patient = patientRepository.findById(patientId).orElseThrow();
+            PatientFiles patientFiles = new PatientFiles();
+            patientFiles.setFileName(filename);
+            patientFiles.setPatient(patient);
+            patientFilesRepository.save(patientFiles);
+            String fileName = storageService.uploadFile(file,filename);
+            return "File uploaded for patient" + patientId + ": " + fileName;
+        }
+        catch (IOException e) {
+            return "Failed to upload file: " + e.getMessage();
+        }
+    }
+    public List<byte[]> downloadPatientFiles(Long patientId){
+        try {
+            List<byte[]> files = new ArrayList<>();
+            List<PatientFiles> patientFiles = patientFilesRepository.findPatientFilesByPatient_PatientID(patientId).orElseThrow();
+            patientFiles.forEach(patientFile -> {
+                byte[] content = storageService.downloadFile(patientFile.getFileName());
+                if(content != null)
+                    files.add(content);
+            });
+            return files;
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
 }

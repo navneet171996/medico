@@ -12,6 +12,8 @@ import com.medico.app.services.PatientService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
 import java.util.List;
 import java.util.Set;
 
@@ -106,5 +108,15 @@ public class PatientController {
     @PostMapping(path = "/getWaitingList")
     public ResponseEntity<Integer> getWaitingList(@RequestBody DoctorQueueDto doctorQueueDto){
         return new ResponseEntity<>(doctorQueueService.getWaitingCount(doctorQueueDto), HttpStatus.OK);
+    }
+
+    @PostMapping(path = "/uploadPatientsFiles/{patientId}")
+    public ResponseEntity<String> uploadPatientsFiles(@PathVariable Long patientId, @RequestParam(value = "file") MultipartFile file){
+        return new ResponseEntity<>(patientService.uploadPatientFiles(file, patientId), HttpStatus.OK);
+    }
+
+    @GetMapping(path = "/downloadPatientFiles/{patientId}")
+    public ResponseEntity<List<byte[]>> downloadFile(@PathVariable Long patientId) {
+        return new ResponseEntity<>(patientService.downloadPatientFiles(patientId), HttpStatus.OK);
     }
 }

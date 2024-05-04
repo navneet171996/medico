@@ -12,6 +12,7 @@ import com.medico.app.services.DoctorService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.print.Doc;
 import java.time.LocalDate;
@@ -76,5 +77,14 @@ public class DoctorController {
     @GetMapping(path = "/deleteQueueOfDoctor{doctorId}")
     public ResponseEntity<String> deleteQueueOfDoctor(@PathVariable Long doctorId){
         return new ResponseEntity<>(doctorQueueService.deleteQueueOfDoctor(doctorId), HttpStatus.OK);
+    }
+    @PostMapping(path = "/uploadDoctorFiles/{docId}")
+    public ResponseEntity<String> uploadDoctorFile(@PathVariable Long docId, @RequestParam(value = "file") MultipartFile file) {
+        return new ResponseEntity<>(doctorService.uploadDoctorFiles(file,docId) , HttpStatus.OK);
+    }
+
+    @GetMapping(path = "/downloadDoctorFiles/{docId}")
+    public ResponseEntity<List<byte[]>> downloadDoctorFile(@PathVariable Long docId) {
+        return new ResponseEntity<>(doctorService.downloadDoctorFiles(docId) , HttpStatus.OK);
     }
 }

@@ -81,6 +81,10 @@ public class Doctor implements UserDetails {
 
     @JsonIgnore
     @OneToMany(mappedBy = "doctor")
+    private List<DoctorFiles> doctorFiles;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "doctor")
     private Set<Consultation> consultation;
 
     @JsonIgnore
