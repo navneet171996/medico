@@ -18,6 +18,8 @@ const Admin_Home = () => {
    logoutAPICall()
   
  }
+
+
  useEffect(() => {
   const fetchData = async () => {
    
@@ -78,7 +80,7 @@ const handleRemoveDoctor = async (docId) => {
                                             Remove Doctor
                                         </button>
                                     </div>
-                                </div>
+                                </div> 
                             </div>
                         ))}
                     </div>

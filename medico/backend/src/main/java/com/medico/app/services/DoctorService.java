@@ -1,6 +1,7 @@
 package com.medico.app.services;
 
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -11,15 +12,10 @@ import java.util.stream.Collectors;
 
 import com.medico.app.dto.DoctorDTO;
 import com.medico.app.dto.SocketDto;
-import com.medico.app.entities.Consultation;
-import com.medico.app.entities.Hospital;
-import com.medico.app.entities.Socket;
-import com.medico.app.repositories.ConsultationRepository;
-import com.medico.app.repositories.HospitalRepository;
-import com.medico.app.repositories.SocketRepository;
+import com.medico.app.entities.*;
+import com.medico.app.repositories.*;
 import org.springframework.stereotype.Service;
-import com.medico.app.entities.Doctor;
-import com.medico.app.repositories.DoctorRepository;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class DoctorService {
@@ -28,13 +24,17 @@ public class DoctorService {
     private final ConsultationRepository consultationRepository;
     private final SocketRepository socketRepository;
     private final HospitalRepository hospitalRepository;
+    private final StorageService storageService;
+    private final DoctorFilesRepository doctorFilesRepository;
 
-    public DoctorService(DoctorRepository doctorRepository, ConsultationRepository consultationRepository, SocketRepository socketRepository, HospitalRepository hospitalRepository) {
+    public DoctorService(DoctorRepository doctorRepository, ConsultationRepository consultationRepository, SocketRepository socketRepository, HospitalRepository hospitalRepository, StorageService storageService, DoctorFilesRepository doctorFilesRepository) {
 
         this.doctorRepository = doctorRepository;
         this.consultationRepository = consultationRepository;
         this.socketRepository = socketRepository;
         this.hospitalRepository = hospitalRepository;
+        this.storageService = storageService;
+        this.doctorFilesRepository = doctorFilesRepository;
     }
 
     public List<Doctor> getAllDoctor(){
@@ -147,11 +147,46 @@ public class DoctorService {
         return doctor;
     }
 
+
     public List<Doctor> getJrDoctorsOfSrDoctor(Long srDoctorId) {
         Doctor doctor = doctorRepository.findById(srDoctorId).orElseThrow();
         if(doctor.getIsSenior() && doctor.getJrDoctors() != null){
             return doctor.getJrDoctors();
         }
         return new ArrayList<>();
+    }
+
+    public String uploadDoctorFiles(MultipartFile file , Long docId){
+        try {
+            String filename = "FILE_"+docId+"_"+file.getOriginalFilename();
+            Doctor doctor = doctorRepository.findById(docId).orElseThrow();
+            DoctorFiles doctorFiles = new DoctorFiles();
+            doctorFiles.setFileName(filename);
+            doctorFiles.setDoctor(doctor);
+            doctorFilesRepository.save(doctorFiles);
+            String fileName = storageService.uploadFile(file, filename);
+            return "File uploaded for patient" + docId + ": " + fileName;
+        }
+        catch (IOException e){
+            return "Failed to upload file" + e.getMessage();
+        }
+    }
+
+    public List<byte[]> downloadDoctorFiles(Long docId){
+        try {
+            List<byte[]> files = new ArrayList<>();
+            List<DoctorFiles> doctorFiles = doctorFilesRepository.findDoctorFilesByDoctor_DocId(docId).orElseThrow();
+            doctorFiles.forEach(doctorFiles1 -> {
+                byte[] content = storageService.downloadFile(doctorFiles1.getFileName());
+                if(content != null){
+                    files.add(content);
+                }
+            });
+            return files;
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
     }
 }
