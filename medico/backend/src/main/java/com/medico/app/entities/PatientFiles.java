@@ -25,4 +25,7 @@ public class PatientFiles {
 
     @Column(name = "filename")
     private String fileName;
+
+    @Column(name = "placeholder")
+    private String placeholder;
 }

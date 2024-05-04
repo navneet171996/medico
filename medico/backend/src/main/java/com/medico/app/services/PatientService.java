@@ -3,10 +3,12 @@ package com.medico.app.services;
 import com.medico.app.dto.ConsultationDto;
 import com.medico.app.dto.RatingDto;
 import com.medico.app.entities.*;
+import com.medico.app.extras.dto.PatientFileDto;
 import com.medico.app.repositories.*;
 import com.medico.app.dto.PatientDto;
 import com.medico.app.entities.Consultation;
 import com.medico.app.repositories.ConsultationRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -169,12 +171,13 @@ public class PatientService {
         return this.consultationRepository.findConsultationByPatient_PatientID(patientId).orElseThrow();
     }
 
-    public String uploadPatientFiles(MultipartFile file, Long patientId){
+    public String uploadPatientFiles(MultipartFile file, Long patientId, String placeholder){
         try {
             String filename = "FILE_"+patientId+"_"+file.getOriginalFilename();
             Patient patient = patientRepository.findById(patientId).orElseThrow();
             PatientFiles patientFiles = new PatientFiles();
             patientFiles.setFileName(filename);
+            patientFiles.setPlaceholder(placeholder);
             patientFiles.setPatient(patient);
             patientFilesRepository.save(patientFiles);
             String fileName = storageService.uploadFile(file,filename);
@@ -199,6 +202,20 @@ public class PatientService {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public List<PatientFileDto> getPatientFiles(Long patientId){
+        Patient patient = patientRepository.findById(patientId)
+                .orElseThrow(() -> new EntityNotFoundException("Patient not found with id: " + patientId));
+        List<PatientFileDto> patientFileDtos = new ArrayList<>();
+        for(PatientFiles patientFiles : patient.getPatientFiles()){
+            PatientFileDto dto = new PatientFileDto();
+            dto.setFileName(patientFiles.getFileName());
+            dto.setPlaceholder(patientFiles.getPlaceholder());
+            dto.setPatientName(patient.getPatName());
+            patientFileDtos.add(dto);
+        }
+        return patientFileDtos;
     }
 
 }
