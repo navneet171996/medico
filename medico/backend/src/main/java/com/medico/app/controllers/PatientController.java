@@ -3,6 +3,7 @@ package com.medico.app.controllers;
 import com.medico.app.dao.SocketQueueDao;
 import com.medico.app.dto.*;
 import com.medico.app.entities.*;
+import com.medico.app.extras.dto.PatientFileDto;
 import com.medico.app.services.DoctorQueueService;
 import com.medico.app.services.DoctorService;
 import com.medico.app.services.HospitalService;
@@ -110,13 +111,20 @@ public class PatientController {
         return new ResponseEntity<>(doctorQueueService.getWaitingCount(doctorQueueDto), HttpStatus.OK);
     }
 
-    @PostMapping(path = "/uploadPatientsFiles/{patientId}")
-    public ResponseEntity<String> uploadPatientsFiles(@PathVariable Long patientId, @RequestParam(value = "file") MultipartFile file){
-        return new ResponseEntity<>(patientService.uploadPatientFiles(file, patientId), HttpStatus.OK);
+    @PostMapping(path = "/uploadPatientsFiles/{patientId}/{placeholder}")
+    public ResponseEntity<String> uploadPatientsFiles(@PathVariable Long patientId, @RequestParam(value = "file") MultipartFile file, @PathVariable String placeholder){
+        return new ResponseEntity<>(patientService.uploadPatientFiles(file, patientId, placeholder), HttpStatus.OK);
     }
 
     @GetMapping(path = "/downloadPatientFiles/{patientId}")
     public ResponseEntity<List<byte[]>> downloadFile(@PathVariable Long patientId) {
         return new ResponseEntity<>(patientService.downloadPatientFiles(patientId), HttpStatus.OK);
     }
+
+    @GetMapping(path = "/files/{patientId}")
+    public ResponseEntity<List<PatientFileDto>> getPatientFiles(@PathVariable Long patientId){
+        List<PatientFileDto> patientFileDtos = patientService.getPatientFiles(patientId);
+        return ResponseEntity.ok(patientFileDtos);
+    }
+
 }
