@@ -7,5 +7,7 @@ import java.util.Optional;
 
 public interface SocketRepository extends JpaRepository<Socket, Long> {
 
-    Optional<Socket> findSocketByDoctor_DocId(Long doctor_DocId);
+    Optional<Socket> findSocketByDoctor_DocId(Long docId);
+
+    Optional<Socket> findSocketByPatient_PatientID(Long patientId);
 }

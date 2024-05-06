@@ -6,6 +6,7 @@ import com.medico.app.entities.*;
 import com.medico.app.services.DoctorQueueService;
 import com.medico.app.services.DoctorService;
 import com.medico.app.services.OneTimePasswordService;
+import com.medico.app.services.PatientService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,13 +25,15 @@ public class DoctorController {
     private final DoctorService doctorService;
     private final DoctorQueueService doctorQueueService;
     private final OneTimePasswordService oneTimePasswordService;
+    private final PatientService patientService;
 
 
-    public DoctorController(DoctorService doctorService, DoctorQueueService doctorQueueService, OneTimePasswordService oneTimePasswordService) {
+    public DoctorController(DoctorService doctorService, DoctorQueueService doctorQueueService, OneTimePasswordService oneTimePasswordService, PatientService patientService) {
 
         this.doctorService = doctorService;
         this.doctorQueueService = doctorQueueService;
         this.oneTimePasswordService = oneTimePasswordService;
+        this.patientService = patientService;
     }
 
     @GetMapping(path = "/getDoctorDetails/{doctorId}")
@@ -102,5 +105,15 @@ public class DoctorController {
     @PostMapping(path = "/addPrescriptionToConsultation")
     public ResponseEntity<?> addPrescriptionToConsultation(@RequestBody PrescriptionDto prescriptionDto){
         return new ResponseEntity<>(doctorService.addPrescriptionToConsultation(prescriptionDto), HttpStatus.OK);
+    }
+
+    @GetMapping(path = "/getSocketOfPatient/{patientId}")
+    public ResponseEntity<Socket> getSocketOfPatient(@PathVariable Long patientId){
+        return new ResponseEntity<>(patientService.getSocketOfPatient(patientId), HttpStatus.OK);
+    }
+
+    @GetMapping(path = "/callNextPatientFromQueue/{doctorId}")
+    public ResponseEntity<SocketQueueDao> callNextPatientFromQueue(@PathVariable Long doctorId){
+        return new ResponseEntity<>(doctorQueueService.callNextPatient (doctorId), HttpStatus.OK);
     }
 }

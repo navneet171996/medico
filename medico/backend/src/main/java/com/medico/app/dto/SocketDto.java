@@ -13,4 +13,5 @@ public class SocketDto {
 
     private Long docId;
     private String socketId;
+    private Long patientId;
 }

@@ -65,6 +65,9 @@ public class Patient implements UserDetails {
     @OneToMany(mappedBy = "patient")
     private List<PatientToken> tokens;
 
+    @OneToOne(mappedBy = "patient")
+    private Socket socket;
+
     @JsonIgnore
     @OneToMany(mappedBy = "patient")
     private List<OneTimePassword> oneTimePasswords;
