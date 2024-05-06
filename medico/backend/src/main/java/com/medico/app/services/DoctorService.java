@@ -11,6 +11,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import com.medico.app.dto.DoctorDTO;
+import com.medico.app.dto.PrescriptionDto;
 import com.medico.app.dto.SocketDto;
 import com.medico.app.entities.*;
 import com.medico.app.repositories.*;
@@ -26,8 +27,10 @@ public class DoctorService {
     private final HospitalRepository hospitalRepository;
     private final StorageService storageService;
     private final DoctorFilesRepository doctorFilesRepository;
+    private final MedicineAndDosageRepository medicineAndDosageRepository;
+    private final PrescriptionRepository prescriptionRepository;
 
-    public DoctorService(DoctorRepository doctorRepository, ConsultationRepository consultationRepository, SocketRepository socketRepository, HospitalRepository hospitalRepository, StorageService storageService, DoctorFilesRepository doctorFilesRepository) {
+    public DoctorService(DoctorRepository doctorRepository, ConsultationRepository consultationRepository, SocketRepository socketRepository, HospitalRepository hospitalRepository, StorageService storageService, DoctorFilesRepository doctorFilesRepository, MedicineAndDosageRepository medicineAndDosageRepository, PrescriptionRepository prescriptionRepository) {
 
         this.doctorRepository = doctorRepository;
         this.consultationRepository = consultationRepository;
@@ -35,6 +38,8 @@ public class DoctorService {
         this.hospitalRepository = hospitalRepository;
         this.storageService = storageService;
         this.doctorFilesRepository = doctorFilesRepository;
+        this.medicineAndDosageRepository = medicineAndDosageRepository;
+        this.prescriptionRepository = prescriptionRepository;
     }
 
     public List<Doctor> getAllDoctor(){
@@ -188,5 +193,22 @@ public class DoctorService {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public Consultation addPrescriptionToConsultation(PrescriptionDto prescriptionDto) {
+        Consultation consultation = consultationRepository.findById(prescriptionDto.getConsultationId()).orElseThrow();
+        Prescription prescription = new Prescription();
+        prescription.setObservations(prescriptionDto.getObservations());
+        prescription.setMedicinesAndDosage(new ArrayList<>());
+        prescriptionDto.getMedicinesAndDosages().forEach(medicine -> {
+            MedicineAndDosage medicineAndDosage = new MedicineAndDosage();
+            medicineAndDosage.setMedicineName(medicine.getMedicine());
+            medicineAndDosage.setDosage(medicine.getDosage());
+            medicineAndDosageRepository.save(medicineAndDosage);
+            prescription.getMedicinesAndDosage().add(medicineAndDosage);
+        });
+        prescriptionRepository.save(prescription);
+        consultation.setPrescription(prescription);
+        return consultationRepository.save(consultation);
     }
 }
