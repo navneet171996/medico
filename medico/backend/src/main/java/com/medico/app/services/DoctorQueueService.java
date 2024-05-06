@@ -40,6 +40,10 @@ public class DoctorQueueService {
         return doctorQueuesMap.get(doctorId).poll();
     }
 
+    public SocketQueueDao callNextPatient(Long doctorId){
+        return doctorQueuesMap.get(doctorId).peek();
+    }
+
     public String deleteQueueOfDoctor(Long doctorId) {
         if(doctorQueuesMap.containsKey(doctorId)){
             doctorQueuesMap.remove(doctorId);

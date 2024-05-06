@@ -23,4 +23,8 @@ public class Socket {
     @OneToOne
     @JsonIgnore
     private Doctor doctor;
+
+    @OneToOne
+    @JsonIgnore
+    private Patient patient;
 }

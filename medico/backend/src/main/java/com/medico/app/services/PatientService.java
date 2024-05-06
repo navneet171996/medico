@@ -2,6 +2,7 @@ package com.medico.app.services;
 
 import com.medico.app.dto.ConsultationDto;
 import com.medico.app.dto.RatingDto;
+import com.medico.app.dto.SocketDto;
 import com.medico.app.entities.*;
 import com.medico.app.extras.dto.PatientFileDto;
 import com.medico.app.repositories.*;
@@ -30,9 +31,10 @@ public class PatientService {
     private final PatientFilesRepository patientFilesRepository;
     private final SlotsRepository slotsRepository;
     private final StorageService storageService;
+    private final SocketRepository socketRepository;
 
 
-    public PatientService(PatientRepository patientRepository, DoctorRepository doctorRepository, ConsultationRepository consultationRepository, RatingAndReviewRepository ratingAndReviewRepository, HospitalRepository hospitalRepository, PatientFilesRepository patientFilesRepository, SlotsRepository slotsRepository, StorageService storageService) {
+    public PatientService(PatientRepository patientRepository, DoctorRepository doctorRepository, ConsultationRepository consultationRepository, RatingAndReviewRepository ratingAndReviewRepository, HospitalRepository hospitalRepository, PatientFilesRepository patientFilesRepository, SlotsRepository slotsRepository, StorageService storageService, SocketRepository socketRepository) {
         this.patientRepository = patientRepository;
         this.doctorRepository = doctorRepository;
         this.consultationRepository = consultationRepository;
@@ -41,6 +43,7 @@ public class PatientService {
         this.patientFilesRepository = patientFilesRepository;
         this.slotsRepository = slotsRepository;
         this.storageService = storageService;
+        this.socketRepository = socketRepository;
     }
 
 
@@ -244,4 +247,27 @@ public class PatientService {
         return patientFileDtos;
     }
 
+    public Socket putSocketOfPatient(SocketDto socketDto) {
+        Optional<Socket> socketAlreadyPresent = socketRepository.findSocketByPatient_PatientID(socketDto.getPatientId());
+        if(socketAlreadyPresent.isPresent()){
+            Socket socket = socketAlreadyPresent.get();
+            socket.setSocketId(socketDto.getSocketId());
+            return socketRepository.save(socket);
+        }else{
+            Optional<Patient> patientOptional = patientRepository.findById(socketDto.getPatientId());
+            if(patientOptional.isPresent()){
+                Patient patient = patientOptional.get();
+                Socket socket = new Socket();
+                socket.setPatient(patient);
+                socket.setSocketId(socketDto.getSocketId());
+
+                return socketRepository.save(socket);
+            }
+        }
+        return new Socket();
+    }
+
+    public Socket getSocketOfPatient(Long patientId) {
+        return socketRepository.findSocketByPatient_PatientID(patientId).orElseThrow();
+    }
 }

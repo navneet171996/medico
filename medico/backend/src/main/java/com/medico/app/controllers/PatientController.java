@@ -138,4 +138,9 @@ public class PatientController {
         return new ResponseEntity<>(oneTimePasswordService.getOtp(patientId), HttpStatus.OK);
     }
 
+    @PostMapping(path = "/putSocketOfPatient")
+    public ResponseEntity<Socket> putSocketOfPatient(@RequestBody SocketDto socketDto){
+        return new ResponseEntity<>(patientService.putSocketOfPatient(socketDto),HttpStatus.OK);
+    }
+
 }
