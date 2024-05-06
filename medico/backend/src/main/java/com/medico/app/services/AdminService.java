@@ -70,9 +70,13 @@ public class AdminService {
         Doctor srDoctor = doctorRepository.findById(assignJrDoctorDto.getSrDoctorId()).orElseThrow();
         srDoctor.setIsSenior(Boolean.TRUE);
         assignJrDoctorDto.getJrDoctorIds().forEach(jrDoctorId -> {
-            Doctor doctor = doctorRepository.findById(jrDoctorId).orElseThrow();
-            doctor.setSrDoctor(srDoctor);
-            doctorRepository.save(doctor);
+            if(srDoctor.getDocId() != jrDoctorId){
+                Doctor doctor = doctorRepository.findById(jrDoctorId).orElseThrow();
+                if(!doctor.getIsSenior()){
+                    doctor.setSrDoctor(srDoctor);
+                    doctorRepository.save(doctor);
+                }
+            }
         });
         return "Assigned doctors successfully";
     }
