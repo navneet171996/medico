@@ -2,6 +2,7 @@ package com.medico.app.controllers;
 
 import com.medico.app.dao.SocketQueueDao;
 import com.medico.app.dto.DoctorDTO;
+import com.medico.app.dto.OneTimePasswordDto;
 import com.medico.app.dto.PatientDoctorDto;
 import com.medico.app.dto.SocketDto;
 import com.medico.app.entities.*;
@@ -96,8 +97,9 @@ public class DoctorController {
 
     }
 
-    @PostMapping(path = "/sendOtpToPatientForSharing")
-    public ResponseEntity<OneTimePassword> sendOtpToPatientForSharing(@RequestBody PatientDoctorDto patientDoctorDto){
-        return new ResponseEntity<>(oneTimePasswordService.sendOtpToPatientForSharing(patientDoctorDto), HttpStatus.OK);
+    @PostMapping(path = "/verifyOtp")
+    public ResponseEntity<Boolean> verifyOtpForSharing(@RequestBody OneTimePasswordDto oneTimePasswordDto){
+        return new ResponseEntity<>(oneTimePasswordService.verifyOtpForSharing(oneTimePasswordDto), HttpStatus.OK);
     }
+
 }
