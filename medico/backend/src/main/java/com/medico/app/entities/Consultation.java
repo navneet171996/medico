@@ -33,8 +33,7 @@ public class Consultation {
     @JoinColumn(name = "doctor_id",referencedColumnName = "doctor_id")
     private Doctor doctor;
 
-    @ManyToOne
-    @JoinColumn(name = "prescription_id" , referencedColumnName = "prescription_id")
+    @OneToOne(mappedBy = "consultation")
     private Prescription prescription;
 
     @Column(name = "date")
