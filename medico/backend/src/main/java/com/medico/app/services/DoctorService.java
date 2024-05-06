@@ -46,7 +46,7 @@ public class DoctorService {
     }
 
     public List<Doctor> getDoctorsBySpecialityAndHospital(Long specialityId, Long hospitalId){
-        return this.doctorRepository.findDoctorBySpeciality_SpecialityIdAndHospital_HospitalId(specialityId, hospitalId).orElseThrow();
+        return this.doctorRepository.findDoctorBySpecialityAndHospital(specialityId, hospitalId).orElseThrow();
     }
 
     public DoctorDTO getDoctorDetails(Long doctorId){

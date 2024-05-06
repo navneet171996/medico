@@ -15,7 +15,11 @@ public interface DoctorRepository extends JpaRepository<Doctor, Long>{
 
     Optional<List<Doctor>> findBySpeciality_SpecialityId(Long specialityId);
 
-    Optional<List<Doctor>> findDoctorBySpeciality_SpecialityIdAndHospital_HospitalId(Long specialityId, Long hospitalId);
+    @Query("SELECT d FROM Doctor d WHERE d.speciality.specialityId = :specialityId AND d.hospital.hospitalId = :hospitalId")
+    Optional<List<Doctor>> findDoctorBySpecialityAndHospital(Long specialityId, Long hospitalId);
+
+    @Query("SELECT d FROM Doctor d WHERE d.hospital.hospitalId = :hospitalId")
+    Optional<List<Doctor>> findDoctorByHospital(Long hospitalId);
 
     Optional<Doctor> getDoctorByEmail(String email);
 }

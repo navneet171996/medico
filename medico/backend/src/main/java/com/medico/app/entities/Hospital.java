@@ -42,4 +42,7 @@ public class Hospital {
     @OneToMany(mappedBy = "hospital")
     private Set<Doctor> doctors;
 
+    @Column(name = "rating")
+    private Double rating;
+
 }
