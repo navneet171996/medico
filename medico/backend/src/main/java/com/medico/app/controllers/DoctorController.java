@@ -1,6 +1,6 @@
 package com.medico.app.controllers;
 
-import com.medico.app.dao.SocketQueueDao;
+import com.medico.app.dao.QueueDao;
 import com.medico.app.dto.*;
 import com.medico.app.entities.*;
 import com.medico.app.services.DoctorQueueService;
@@ -12,11 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.print.Doc;
-import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(path = "/api/doctor")
@@ -72,7 +68,7 @@ public class DoctorController {
     }
 
     @GetMapping(path = "/getSocketOfNextPatient/{doctorId}")
-    public ResponseEntity<SocketQueueDao> getSocketOfNextPatientFromQueue(@PathVariable Long doctorId){
+    public ResponseEntity<QueueDao> getSocketOfNextPatientFromQueue(@PathVariable Long doctorId){
         return new ResponseEntity<>(doctorQueueService.getNextPatient(doctorId), HttpStatus.OK);
     }
 
@@ -113,7 +109,12 @@ public class DoctorController {
     }
 
     @GetMapping(path = "/callNextPatientFromQueue/{doctorId}")
-    public ResponseEntity<SocketQueueDao> callNextPatientFromQueue(@PathVariable Long doctorId){
+    public ResponseEntity<QueueDao> callNextPatientFromQueue(@PathVariable Long doctorId){
         return new ResponseEntity<>(doctorQueueService.callNextPatient (doctorId), HttpStatus.OK);
+    }
+
+    @GetMapping(path = "/getOngoingConsultationDetail")
+    public ResponseEntity<ConsultationDto> getOngoingConsultationDetail(Long doctorId){
+        return new ResponseEntity<>(doctorQueueService.getOngoingConsultation(doctorId), HttpStatus.OK);
     }
 }

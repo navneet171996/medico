@@ -21,5 +21,6 @@ public class ConsultationDto {
     private Long docID;
     private LocalDate consultationDate;
     private LocalTime consultationTime;
+    private Long consultationId;
 
 }
