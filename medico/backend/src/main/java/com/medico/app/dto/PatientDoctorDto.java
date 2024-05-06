@@ -9,8 +9,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class AcceptDoctorDto {
-
-    private Long docId;
-    private Boolean accept;
+public class PatientDoctorDto {
+    private Long patientId;
+    private Long doctorId;
 }

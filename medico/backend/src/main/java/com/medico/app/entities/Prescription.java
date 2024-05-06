@@ -33,6 +33,9 @@ public class Prescription {
     @Column(name = "patient_name")
     private String patientName;
 
+    @Column(name = "observations")
+    private String observations;
+
     @Column(name = "medicines")
     @OneToMany(mappedBy = "prescription")
     private List<MedicineAndDosage> medicinesAndDosage;

@@ -25,15 +25,17 @@ public class PatientController {
     private final HospitalService hospitalService;
     private final DoctorQueueService doctorQueueService;
     private final StorageService storageService;
+    private final OneTimePasswordService oneTimePasswordService;
 
 
-    public PatientController(PatientService patientService, HospitalService hospitalService , DoctorService doctorService, DoctorQueueService doctorQueueService, StorageService storageService) {
+    public PatientController(PatientService patientService, HospitalService hospitalService , DoctorService doctorService, DoctorQueueService doctorQueueService, StorageService storageService, OneTimePasswordService oneTimePasswordService) {
 
         this.patientService = patientService;
         this.hospitalService =  hospitalService;
         this.doctorService = doctorService;
         this.doctorQueueService = doctorQueueService;
         this.storageService = storageService;
+        this.oneTimePasswordService = oneTimePasswordService;
     }
 
     @PostMapping(path = "/getDoctorSlots")
@@ -129,6 +131,11 @@ public class PatientController {
     public ResponseEntity<List<PatientFileDto>> getPatientFiles(@PathVariable Long patientId){
         List<PatientFileDto> patientFileDtos = patientService.getPatientFiles(patientId);
         return ResponseEntity.ok(patientFileDtos);
+    }
+
+    @GetMapping(path = "/getOtp/{patientId}")
+    public ResponseEntity<OneTimePasswordDto> getOtpForSharing(@PathVariable Long patientId){
+        return new ResponseEntity<>(oneTimePasswordService.getOtp(patientId), HttpStatus.OK);
     }
 
 }

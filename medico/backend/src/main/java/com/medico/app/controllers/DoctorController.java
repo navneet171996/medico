@@ -2,13 +2,13 @@ package com.medico.app.controllers;
 
 import com.medico.app.dao.SocketQueueDao;
 import com.medico.app.dto.DoctorDTO;
+import com.medico.app.dto.OneTimePasswordDto;
+import com.medico.app.dto.PatientDoctorDto;
 import com.medico.app.dto.SocketDto;
-import com.medico.app.entities.Consultation;
-import com.medico.app.entities.Doctor;
-import com.medico.app.entities.Hospital;
-import com.medico.app.entities.Socket;
+import com.medico.app.entities.*;
 import com.medico.app.services.DoctorQueueService;
 import com.medico.app.services.DoctorService;
+import com.medico.app.services.OneTimePasswordService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,12 +26,14 @@ public class DoctorController {
 
     private final DoctorService doctorService;
     private final DoctorQueueService doctorQueueService;
+    private final OneTimePasswordService oneTimePasswordService;
 
 
-    public DoctorController(DoctorService doctorService, DoctorQueueService doctorQueueService) {
+    public DoctorController(DoctorService doctorService, DoctorQueueService doctorQueueService, OneTimePasswordService oneTimePasswordService) {
 
         this.doctorService = doctorService;
         this.doctorQueueService = doctorQueueService;
+        this.oneTimePasswordService = oneTimePasswordService;
     }
 
     @GetMapping(path = "/getDoctorDetails/{doctorId}")
@@ -94,4 +96,10 @@ public class DoctorController {
         return new ResponseEntity<>(doctorService.downloadDoctorFiles(docId) , HttpStatus.OK);
 
     }
+
+    @PostMapping(path = "/verifyOtp")
+    public ResponseEntity<Boolean> verifyOtpForSharing(@RequestBody OneTimePasswordDto oneTimePasswordDto){
+        return new ResponseEntity<>(oneTimePasswordService.verifyOtpForSharing(oneTimePasswordDto), HttpStatus.OK);
+    }
+
 }
