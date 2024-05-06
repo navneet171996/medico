@@ -1,6 +1,5 @@
 package com.medico.app.controllers;
 
-import com.medico.app.dao.SocketQueueDao;
 import com.medico.app.dto.*;
 import com.medico.app.entities.*;
 import com.medico.app.extras.dto.PatientFileDto;
@@ -141,6 +140,11 @@ public class PatientController {
     @PostMapping(path = "/putSocketOfPatient")
     public ResponseEntity<Socket> putSocketOfPatient(@RequestBody SocketDto socketDto){
         return new ResponseEntity<>(patientService.putSocketOfPatient(socketDto),HttpStatus.OK);
+    }
+
+    @PostMapping(path = "/setOngoingConsultation/{consultationId}")
+    public ResponseEntity<?> setOngoingConsultation(Long consultationId){
+        return new ResponseEntity<>(doctorQueueService.setOngoingConsultation(consultationId), HttpStatus.OK);
     }
 
 }

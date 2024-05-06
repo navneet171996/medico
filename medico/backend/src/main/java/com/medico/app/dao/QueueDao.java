@@ -9,8 +9,8 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class SocketQueueDao {
+public class QueueDao {
 
     private Long patientId;
-    private String socketId;
+    private Long consultationId;
 }
