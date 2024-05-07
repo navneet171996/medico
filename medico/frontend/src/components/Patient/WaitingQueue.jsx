@@ -22,7 +22,7 @@ const WaitingQueue = () => {
               patientId:id
             }
             console.log("payload is",payload);
-            const response = await axios.post('http://localhost:8081/api/patient/getWaitingList',payload);
+            const response = await axios.post(import.meta.env.REACT_APP_BACKEND_URL +'/api/patient/getWaitingList',payload);
             setWaitingList(response.data);
           } catch (error) {
             console.error('Error fetching waiting list:', error);
@@ -35,7 +35,7 @@ const WaitingQueue = () => {
       useEffect(() => {
         const fetchData = async () => {
             const docId = parseInt(localStorage.getItem("queuedDoctorId"))
-            const response = await axios.get(`http://localhost:8081/api/doctor/getDoctorDetails/${docId}`)
+            const response = await axios.get(`${import.meta.env.REACT_APP_BACKEND_URL}/api/doctor/getDoctorDetails/${docId}`)
             setDoctor(response.data)
         };
     

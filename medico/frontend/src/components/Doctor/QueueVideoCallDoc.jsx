@@ -12,7 +12,7 @@ import io from "socket.io-client";
 import axios from 'axios'
 import { notification } from 'antd'
 import Prescription from './Prescription'
-const ENDPOINT = "http://127.0.0.1:3001/";
+const ENDPOINT = import.meta.env.REACT_APP_SIGNAL_URL;
 
 // const socket = io.connect(ENDPOINT);
 
@@ -49,7 +49,7 @@ useEffect(()=>{
     const fetchData=async()=>{
     const profile = JSON.parse(localStorage.getItem('userProfile'));
     const id = profile.id;
-    let apiResponse = await axios.get(`http://localhost:8081/api/doctor/getDoctorDetails/${id}`)
+    let apiResponse = await axios.get(`${import.meta.env.REACT_APP_BACKEND_URL}/api/doctor/getDoctorDetails/${id}`)
      setDocProfile(apiResponse.data)
     }
     fetchData()
@@ -76,7 +76,7 @@ useEffect(()=>{
     const handleUploadPrescription = async(payload) => {
       // Handle prescription upload here
       console.log('Prescription payload:', payload);
-      let apiResponse = await axios.post("http://localhost:8081/api/doctor/addPrescriptionToConsultation",payload)
+      let apiResponse = await axios.post(import.meta.env.REACT_APP_BACKEND_URL +"/api/doctor/addPrescriptionToConsultation",payload)
       if(apiResponse){
         notification.success({
             message: 'Prescription Uploaded Successfully',
@@ -135,7 +135,7 @@ useEffect(()=>{
         
         try {
             // First Axios request
-            let apiResponse = await axios.get(`http://localhost:8081/api/doctor/callNextPatientFromQueue/${id}`);
+            let apiResponse = await axios.get(`${import.meta.env.REACT_APP_BACKEND_URL}/api/doctor/callNextPatientFromQueue/${id}`);
             console.log(apiResponse.data);
             localStorage.setItem("patientId", apiResponse.data.patientId);
             localStorage.setItem("consultId", apiResponse.data.consultationId);
@@ -144,7 +144,7 @@ useEffect(()=>{
     
             
             // Second Axios request
-            const response2 = await axios.get(`http://localhost:8081/api/doctor/getSocketOfPatient/${apiResponse.data.patientId}`);
+            const response2 = await axios.get(`${import.meta.env.REACT_APP_BACKEND_URL}/api/doctor/getSocketOfPatient/${apiResponse.data.patientId}`);
             const callType = constants.callType.VIDEO_PERSONAL_CODE
             webRTCHandler.sendPreOffer(callType,response2.data.socketId );
             // Handle the response of the second request here
@@ -166,7 +166,7 @@ useEffect(()=>{
         try {
         const profile = JSON.parse(localStorage.getItem('userProfile'));
         const id = profile.id;
-        let apiResponse = await axios.get(`http://localhost:8081/api/doctor/getSocketOfNextPatient/${id}`)
+        let apiResponse = await axios.get(`${import.meta.env.REACT_APP_BACKEND_URL}/api/doctor/getSocketOfNextPatient/${id}`)
         if(apiResponse){
             notification.success({
                 message: 'You are redirected to next patient!!',

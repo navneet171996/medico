@@ -24,7 +24,7 @@ export const registerSocketEvents = (socket) => {
             socketId: socket.id
         };
         try {
-            let apiResponse = await axios.post("http://localhost:8081/api/doctor/putSocketOfDoctor", payload);
+            let apiResponse = await axios.post(import.meta.env.REACT_APP_BACKEND_URL +"/api/doctor/putSocketOfDoctor", payload);
             console.log(apiResponse);
         } catch (error) {
             console.error("Error occurred:", error);
@@ -36,7 +36,7 @@ export const registerSocketEvents = (socket) => {
             socketId: socket.id
         };
         try {
-            let apiResponse = await axios.post("http://localhost:8081/api/patient/putSocketOfPatient", payload);
+            let apiResponse = await axios.post(import.meta.env.REACT_APP_BACKEND_URL +"/api/patient/putSocketOfPatient", payload);
             console.log("sumit ka response",apiResponse);
         } catch (error) {
             console.error("Error occurred:", error);

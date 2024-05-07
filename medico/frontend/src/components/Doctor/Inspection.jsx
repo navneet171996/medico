@@ -16,7 +16,7 @@ const Inspection = () => {
       try {
         const profile = JSON.parse(localStorage.getItem('userProfile'));
         const id = profile.id;
-        const response = await axios.get(`http://localhost:8081/api/doctor/getJrDoctorsOfSrDoctor/${id}`);
+        const response = await axios.get(`${import.meta.env.REACT_APP_BACKEND_URL}/api/doctor/getJrDoctorsOfSrDoctor/${id}`);
         setJuniorDoctors(response.data);
       } catch (error) {
         console.error('Error fetching junior doctors:', error);
@@ -28,7 +28,7 @@ const Inspection = () => {
 
   const handleInspectRecords = async (docId) => {
     try {
-      const response = await axios.get(`http://localhost:8081/api/doctor/getAllConsultationOfDoc/${docId}`);
+      const response = await axios.get(`${import.meta.env.REACT_APP_BACKEND_URL}/api/doctor/getAllConsultationOfDoc/${docId}`);
       setDoctorRecords(response.data);
       setModalVisible(true);
     } catch (error) {

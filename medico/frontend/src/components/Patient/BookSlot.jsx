@@ -65,7 +65,7 @@ const BookSlot = () => {
         };
     
         try {
-            const response2 = await axios.post("http://localhost:8081/api/patient/bookConsultation", payload2);
+            const response2 = await axios.post(import.meta.env.REACT_APP_BACKEND_URL +"/api/patient/bookConsultation", payload2);
             console.log(response2.data);
             const consultation = response2.data.consultationId;
             
@@ -76,7 +76,7 @@ const BookSlot = () => {
                 consultationId: consultation
             };
     
-            const response = await axios.post(`http://localhost:8081/api/patient/enterIntoQueue`, payload);
+            const response = await axios.post(`${import.meta.env.REACT_APP_BACKEND_URL}/api/patient/enterIntoQueue`, payload);
             
             if (response) {
                 localStorage.setItem("queuedDoctorId", docId);

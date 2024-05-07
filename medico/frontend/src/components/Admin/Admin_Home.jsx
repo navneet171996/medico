@@ -34,7 +34,7 @@ const Admin_Home = () => {
       srDoctorId:docPromotionId,
       jrDoctorIds:selectedDoctors
     }
-    let response = await axios.post("http://localhost:8081/api/admin/assignJrDoctorsToSrDoctor",payload)
+    let response = await axios.post(import.meta.env.REACT_APP_BACKEND_URL +"/api/admin/assignJrDoctorsToSrDoctor",payload)
     console.log(response);
   };
   const [selectedDoctors, setSelectedDoctors] = useState([]);
@@ -61,7 +61,7 @@ const Admin_Home = () => {
       const profile = JSON.parse(localStorage.getItem("userProfile"));
       const id = profile.id
       try {
-        const response = await axios.get(`http://localhost:8081/api/admin/getDoctorsOfHospital/${id}`);
+        const response = await axios.get(`${import.meta.env.REACT_APP_BACKEND_URL}/api/admin/getDoctorsOfHospital/${id}`);
         console.log(response.data);
         setDoctors(response.data);
         if (response.data.length > 0) {
@@ -103,7 +103,7 @@ const Admin_Home = () => {
   };
 
   const handleRemoveDoctor = async (docId) => {
-    const response = await axios.delete(`http://localhost:8081/api/admin/removeDoctorFromHospital/${docId}`);
+    const response = await axios.delete(`${import.meta.env.REACT_APP_BACKEND_URL}/api/admin/removeDoctorFromHospital/${docId}`);
     console.log(response.data);
   };
 

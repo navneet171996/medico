@@ -30,7 +30,7 @@ const Doctor_View = () => {
         const profile = JSON.parse(localStorage.getItem('userProfile'));
             const id = profile.id;
           try {
-              const response = await axios.get(`http://localhost:8081/api/doctor/getDoctorDetails/${id}`);
+              const response = await axios.get(`${import.meta.env.REACT_APP_BACKEND_URL}/api/doctor/getDoctorDetails/${id}`);
               if(response.data.isSenior){
                  setSenior(1)
               }
@@ -43,7 +43,7 @@ const Doctor_View = () => {
       // Fetch hospitals
       const fetchHospitals = async () => {
           try {
-              const response = await axios.get('http://localhost:8081/api/patient/getAllHospitals');
+              const response = await axios.get(import.meta.env.REACT_APP_BACKEND_URL +'/api/patient/getAllHospitals');
               setHospitals(response.data);
           } catch (error) {
               console.error('Error fetching hospitals:', error);
@@ -65,7 +65,7 @@ const Doctor_View = () => {
     console.log('Join Hospital:', selectedHospital);
 
     try {
-        const response = await axios.get(`http://localhost:8081/api/doctor/applyToHospital/${id}/${selectedHospital}`);
+        const response = await axios.get(`${import.meta.env.REACT_APP_BACKEND_URL}/api/doctor/applyToHospital/${id}/${selectedHospital}`);
         console.log(response.data);
         Modal.success({
             title: 'Request Sent!',
@@ -90,7 +90,7 @@ const Doctor_View = () => {
             const profile = JSON.parse(localStorage.getItem('userProfile'));
             const id = profile.id;
             try {
-                const response = await axios.get(`http://localhost:8081/api/doctor/getPendingConsultationsOfDoc/${id}`);
+                const response = await axios.get(`${import.meta.env.REACT_APP_BACKEND_URL}/api/doctor/getPendingConsultationsOfDoc/${id}`);
                 console.log(response.data);
                 setConsultations(response.data);
             } catch (error) {

@@ -33,7 +33,7 @@ export const AuthContextProvider = ({children}) =>{
   const loginApiCallDoctor = async (payload) => {
     setLoading(true);
         try {
-            let apiResponse = await axios.post("http://localhost:8081/api/auth/loginDoctor",payload);
+            let apiResponse = await axios.post(import.meta.env.REACT_APP_BACKEND_URL +"/api/auth/loginDoctor",payload);
     
             console.log("Api response "+apiResponse);
             localStorage.setItem("userProfile", JSON.stringify(apiResponse.data));
@@ -59,9 +59,9 @@ export const AuthContextProvider = ({children}) =>{
    };
  
    const loginApiCallAdmin = async (payload) => {
-    // await axios.post("http://localhost:8081/api/auth/login", payload);
+    // await axios.post(import.meta.env.REACT_APP_BACKEND_URL +"/api/auth/login", payload);
     console.log(payload);
-    let apiResponse = await axios.post("http://localhost:8081/api/auth/loginAdmin",payload);
+    let apiResponse = await axios.post(import.meta.env.REACT_APP_BACKEND_URL +"/api/auth/loginAdmin",payload);
     console.log("Api response "+apiResponse);
     localStorage.setItem("userProfile", JSON.stringify(apiResponse.data));
     localStorage.setItem('token', (apiResponse.data.token))
@@ -79,7 +79,7 @@ export const AuthContextProvider = ({children}) =>{
  
   const registerAdmin = async(payload) =>{
     console.log(payload);
-        let apiResponse = await axios.post("http://localhost:8081/api/auth/registerAdmin",payload);
+        let apiResponse = await axios.post(import.meta.env.REACT_APP_BACKEND_URL +"/api/auth/registerAdmin",payload);
         console.log(apiResponse);
   }
   
@@ -101,7 +101,7 @@ export const AuthContextProvider = ({children}) =>{
     // const token = localStorage.getItem('token')
     // const headers = { Authorization: `Bearer ${token}`};
     //, {headers:headers}
-    const specializationDetails =await  axios.get("http://localhost:8081/api/home/allSpecialities")
+    const specializationDetails =await  axios.get(import.meta.env.REACT_APP_BACKEND_URL +"/api/home/allSpecialities")
     console.log(specializationDetails.data);
  
     if (Array.isArray(specializationDetails.data) && specializationDetails.data.length > 0) {
@@ -115,7 +115,7 @@ export const AuthContextProvider = ({children}) =>{
   
   //hospitals
   const getAllHospitals = async()=>{
-     let apiResponse = await axios.get("http://localhost:8081/api/patient/getAllHospitals");
+     let apiResponse = await axios.get(import.meta.env.REACT_APP_BACKEND_URL +"/api/patient/getAllHospitals");
     console.log("Get all hospitals");
      console.log(apiResponse);
      setHospitals(apiResponse.data)
@@ -124,7 +124,7 @@ export const AuthContextProvider = ({children}) =>{
  //Patient Api calls
   const registerPatient = async(payload) =>{
     console.log(payload);
-    let apiResponse = await axios.post("http://localhost:8081/api/auth/registerPatient",payload);
+    let apiResponse = await axios.post(import.meta.env.REACT_APP_BACKEND_URL +"/api/auth/registerPatient",payload);
     console.log(apiResponse);
     if(apiResponse){
       alert("registered successfully");
@@ -132,8 +132,8 @@ export const AuthContextProvider = ({children}) =>{
   }
 
   const loginApiCallPatient = async (payload) => {
-    // await axios.post("http://localhost:8081/api/auth/login", payload);
-    let apiResponse = await axios.post("http://localhost:8081/api/auth/loginPatient",payload);
+    // await axios.post(import.meta.env.REACT_APP_BACKEND_URL +"/api/auth/login", payload);
+    let apiResponse = await axios.post(import.meta.env.REACT_APP_BACKEND_URL +"/api/auth/loginPatient",payload);
     console.log(apiResponse);
     localStorage.setItem("userProfile", JSON.stringify(apiResponse.data));
     localStorage.setItem('token', (apiResponse.data.token))
@@ -153,7 +153,7 @@ export const AuthContextProvider = ({children}) =>{
   const getPatientDetails = async (payload) => {
     const profile = JSON.parse(localStorage.getItem("userProfile"));
        const id = profile.id
-     let apiResponse = await axios.get(`http://localhost:8081/api/patient/getPatientDetails/${id}`);
+     let apiResponse = await axios.get(`${import.meta.env.REACT_APP_BACKEND_URL}/api/patient/getPatientDetails/${id}`);
      setPatientProfile(apiResponse.data)
      localStorage.setItem('patId',apiResponse.data.patientId)
   }
@@ -173,13 +173,13 @@ export const AuthContextProvider = ({children}) =>{
   const doctorBySpecialization = async() =>{
     console.log("main spec id", specializationId);
     //sid saved in localstorage in card.jsx
-       let apiResponse = await axios.get(`http://localhost:8081/api/patient/docBySpeciality/sortedR/${localStorage.getItem('sId')}`);
+       let apiResponse = await axios.get(`${import.meta.env.REACT_APP_BACKEND_URL}/api/patient/docBySpeciality/sortedR/${localStorage.getItem('sId')}`);
        setDoctorList1(apiResponse.data)
        console.log(apiResponse.data);
   }
   
   const sortDoctorByPrice = async()=>{
-      let apiResponse = await axios.get(`http://localhost:8081/api/patient/docBySpeciality/sortedP/${localStorage.getItem('sId')}`);
+      let apiResponse = await axios.get(`${import.meta.env.REACT_APP_BACKEND_URL}/api/patient/docBySpeciality/sortedP/${localStorage.getItem('sId')}`);
       setDoctorList1(apiResponse.data)
       
   }
@@ -187,7 +187,7 @@ export const AuthContextProvider = ({children}) =>{
   const getDoctorDetails = async()=>{
        //doctorId set in localStrogre in doctorCard
        let doctordet = localStorage.getItem('doctor')
-       let apiResponse = await axios.get(`http://localhost:8081/api/doctor/getDoctorDetails/${doctordet}`);
+       let apiResponse = await axios.get(`${import.meta.env.REACT_APP_BACKEND_URL}/api/doctor/getDoctorDetails/${doctordet}`);
        console.log("Doctor id is ",docId);
        setDocDetails(apiResponse.data)
        localStorage.setItem('docDetails', JSON.stringify(apiResponse.data)); 
@@ -195,21 +195,21 @@ export const AuthContextProvider = ({children}) =>{
   }
 
   const getConsultation = async()=>{
-    let apiResponse = await axios.get(`http://localhost:8081/api/doctor/getAllConsultationOfDoc/${localStorage.getItem('doctor')}`);
+    let apiResponse = await axios.get(`${import.meta.env.REACT_APP_BACKEND_URL}/api/doctor/getAllConsultationOfDoc/${localStorage.getItem('doctor')}`);
     setConsultation(apiResponse.data)
     
      
   }
 
   const appointment = async(payload)=>{
-      let apiResponse = await axios.post("http://localhost:8081/api/patient/getDoctorSlots",payload);
+      let apiResponse = await axios.post(import.meta.env.REACT_APP_BACKEND_URL +"/api/patient/getDoctorSlots",payload);
       setSlots(apiResponse.data)
       localStorage.setItem('totalSlots', JSON.stringify(apiResponse.data));
   }
   
   const registerDoc = async(payload) =>{
     console.log(payload);
-    let apiResponse = await axios.post("http://localhost:8081/api/auth/registerDoctor",payload);
+    let apiResponse = await axios.post(import.meta.env.REACT_APP_BACKEND_URL +"/api/auth/registerDoctor",payload);
        console.log(apiResponse);
     navigate('/doctor');
         
@@ -231,7 +231,7 @@ export const AuthContextProvider = ({children}) =>{
   const getDoctorProfile= async()=>{
        const profile = JSON.parse(localStorage.getItem("userProfile"));
        const id = profile.id
-       let apiResponse = await axios.get(`http://localhost:8081/api/doctor/getDoctorDetails/${id}`)
+       let apiResponse = await axios.get(`${import.meta.env.REACT_APP_BACKEND_URL}/api/doctor/getDoctorDetails/${id}`)
        setDocProfile(apiResponse.data)
        if(apiResponse.data.isSenior){
        localStorage.setItem("isDoctorSenior","1")}
@@ -243,7 +243,7 @@ export const AuthContextProvider = ({children}) =>{
   const getDocConsultation=async()=>{
     const profile = JSON.parse(localStorage.getItem("userProfile"));
     const id = profile.id
-    let apiResponse = await axios.get(`http://localhost:8081/api/doctor/getAllConsultationOfDoc/${id}`);
+    let apiResponse = await axios.get(`${import.meta.env.REACT_APP_BACKEND_URL}/api/doctor/getAllConsultationOfDoc/${id}`);
     setDocConsultation(apiResponse.data)
   }
 

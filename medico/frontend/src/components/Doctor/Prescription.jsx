@@ -16,7 +16,7 @@ const dateTimeString = `${dateString} ${timeString}`;
     const fetchdata = async()=>{
     const profile = JSON.parse(localStorage.getItem('userProfile'));
     const id = profile.id;
-    let apiResponse = await axios.get(`http://localhost:8081/api/doctor/getDoctorDetails/${id}`)
+    let apiResponse = await axios.get(`${import.meta.env.REACT_APP_BACKEND_URL}/api/doctor/getDoctorDetails/${id}`)
     setDoctor(apiResponse.data)
     console.log(doctor);}
 
