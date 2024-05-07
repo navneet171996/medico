@@ -13,7 +13,7 @@ const Regiester_doctor = () => {
     const [specId,setSpecId] = useState(0)
     useEffect(()=>{
           const fetchData=async()=>{
-              let apiResponse = await axios.get(import.meta.env.REACT_APP_BACKEND_URL +"api/home/allSpecialities")
+              let apiResponse = await axios.get(import.meta.env.REACT_APP_BACKEND_URL+"/api/home/allSpecialities")
               setSpec(apiResponse.data)
           }
           fetchData()
