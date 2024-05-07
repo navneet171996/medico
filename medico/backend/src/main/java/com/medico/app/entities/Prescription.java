@@ -2,11 +2,9 @@ package com.medico.app.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
@@ -16,9 +14,10 @@ import java.util.Set;
 @Table(name = "prescriptions")
 @Getter
 @Setter
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class Prescription {
+public class Prescription implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

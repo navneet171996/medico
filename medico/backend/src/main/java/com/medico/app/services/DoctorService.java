@@ -16,6 +16,7 @@ import com.medico.app.dto.SocketDto;
 import com.medico.app.entities.*;
 import com.medico.app.repositories.*;
 import org.springframework.stereotype.Service;
+import org.springframework.util.SerializationUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 @Service
@@ -210,5 +211,11 @@ public class DoctorService {
         prescriptionRepository.save(prescription);
         consultation.setPrescription(prescription);
         return consultationRepository.save(consultation);
+    }
+
+    public byte[] getDownloadablePrescription(Long consultationId) {
+        Consultation consultation = consultationRepository.findById(consultationId).orElseThrow();
+        Prescription prescription = consultation.getPrescription();
+        return SerializationUtils.serialize(prescription);
     }
 }
