@@ -53,16 +53,25 @@ public class DoctorQueueService {
 //    }
 
     public QueueDao getNextPatient(Long doctorId){
-        QueueDao poppedPatient = doctorQueuesMap.get(doctorId).poll();
-        QueueDao nextPatient = doctorQueuesMap.get(doctorId).peek();
-        Doctor doctor = doctorRepository.findById(doctorId).orElseThrow();
-        Patient patient = patientRepository.findById(nextPatient.getPatientId()).orElseThrow();
-        emailService.sendEmail(patient.getPatEmail(), "HURRY UP!! YOUR TURN HAS COME(medico.com)", String.format("Hi %s,\nYou are in line for Dr.%s", patient.getPatName(), doctor.getDocName()));
-        return poppedPatient;
+        if(!doctorQueuesMap.get(doctorId).isEmpty()){
+            QueueDao poppedPatient = doctorQueuesMap.get(doctorId).poll();
+            QueueDao nextPatient = doctorQueuesMap.get(doctorId).peek();
+            if(nextPatient != null){
+                Doctor doctor = doctorRepository.findById(doctorId).orElseThrow();
+                Patient patient = patientRepository.findById(nextPatient.getPatientId()).orElseThrow();
+                emailService.sendEmail(patient.getPatEmail(), "HURRY UP!! YOUR TURN HAS COME(medico.com)", String.format("Hi %s,\nYou are in line for Dr.%s", patient.getPatName(), doctor.getDocName()));
+            }
+
+            return poppedPatient;
+        }
+        return new QueueDao();
     }
 
     public QueueDao callNextPatient(Long doctorId){
-        return doctorQueuesMap.get(doctorId).peek();
+        if(doctorQueuesMap.get(doctorId).peek()!=null)
+            return doctorQueuesMap.get(doctorId).peek();
+        else
+            return new QueueDao();
     }
 
     public String deleteQueueOfDoctor(Long doctorId) {
