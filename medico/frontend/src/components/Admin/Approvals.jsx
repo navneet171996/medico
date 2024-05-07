@@ -12,7 +12,7 @@ const Approvals = () => {
     const id = profile.id
     const fetchDoctors = async () => {
       try {
-        const response = await axios.get(`http://localhost:8081/api/admin/getAppliedDoctorsList/${id}`);
+        const response = await axios.get(`${import.meta.env.REACT_APP_BACKEND_URL}/api/admin/getAppliedDoctorsList/${id}`);
         setDoctors(response.data);
       } catch (error) {
         console.error('Error fetching doctors:', error);
@@ -25,7 +25,7 @@ const Approvals = () => {
   const handleApproval = async (docId, accept) => {
     try {
       // Call the acceptOrRejectDoctor API with the appropriate payload
-      await axios.post('http://localhost:8081/api/admin/acceptOrRejectDoctor', {
+      await axios.post(import.meta.env.REACT_APP_BACKEND_URL +'/api/admin/acceptOrRejectDoctor', {
         docId: docId,
         accept: accept,
       });

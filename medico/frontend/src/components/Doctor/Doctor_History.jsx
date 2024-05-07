@@ -12,7 +12,7 @@ const Doctor_History = () => {
       const profile = JSON.parse(localStorage.getItem("userProfile"));
       const id = profile.id
       try {
-        const response = await axios.get(`http://localhost:8081/api/doctor/getAllConsultationOfDoc/${id}`);
+        const response = await axios.get(`${import.meta.env.REACT_APP_BACKEND_URL}/api/doctor/getAllConsultationOfDoc/${id}`);
         setOrders(response.data);
       } catch (error) {
         console.error('Error fetching orders:', error);

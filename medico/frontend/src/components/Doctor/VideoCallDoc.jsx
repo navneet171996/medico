@@ -14,7 +14,7 @@ import { notification ,Modal,Spin} from "antd";
 import axios from 'axios'
 
 
-const ENDPOINT = "http://127.0.0.1:3001/";
+const ENDPOINT = import.meta.env.REACT_APP_SIGNAL_URL;
 
 // const socket = io.connect(ENDPOINT);
 
@@ -50,7 +50,7 @@ function VideoCallDoc() {
             password:otp,
             patientId:12
         }
-        let apiResponse = axios.post("http://localhost:8081/api/doctor/verifyOtp",payload)
+        let apiResponse = axios.post(import.meta.env.REACT_APP_BACKEND_URL +"/api/doctor/verifyOtp",payload)
         if(apiResponse){
             setDocumentVisible(true)
         notification.success({
@@ -65,7 +65,7 @@ function VideoCallDoc() {
       const fetchDocuments = async () => {
         setLoading(true);
         try {
-          const response = await fetch(`http://localhost:8081/api/patient/files/12`);
+          const response = await fetch(`${import.meta.env.REACT_APP_BACKEND_URL}/api/patient/files/12`);
           const data = await response.json();
           setDocuments(data);
         } catch (error) {
@@ -78,7 +78,7 @@ function VideoCallDoc() {
       // Function to handle View button click
       const handleViewDocument = async (fileName) => {
         try {
-          const response = await fetch(`http://localhost:8081/api/patient/downloadOnePatientFile/${fileName}`);
+          const response = await fetch(`${import.meta.env.REACT_APP_BACKEND_URL}/api/patient/downloadOnePatientFile/${fileName}`);
           const blob = await response.blob();
           const blobUrl = URL.createObjectURL(blob);
           setDocumentUrl(blobUrl);

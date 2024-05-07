@@ -13,7 +13,7 @@ import axios from "axios";
 import io from "socket.io-client";
 
 
-const ENDPOINT = "http://127.0.0.1:3001/";
+const ENDPOINT = import.meta.env.REACT_APP_SIGNAL_URL;
 
 // const socket = io.connect(ENDPOINT);
 

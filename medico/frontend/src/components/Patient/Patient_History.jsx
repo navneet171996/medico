@@ -20,7 +20,7 @@ const Patient_History = () => {
     const fetchOrders = async () => {
       const patId = parseInt(localStorage.getItem('patId'));
       try {
-        const response = await axios.get(`http://localhost:8081/api/patient/getAllConsultationsOfPat/${patId}`);
+        const response = await axios.get(`${import.meta.env.REACT_APP_BACKEND_URL}/api/patient/getAllConsultationsOfPat/${patId}`);
         setOrders(response.data);
       } catch (error) {
         console.error('Error fetching orders:', error);
@@ -52,7 +52,7 @@ const Patient_History = () => {
 
   const handleDownload = async () => {
     try {
-        const response = await axios.get(`http://localhost:8081/api/patient/downloadPrescription/${selectedOrder?.consultationId}`, {
+        const response = await axios.get(`${import.meta.env.REACT_APP_BACKEND_URL}/api/patient/downloadPrescription/${selectedOrder?.consultationId}`, {
             responseType: 'arraybuffer', // Set responseType to 'arraybuffer'
         });
         let uint8Array = new Uint8Array(response.data);
@@ -134,7 +134,7 @@ const Patient_History = () => {
 
   const handleSubmit = async () => {
     try {
-      await axios.post('http://localhost:8081/api/patient/setRating', {
+      await axios.post(import.meta.env.REACT_APP_BACKEND_URL +'/api/patient/setRating', {
         consultationId: selectedOrder.consultationId,
         rating: rating,
         review: review,

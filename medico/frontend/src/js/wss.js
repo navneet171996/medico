@@ -24,7 +24,7 @@ export const registerSocketEvents = (socket) => {
       docId:profile.id,
       socketId:socket.id
    }
-   let apiResponse = axios.post("http://localhost:8081/api/doctor/putSocketOfDoctor",payload)
+   let apiResponse = axios.post(import.meta.env.REACT_APP_BACKEND_URL +"/api/doctor/putSocketOfDoctor",payload)
    console.log(apiResponse);
   }
     console.log("succesfully connected to socket.io server");
@@ -64,7 +64,7 @@ export const registerSocketEvents = (socket) => {
   socket.on("user-otp-request", () => {
     const profile = JSON.parse(localStorage.getItem("userProfile"));
     const id = profile.id
-    axios.get(`http://localhost:8081/api/patient/getOtp/${id}`)
+    axios.get(`${import.meta.env.REACT_APP_BACKEND_URL}/api/patient/getOtp/${id}`)
     .then(response => {
       const password = response.data.password;
       console.log("Password:", password); 

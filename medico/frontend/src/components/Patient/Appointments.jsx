@@ -23,7 +23,7 @@ const Appointments = () => {
   const fetchData = async () => {
     try {
       const patId = (localStorage.getItem('patId'));
-      const response = await axios.get(`http://localhost:8081/api/patient/getAllConsultationsOfPat/${patId}`);
+      const response = await axios.get(`${import.meta.env.REACT_APP_BACKEND_URL}/api/patient/getAllConsultationsOfPat/${patId}`);
       const data = response.data;
 
       setConsultations(data);
