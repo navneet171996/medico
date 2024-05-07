@@ -16,7 +16,6 @@ import com.medico.app.dto.SocketDto;
 import com.medico.app.entities.*;
 import com.medico.app.repositories.*;
 import org.springframework.stereotype.Service;
-import org.springframework.util.SerializationUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 @Service

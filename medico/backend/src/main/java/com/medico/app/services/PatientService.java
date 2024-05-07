@@ -11,6 +11,7 @@ import com.medico.app.entities.Consultation;
 import com.medico.app.repositories.ConsultationRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.util.SerializationUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -271,4 +272,6 @@ public class PatientService {
     public Socket getSocketOfPatient(Long patientId) {
         return socketRepository.findSocketByPatient_PatientID(patientId).orElseThrow();
     }
+
+
 }

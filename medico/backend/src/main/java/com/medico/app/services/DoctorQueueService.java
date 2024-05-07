@@ -4,7 +4,11 @@ import com.medico.app.dao.QueueDao;
 import com.medico.app.dto.ConsultationDto;
 import com.medico.app.dto.DoctorQueueDto;
 import com.medico.app.entities.Consultation;
+import com.medico.app.entities.Doctor;
+import com.medico.app.entities.Patient;
 import com.medico.app.repositories.ConsultationRepository;
+import com.medico.app.repositories.DoctorRepository;
+import com.medico.app.repositories.PatientRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -15,9 +19,15 @@ public class DoctorQueueService {
     private final Map<Long, Queue<QueueDao>> doctorQueuesMap = new HashMap<>();
     private final Map<Long, Long> ongoingConsultationsMap = new HashMap<>();
     private final ConsultationRepository consultationRepository;
+    private final PatientRepository patientRepository;
+    private final EmailService emailService;
+    private final DoctorRepository doctorRepository;
 
-    public DoctorQueueService(ConsultationRepository consultationRepository) {
+    public DoctorQueueService(ConsultationRepository consultationRepository, PatientRepository patientRepository, EmailService emailService, DoctorRepository doctorRepository) {
         this.consultationRepository = consultationRepository;
+        this.patientRepository = patientRepository;
+        this.emailService = emailService;
+        this.doctorRepository = doctorRepository;
     }
 
     public Integer enterIntoQueue(DoctorQueueDto doctorQueueDto) {
@@ -45,11 +55,25 @@ public class DoctorQueueService {
 //    }
 
     public QueueDao getNextPatient(Long doctorId){
-        return doctorQueuesMap.get(doctorId).poll();
+        if(!doctorQueuesMap.get(doctorId).isEmpty()){
+            QueueDao poppedPatient = doctorQueuesMap.get(doctorId).poll();
+            QueueDao nextPatient = doctorQueuesMap.get(doctorId).peek();
+            if(nextPatient != null){
+                Doctor doctor = doctorRepository.findById(doctorId).orElseThrow();
+                Patient patient = patientRepository.findById(nextPatient.getPatientId()).orElseThrow();
+                emailService.sendEmail(patient.getPatEmail(), "HURRY UP!! YOUR TURN HAS COME(medico.com)", String.format("Hi %s,\nYou are in line for Dr.%s", patient.getPatName(), doctor.getDocName()));
+            }
+
+            return poppedPatient;
+        }
+        return new QueueDao();
     }
 
     public QueueDao callNextPatient(Long doctorId){
-        return doctorQueuesMap.get(doctorId).peek();
+        if(doctorQueuesMap.get(doctorId).peek()!=null)
+            return doctorQueuesMap.get(doctorId).peek();
+        else
+            return new QueueDao();
     }
 
     public String deleteQueueOfDoctor(Long doctorId) {
