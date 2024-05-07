@@ -117,4 +117,9 @@ public class DoctorController {
     public ResponseEntity<ConsultationDto> getOngoingConsultationDetail(Long doctorId){
         return new ResponseEntity<>(doctorQueueService.getOngoingConsultation(doctorId), HttpStatus.OK);
     }
+
+    @GetMapping(path = "/downloadPrescription/{consultationId}")
+    public ResponseEntity<byte[]> getDownloadablePrescription(@PathVariable Long consultationId){
+        return new ResponseEntity<>(doctorService.getDownloadablePrescription(consultationId), HttpStatus.OK);
+    }
 }
