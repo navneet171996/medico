@@ -139,13 +139,20 @@ useEffect(()=>{
             console.log(apiResponse.data);
             localStorage.setItem("patientId", apiResponse.data.patientId);
             localStorage.setItem("consultId", apiResponse.data.consultationId);
+            const patId =  localStorage.getItem("patientId")
+            
     
+            
             // Second Axios request
             const response2 = await axios.get(`http://localhost:8081/api/doctor/getSocketOfPatient/${apiResponse.data.patientId}`);
             const callType = constants.callType.VIDEO_PERSONAL_CODE
             webRTCHandler.sendPreOffer(callType,response2.data.socketId );
             // Handle the response of the second request here
         } catch (error) {
+            notification.error({
+                message:"Patient not found",
+                description:"There is no patient in the queue, We will notify you through the mail when any patient is available.",
+                duration:10})
             console.error("Error occurred:", error);
         }
     };
@@ -156,6 +163,7 @@ useEffect(()=>{
 
     const handleNextCall = async() => {
         setShow(false)
+        try {
         const profile = JSON.parse(localStorage.getItem('userProfile'));
         const id = profile.id;
         let apiResponse = await axios.get(`http://localhost:8081/api/doctor/getSocketOfNextPatient/${id}`)
@@ -166,6 +174,22 @@ useEffect(()=>{
                 duration: 10
               });
         }
+        else{
+            notification.error({
+                message:"Patient not found",
+                description:"There is no patient in the queue, We will notify you through the mail when any patient is available.",
+                duration:10})
+        }
+        localStorage.setItem("patientId",null)
+        localStorage.setItem("consultId",null)}
+        catch (error) {
+            notification.error({
+                message:"Patient not found",
+                description:"There is no patient in the queue, We will notify you through the mail when any patient is available.",
+                duration:10})
+            console.error("Error occurred:", error);
+        }
+
     }
     
     // event listener for video call buttons
