@@ -22,7 +22,7 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Patient implements UserDetails {
+public class Patient{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -48,6 +48,7 @@ public class Patient implements UserDetails {
     private String patEmail;
 
     @Column(name = "password")
+    @JsonIgnore
     private String patPassword;
 
     @Enumerated(value = EnumType.STRING)
@@ -72,38 +73,4 @@ public class Patient implements UserDetails {
     @OneToMany(mappedBy = "patient")
     private List<OneTimePassword> oneTimePasswords;
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority("ROLE_"+role.name()));
-    }
-
-    @Override
-    public String getPassword() {
-        return this.patPassword;
-    }
-
-    @Override
-    public String getUsername() {
-        return this.patEmail;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
 }

@@ -4,12 +4,13 @@ import com.medico.app.entities.*;
 import com.medico.app.repositories.AdminTokenRepository;
 import com.medico.app.repositories.DoctorTokenRepository;
 import com.medico.app.repositories.PatientTokenRepository;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +18,7 @@ import javax.crypto.SecretKey;
 import java.util.Date;
 import java.util.Optional;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Service
 public class JwtUtil {
@@ -39,7 +41,7 @@ public class JwtUtil {
     }
 
     public String extractRoleFromToken(String token){
-        return extractClaim(token, claims -> claims.get("role", String.class));
+        return extractClaim(token, claims -> claims.get("roles", String.class));
     }
 
     public boolean isValid(String token, UserDetails userDetails){
@@ -47,13 +49,13 @@ public class JwtUtil {
         boolean isLoggedOut = Boolean.TRUE;
 
         boolean isAdmin = userDetails.getAuthorities().stream()
-                .anyMatch(authority -> authority.getAuthority().equals(Role.ADMIN.name()));
+                .anyMatch(authority -> authority.getAuthority().equals("ROLE_"+Role.ADMIN.name()));
 
         boolean isDoctor = userDetails.getAuthorities().stream()
-                .anyMatch(authority -> authority.getAuthority().equals(Role.DOCTOR.name()));
+                .anyMatch(authority -> authority.getAuthority().equals("ROLE_"+Role.DOCTOR.name()));
 
         boolean isPatient = userDetails.getAuthorities().stream()
-                .anyMatch(authority -> authority.getAuthority().equals(Role.PATIENT.name()));
+                .anyMatch(authority -> authority.getAuthority().equals("ROLE_"+Role.PATIENT.name()));
 
         if (isAdmin)
             isLoggedOut = this.isTokenLoggedOut(token, Role.ADMIN);
@@ -61,9 +63,6 @@ public class JwtUtil {
             isLoggedOut = this.isTokenLoggedOut(token, Role.DOCTOR);
         else if(isPatient)
             isLoggedOut = this.isTokenLoggedOut(token, Role.PATIENT);
-        System.out.println("1" + email.equals(userDetails.getUsername()));
-        System.out.println("2" + isLoggedOut);
-        System.out.println("3" + isTokenExpired(token));
         return email.equals(userDetails.getUsername()) && !isTokenExpired(token) && !isLoggedOut;
     }
 
@@ -110,11 +109,12 @@ public class JwtUtil {
                 .parseSignedClaims(token)
                 .getPayload();
     }
-    public String generateToken(Authentication authentication, String role){
+    public String generateToken(Authentication authentication){
+        String authorities = authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.joining(","));
         return Jwts
                 .builder()
                 .subject(authentication.getName())
-                .claim("role", role)
+                .claim("roles", authorities)
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + VALIDITY*1000))
                 .signWith(getSigningKey())

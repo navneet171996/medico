@@ -19,7 +19,7 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Admin implements UserDetails {
+public class Admin{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,6 +32,7 @@ public class Admin implements UserDetails {
     @Column(name = "admin_email")
     private String adminEmail;
 
+    @JsonIgnore
     @Column(name = "admin_password")
     private String adminPassword;
 
@@ -46,38 +47,4 @@ public class Admin implements UserDetails {
     @JsonIgnore
     private List<AdminToken> tokens;
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority("ROLE_"+role.name()));
-    }
-
-    @Override
-    public String getPassword() {
-        return this.adminPassword;
-    }
-
-    @Override
-    public String getUsername() {
-        return this.adminEmail;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
 }

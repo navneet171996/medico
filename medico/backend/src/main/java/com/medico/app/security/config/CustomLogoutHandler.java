@@ -19,11 +19,13 @@ public class CustomLogoutHandler implements LogoutHandler {
     private final AdminTokenRepository adminTokenRepository;
     private final DoctorTokenRepository doctorTokenRepository;
     private final PatientTokenRepository patientTokenRepository;
+    private final JwtUtil jwtUtil;
 
-    public CustomLogoutHandler(AdminTokenRepository adminTokenRepository, DoctorTokenRepository doctorTokenRepository, PatientTokenRepository patientTokenRepository) {
+    public CustomLogoutHandler(AdminTokenRepository adminTokenRepository, DoctorTokenRepository doctorTokenRepository, PatientTokenRepository patientTokenRepository, JwtUtil jwtUtil) {
         this.adminTokenRepository = adminTokenRepository;
         this.doctorTokenRepository = doctorTokenRepository;
         this.patientTokenRepository = patientTokenRepository;
+        this.jwtUtil = jwtUtil;
     }
 
     @Override
@@ -32,21 +34,22 @@ public class CustomLogoutHandler implements LogoutHandler {
         if(authHeader == null || !authHeader.startsWith("Bearer ")){
             return;
         }
-
         String token = authHeader.substring(7);
-        if(authentication.getAuthorities().contains(Role.ADMIN.name())){
+        String role = jwtUtil.extractRoleFromToken(token).substring(5);
+
+        if(role.equals(Role.ADMIN.name())){
             AdminToken adminToken= adminTokenRepository.findAdminTokenByToken(token).orElse(null);
             if(adminToken != null){
                 adminToken.setIsLoggedOut(true);
                 adminTokenRepository.save(adminToken);
             }
-        }else if(authentication.getAuthorities().contains(Role.DOCTOR.name())){
+        }else if(role.equals(Role.DOCTOR.name())){
             DoctorToken doctorToken = doctorTokenRepository.findDoctorTokenByToken(token).orElse(null);
             if(doctorToken != null){
                 doctorToken.setIsLoggedOut(true);
                 doctorTokenRepository.save(doctorToken);
             }
-        } else if (authentication.getAuthorities().contains(Role.PATIENT.name())) {
+        } else if (role.equals(Role.PATIENT.name())) {
             PatientToken patientToken = patientTokenRepository.findPatientTokenByToken(token).orElse(null);
             if(patientToken != null){
                 patientToken.setIsLoggedOut(true);

@@ -43,9 +43,6 @@ public class SecurityConfig{
                 new AntPathRequestMatcher("/api/auth/**"),
                 new AntPathRequestMatcher("/api/home/**"),
                 new AntPathRequestMatcher("/api/aux/**"),
-                new AntPathRequestMatcher("/api/patient/**"),
-                new AntPathRequestMatcher("/api/doctor/**"),
-                new AntPathRequestMatcher("/api/admin/**"),
                 new AntPathRequestMatcher("/api/superAdmin/**"),
                 new AntPathRequestMatcher("/api/filesaws/**")
         };
@@ -56,18 +53,15 @@ public class SecurityConfig{
                        req -> req
                                .requestMatchers(requestMatchers)
                                .permitAll()
-//                               .requestMatchers("/api/patient/**")
-//                               .authenticated()
-//                               .requestMatchers("/api/doctor/**")
-//                               .authenticated()
-//                               .requestMatchers("/api/admin/**")
-//                               .authenticated()
+                               .requestMatchers("/api/patient/**").hasRole("PATIENT")
+                               .requestMatchers("/api/doctor/**").hasRole("DOCTOR")
+                               .requestMatchers("/api/admin/**").hasRole("ADMIN")
                                .anyRequest()
                                .authenticated())
                .sessionManagement(
                        sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                .addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class)
-                .logout( l -> l.logoutUrl("/api/auth/logout")
+                .logout( l -> l.logoutUrl("/logout")
                         .addLogoutHandler(customLogoutHandler)
                         .logoutSuccessHandler(((request, response, authentication) -> SecurityContextHolder.clearContext())))
                .build();

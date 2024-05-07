@@ -23,7 +23,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Doctor implements UserDetails {
+public class Doctor{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -65,6 +65,7 @@ public class Doctor implements UserDetails {
     @Column(name = "email_id")
     private String email;
 
+    @JsonIgnore
     @Column(name = "password")
     private String password;
 
@@ -101,38 +102,4 @@ public class Doctor implements UserDetails {
     @OneToOne(mappedBy = "doctor")
     private Socket socket;
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority("ROLE_"+role.name()));
-    }
-
-    @Override
-    public String getUsername() {
-        return this.email;
-    }
-
-    @Override
-    public String getPassword() {
-        return this.password;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
 }
