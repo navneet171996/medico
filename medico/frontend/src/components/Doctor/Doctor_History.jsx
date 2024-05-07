@@ -38,8 +38,8 @@ const Doctor_History = () => {
           <h1 className="text-3xl font-semibold mb-8 text-center">Appointment Summary</h1>
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
             {orders.map((order) => (
-              <div key={order.consultationId} onClick={() => openDetailsPopup(order)} className="bg-mediumpurple-100 rounded-md p-6 cursor-pointer shadow-md hover:shadow-lg transition duration-300">
-                <h2 className="text-lg font-semibold mb-4 text-medium-purple-300">Order #{order.consultationId}</h2>
+              <div key={order.consultationId} onClick={() => openDetailsPopup(order)} className="bg-blue-400 text-white rounded-md p-6 cursor-pointer shadow-md hover:shadow-lg transition duration-300">
+                <h2 className="text-lg font-semibold mb-4 text-white">Order #{order.consultationId}</h2>
                 <div className="flex flex-row">
                   <div className='text-[20px]'>
                     <p><span className="font-semibold">Patient:</span> {order.patient.patName}</p>
@@ -56,13 +56,13 @@ const Doctor_History = () => {
           {selectedOrder && (
             <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-gray-800 bg-opacity-75">
               <div className="bg-white p-8 rounded-md">
-                <button className="absolute top-8 right-8 text-gray-600" onClick={closeDetailsPopup}>
+                <button className="absolute top-8 right-8 text-white" onClick={closeDetailsPopup}>
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                   </svg>
                 </button>
-                <h2 className="text-lg font-semibold mb-4 text-medium-purple-300">Order #{selectedOrder.consultationId}</h2>
-                <div className="text-black">
+                <h2 className="text-lg font-semibold mb-4 text-white">Order #{selectedOrder.consultationId}</h2>
+                <div className="text-white">
                   <p><span className="font-extrabold">Patient:</span> {selectedOrder.patient.patName}</p>
                   <p><span className="font-extrabold">Doctor:</span> {selectedOrder.doctor.docName}</p>
                   <p><span className="font-extrabold">Date:</span> {selectedOrder.date}</p>

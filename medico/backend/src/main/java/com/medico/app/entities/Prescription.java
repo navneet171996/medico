@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
@@ -18,7 +19,7 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Prescription {
+public class Prescription{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,12 +29,14 @@ public class Prescription {
     @Column(name = "observations")
     private String observations;
 
+    @Column(name = "remarks")
+    private String remarks;
+
     @Column(name = "medicines")
     @OneToMany(mappedBy = "prescription")
     private List<MedicineAndDosage> medicinesAndDosage;
 
-    @OneToOne
-    @JsonIgnore
+    @OneToOne(mappedBy = "prescription")
     private Consultation consultation;
 
 }

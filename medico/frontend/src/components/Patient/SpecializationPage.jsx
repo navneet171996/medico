@@ -13,7 +13,7 @@ const SpecializationPage = () => {
     const navigate = useNavigate()
 
     const {specializationId} = useContext(AuthContext)
-    const {spec} = useContext(AuthContext)
+   
     const {specialization} = useContext(AuthContext)
     const {doctorBySpecialization} = useContext(AuthContext)
     const {doctorList1} = useContext(AuthContext)
@@ -46,15 +46,15 @@ const SpecializationPage = () => {
       <div className='w-full grid grid-cols-2'>
         <div className='mr-[320px]'>
             <div className='flex justify-center text-center  '>
-                <div className='text-[50px] text-center '>{spec.specialityName}</div>
+                <div className='text-[50px] text-center '></div>
             </div>
-            <div className='text-xl text-center justify-center pos'>
-                Our best doctors in {spec.specialityName}
+            <div className='text-xl w-[1200px] text-center justify-center font-bold bg-pink-500 text-white p-3 rounded-lg'>
+            To cure sometimes, to relieve often, to comfort always <span><br /><img src="https://img.icons8.com/?size=80&id=Vk43dZKkJDPx&format=png" alt="" /></span>
             </div>
         </div>
-        <div className='flex flex-row'>
-        <div className='sort  '>
-            Sort by: 
+        <div className='flex flex-row relative left-[300px] top-[150px] pb-[50px]'>
+        <div className='sort font-bold text-[20px]  '>
+            SORT BY : 
         </div>
             <div className='px-2 pb-5'>
     <Select
@@ -80,7 +80,7 @@ const SpecializationPage = () => {
 
       </div>
 
- <div class="grid grid-cols-3 gap-4">
+ <div class="grid grid-cols-3 gap-4 mt-[30px]">
  
         {doctorList1.map(doctor => (
           <DoctorCard key={doctor.id} doctor={doctor} propWidth="unset" />

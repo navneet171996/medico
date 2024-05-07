@@ -27,13 +27,15 @@ public class DoctorQueueService {
             queueDao.setPatientId(doctorQueueDto.getPatientId());
             queueDao.setConsultationId(doctorQueueDto.getConsultationId());
             queue.add(queueDao);
+
             doctorQueuesMap.put(doctorQueueDto.getDocId(), queue);
-            return 1;
+            return 0;
         }else {
             QueueDao queueDao = new QueueDao();
             queueDao.setPatientId(doctorQueueDto.getPatientId());
             queueDao.setConsultationId(doctorQueueDto.getConsultationId());
             doctorQueuesMap.get(doctorQueueDto.getDocId()).add(queueDao);
+
             return doctorQueuesMap.get(doctorQueueDto.getDocId()).size()-1;
         }
     }

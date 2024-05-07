@@ -4,8 +4,7 @@ import com.medico.app.dto.*;
 import com.medico.app.entities.*;
 import com.medico.app.extras.dto.PatientFileDto;
 import com.medico.app.services.*;
-import com.medico.app.entities.Consultation;
-import com.medico.app.entities.Doctor;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -127,9 +126,8 @@ public class PatientController {
     }
 
     @GetMapping(path = "/files/{patientId}")
-    public ResponseEntity<List<PatientFileDto>> getPatientFiles(@PathVariable Long patientId){
-        List<PatientFileDto> patientFileDtos = patientService.getPatientFiles(patientId);
-        return ResponseEntity.ok(patientFileDtos);
+    public ResponseEntity<List<PatientFiles>> getPatientFiles(@PathVariable Long patientId){
+        return new ResponseEntity<List<PatientFiles>>(patientService.getPatientFiles(patientId), HttpStatus.OK);
     }
 
     @GetMapping(path = "/getOtp/{patientId}")
@@ -145,6 +143,11 @@ public class PatientController {
     @PostMapping(path = "/setOngoingConsultation/{consultationId}")
     public ResponseEntity<?> setOngoingConsultation(Long consultationId){
         return new ResponseEntity<>(doctorQueueService.setOngoingConsultation(consultationId), HttpStatus.OK);
+    }
+
+    @GetMapping(path = "/downloadPrescription/{consultationId}")
+    public ResponseEntity<PrescriptionDto> getDownloadablePrescription(@PathVariable Long consultationId){
+        return new ResponseEntity<>(doctorService.getDownloadablePrescription(consultationId), HttpStatus.OK);
     }
 
 }

@@ -16,6 +16,7 @@ import com.medico.app.dto.SocketDto;
 import com.medico.app.entities.*;
 import com.medico.app.repositories.*;
 import org.springframework.stereotype.Service;
+import org.springframework.util.SerializationUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 @Service
@@ -199,16 +200,23 @@ public class DoctorService {
         Consultation consultation = consultationRepository.findById(prescriptionDto.getConsultationId()).orElseThrow();
         Prescription prescription = new Prescription();
         prescription.setObservations(prescriptionDto.getObservations());
-        prescription.setMedicinesAndDosage(new ArrayList<>());
+        List<MedicineAndDosage> medicineAndDosages = new ArrayList<>();
         prescriptionDto.getMedicinesAndDosages().forEach(medicine -> {
             MedicineAndDosage medicineAndDosage = new MedicineAndDosage();
             medicineAndDosage.setMedicineName(medicine.getMedicine());
             medicineAndDosage.setDosage(medicine.getDosage());
-            medicineAndDosageRepository.save(medicineAndDosage);
-            prescription.getMedicinesAndDosage().add(medicineAndDosage);
+            medicineAndDosage.setPrescription(prescription);
+            medicineAndDosages.add(medicineAndDosage);
         });
         prescriptionRepository.save(prescription);
         consultation.setPrescription(prescription);
+        medicineAndDosageRepository.saveAll(medicineAndDosages);
         return consultationRepository.save(consultation);
+    }
+
+    public PrescriptionDto getDownloadablePrescription(Long consultationId) {
+        Consultation consultation = consultationRepository.findById(consultationId).orElseThrow();
+        Prescription prescription = prescriptionRepository.findById(consultation.getPrescription().getPrescriptionId()).orElseThrow();
+        return new PrescriptionDto(prescription);
     }
 }

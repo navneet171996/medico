@@ -112,7 +112,7 @@ const showChatCallElements = () => {
   const newMessageInput = document.getElementById("new_message");
   showElement(newMessageInput);
   //block panel
-  disableDashboard();
+ 
 };
 
 const showVideoCallElements = () => {
@@ -128,7 +128,7 @@ const showVideoCallElements = () => {
   const newMessageInput = document.getElementById("new_message");
   showElement(newMessageInput);
   //block panel
-  disableDashboard();
+  // disableDashboard();
 };
 //ui call buttons
 const micOnImgSrc = 'mic.png';

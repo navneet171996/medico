@@ -54,6 +54,16 @@ const Navbar_Admin = () => {
     <Link to="/adminApproval" className="relative font-semibold z-[1] no-underline text-black">Approvals</Link>
     
   </div>
+  <div className="flex flex-row items-center justify-start gap-[0px_13px]">
+    <img
+      className="h-6 w-6 relative object-cover min-h-[24px] z-[1]"
+      loading="eager"
+      alt=""
+      src="https://cdn-icons-png.flaticon.com/128/11472/11472723.png"
+    />
+    <Link to="/Hospital_Detail" className="relative font-semibold z-[1] no-underline text-black">Hospital</Link>
+    
+  </div>
  
 </nav>
     </div>

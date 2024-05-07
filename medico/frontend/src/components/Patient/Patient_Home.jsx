@@ -6,6 +6,11 @@ import AuthContext from '../../../Context/AuthContext';
 import axios from 'axios';
 import jwtInterceptor from '../../../helper/jwtInterceptor';
 import { CoffeeOutlined } from '@ant-design/icons';
+import { Button, Upload, message, Modal,Input,Table } from 'antd';
+import { UploadOutlined } from '@ant-design/icons';
+import { DownloadOutlined } from '@ant-design/icons';
+
+
 import Navbar from './Navbar';
 const Patient_Home = () => {
   const [messageIconChecked, setMessageIconChecked] = useState(true);
@@ -14,6 +19,10 @@ const Patient_Home = () => {
   const [patient, setPatient] = useState([]);
  const {logoutAPICall} = useContext(AuthContext)
  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+ const [docStatus,setDocStatus] = useState("")
+ const [documentName ,setDocumentName] = useState("")
+ const [documents, setDocuments] = useState([]);
+
  const [editedDetails, setEditedDetails] = useState({
    
    editName:'',
@@ -21,6 +30,97 @@ const Patient_Home = () => {
    editPhone:''
   
  });
+
+ //List of documents
+ useEffect(() => {
+  // Fetch documents from API
+  fetchDocuments();
+}, []);
+
+const fetchDocuments = async () => {
+  try {
+    const profile = JSON.parse(localStorage.getItem('userProfile'));
+    const id = profile.id;
+    const response = await axios.get(`http://localhost:8081/api/patient/files/${id}`);
+    const data =response.data;
+    setDocuments(data);
+  } catch (error) {
+    console.error('Error fetching documents:', error);
+  }
+};
+
+const columns = [
+  {
+    title: 'File Name',
+    dataIndex: 'placeholder',
+    key: 'fileName',
+  },
+  {
+    title: 'Actions',
+    key: 'actions',
+    render: (text, record) => (
+      <Button type='primary' icon={<DownloadOutlined />} onClick={() => handleDownload(record.fileName)}>
+        Download
+      </Button>
+    ),
+  },
+];
+
+const handleDownload = async (fileName) => {
+  try {
+    
+    const response = await fetch(`http://localhost:8081/api/patient/downloadOnePatientFile/${fileName}`);
+    const blob = await response.blob();
+    const url = window.URL.createObjectURL(blob);
+    // anchor element to trigger the download
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', fileName);
+    // Append the link to the body and click it programmatically
+    document.body.appendChild(link);
+    link.click();
+    // Clean up
+    window.URL.revokeObjectURL(url);
+    document.body.removeChild(link);
+    setModalVisible(true);
+    setDocStatus(`Downloading ${fileName}`);
+  } catch (error) {
+    console.error('Error downloading file:', error);
+  }
+};
+
+
+ //Upload Documents
+ const [fileList, setFileList] = useState([]);
+ const [modalVisible, setModalVisible] = useState(false);
+
+ const handleUpload = async () => {
+  try {
+    const formData = new FormData();
+    fileList.forEach(file => {
+      formData.append('file', file.originFileObj); // Using 'file' as the key
+    });
+
+    console.log("FormData:", formData);
+    if(documentName===""){return alert("Please insert the document name to continue.")}
+    let res = await axios.post(`http://localhost:8081/api/patient/uploadPatientsFiles/${patientProfile.patientId}/${documentName}`, formData);
+    console.log("Response:", res);
+    setDocStatus(res.data)
+    setModalVisible(true);
+  } catch (error) {
+    message.error('Failed to upload documents. Please try again.');
+  }
+};
+const handleFileChange = ({ file, fileList }) => {
+  console.log("File List:", fileList);
+  setFileList(fileList);
+};
+
+const handleCloseModal = () => {
+  setModalVisible(false);
+};
+
+
 
  const openEditModal = () => {
   const heroElement = document.getElementById("hero");
@@ -82,9 +182,9 @@ const Patient_Home = () => {
     <>
     
     
-    <div id='hero' className="w-full relative bg-whitesmoke-400 overflow-hidden flex flex-row items-start justify-start gap-[0px_32px] tracking-[normal] mq750:gap-[0px_32px] mq1025:pl-5 mq1025:pr-5 mq1025:box-border">
-    <Navbar/>
-      <main className="flex-1 flex flex-col items-start justify-start pt-5 px-0 pb-0 box-border max-w-[calc(100%_-_254px)] mq1025:max-w-full">
+    <div id='hero' className="w-full  sticky  bg-whitesmoke-400 overflow-hidden flex flex-row items-start justify-start gap-[0px_32px] tracking-[normal] mq750:gap-[0px_32px] mq1025:pl-5 mq1025:pr-5 ">
+   <div className=' h-full'> <Navbar/></div>
+      <main className="flex-1 flex flex-col items-start justify-start pt-5 px-0 pb-0  max-w-[calc(100%_-_254px)] mq1025:max-w-full">
         <section className="self-stretch flex flex-col items-start justify-start gap-[30px_0px] max-w-full">
         <div className="self-stretch flex flex-col items-start justify-start gap-[22px_0px] max-w-full text-left text-xs text-navy-100 font-nunito">
       <div className="self-stretch flex flex-row items-start justify-start gap-[0px_5px] top-[0] z-[99] sticky max-w-full">
@@ -146,7 +246,7 @@ const Patient_Home = () => {
             <img
               className="absolute top-[0px] left-[0px] rounded-8xs w-full h-full object-cover"
               alt=""
-              src="/unsplash0ammmujiieq@2x.png"
+              src="/xxx.jpg"
             />
             <button className="cursor-pointer [border:none] p-0 bg-neutral-colors-white absolute top-[199px] left-[925px] rounded-3xs w-[172px] h-[44.7px] whitespace-nowrap z-[2] hover:bg-gainsboro-100">
               <div className="absolute top-[0px] left-[0px] rounded-3xs bg-neutral-colors-white w-full h-full hidden" />
@@ -300,21 +400,43 @@ const Patient_Home = () => {
                         JPG, PNG or PDF, file size no more than 10MB
                       </div>
                     </div>
-                    <div className="rounded-[3.77px] bg-gradient-to-r from-sky-500 to-indigo-500 flex flex-row items-center justify-start py-[9.058441162109375px] pr-2.5 pl-[12.077921867370605px] whitespace-nowrap text-5xs-5 text-steelblue-100 border-[0.8px] border-solid border-steelblue-200">
-                      <div className="relative uppercase">Select file</div>
+                    <div className="rounded-[3.77px] bg-gradient-to-r from-sky-500 to-indigo-500 flex flex-row items-center justify-start py-[9.058441162109375px] pr-2.5 pl-[12.077921867370605px] whitespace-nowrap text-5xs-5 text-steelblue-100 ">
+                    <Upload
+        fileList={fileList}
+        onChange={handleFileChange}
+        beforeUpload={() => false}
+      >                       
+                      <button icon={<UploadOutlined />} className="relative uppercase text-white border-none"> Select file</button>
+                      </Upload>
+                     
                     </div>
+                    <Input
+                      placeholder="Enter document name"
+                      onChange={e => setDocumentName(e.target.value)}
+                      value={documentName}
+                    />
                   </div>
+                  
                 </div>
+                <Table columns={columns} dataSource={documents} className='w-full font-extrabold ' />
               </div>
             </div>
-            <div className="self-stretch rounded-t-none rounded-b-[7.55px] bg-gradient-to-r from-sky-500 to-indigo-500 shadow-[0px_0.8px_0.75px_rgba(0,_0,_0,_0.1)_inset] overflow-hidden flex flex-row items-start justify-start py-[15px] pr-11 pl-[574px] gap-[0px_5px] mq750:flex-wrap mq1025:pl-[287px] mq1025:pr-[22px] mq1025:box-border mq450:pl-5 mq450:box-border">
+            <div className="mt-[-70px] rounded-t-none rounded-b-[7.55px] bg-gradient-to-r from-sky-500 to-indigo-500 shadow-[0px_0.8px_0.75px_rgba(0,_0,_0,_0.1)_inset] overflow-hidden flex flex-row items-start justify-start py-[15px] pr-11 pl-[574px] gap-[0px_5px] mq750:flex-wrap mq1025:pl-[287px] mq1025:pr-[22px] mq1025:box-border mq450:pl-5 mq450:box-border">
               
-              <button className="cursor-pointer py-[9px] pr-[17px] pl-[18px] bg-neutral-colors-white rounded-[3.77px] shadow-[0px_0.8px_0.75px_rgba(0,_0,_0,_0.16)] flex flex-row items-center justify-center border-[0.8px] border-solid border-gray-1600 hover:bg-gainsboro-100 hover:box-border hover:border-[0.8px] hover:border-solid hover:border-darkslategray-200">
+              <button  onClick={handleUpload} className="cursor-pointer py-[9px] pr-[17px] pl-[18px] bg-neutral-colors-white rounded-[3.77px] shadow-[0px_0.8px_0.75px_rgba(0,_0,_0,_0.16)] flex flex-row items-center justify-center border-[0.8px] border-solid border-gray-1600 hover:bg-gainsboro-100 hover:box-border hover:border-[0.8px] hover:border-solid hover:border-darkslategray-200">
                 <div className="relative text-2xs-6 capitalize font-helvetica text-gray-1500 text-left">
                   upload
                 </div>
-                
               </button>
+              
+              <Modal
+        title="Upload Successful"
+        visible={modalVisible}
+        onOk={handleCloseModal}
+        onCancel={handleCloseModal}
+      >
+        <p className=' text-green-500 text-start font-bold'>{docStatus}</p>
+      </Modal>
             </div>
            
           </div>

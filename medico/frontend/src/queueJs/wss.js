@@ -15,22 +15,37 @@ export const registerSocketEvents = (socket) => {
   
   
 
-  socket.on("connect", () => {
-    const x = jwtDecode(localStorage.getItem("token"))
-   if(x.role==='DOCTOR'){ 
-    const profile = JSON.parse(localStorage.getItem("userProfile"))
-    let payload = {
-      docId:profile.id,
-      socketId:socket.id
-   }
-   let apiResponse = axios.post("http://localhost:8081/api/doctor/putSocketOfDoctor",payload)
-   console.log(apiResponse);
-  }
-    console.log("succesfully connected to socket.io server");
-    
+  socket.on("connect", async () => {
+    const x = jwtDecode(localStorage.getItem("token"));
+    if (x.role === 'DOCTOR') { 
+        const profile = JSON.parse(localStorage.getItem("userProfile"));
+        let payload = {
+            docId: profile.id,
+            socketId: socket.id
+        };
+        try {
+            let apiResponse = await axios.post("http://localhost:8081/api/doctor/putSocketOfDoctor", payload);
+            console.log(apiResponse);
+        } catch (error) {
+            console.error("Error occurred:", error);
+        }
+    } else if (x.role === "PATIENT") {
+        const profile = JSON.parse(localStorage.getItem("userProfile"));
+        let payload = {
+            patientId: profile.id,
+            socketId: socket.id
+        };
+        try {
+            let apiResponse = await axios.post("http://localhost:8081/api/patient/putSocketOfPatient", payload);
+            console.log("sumit ka response",apiResponse);
+        } catch (error) {
+            console.error("Error occurred:", error);
+        }
+    }
 
+    console.log("Successfully connected to socket.io server");
     store.setSocketId(socket.id);
-  });
+});
 
   socket.on("pre-offer", (data) => {
     webRTCHandler.handlePreOffer(data);

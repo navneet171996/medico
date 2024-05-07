@@ -13,7 +13,7 @@ const server = http.createServer(app);
 
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:3000", // change to match your
+    origin: "http://localhost:5173", // change to match your
     methods: ["GET", "POST"],
   }
 })
@@ -103,6 +103,32 @@ io.on("connection", (socket) => {
     connectedPeers = newConnectedPeers;
     console.log(connectedPeers);
   });
+
+  // otp request
+  socket.on("user-otp-request", (data) => {
+    const { connectedUserSocketId } = data;
+
+    const connectedPeer = connectedPeers.find(
+      (peerSocketId) => peerSocketId === connectedUserSocketId
+    );
+
+    if(connectedPeer)
+    {
+      io.to(connectedUserSocketId).emit("user-otp-request");
+    }
+  })
+  socket.on("send-patient-id", (data) => {
+    const connectedUserSocketId = data.connectedUserSocketId;
+
+    const connectedPeer = connectedPeers.find(
+      (peerSocketId) => peerSocketId === connectedUserSocketId
+    );
+    console.log(data.patientID);
+    if(connectedPeer)
+    {
+      io.to(connectedUserSocketId).emit("send-patient-id",data);
+    }
+  })
 });
 
 server.listen(PORT, () => {

@@ -151,7 +151,9 @@ export const AuthContextProvider = ({children}) =>{
 
 
   const getPatientDetails = async (payload) => {
-     let apiResponse = await axios.get("http://localhost:8081/api/patient/getPatientDetails/1");
+    const profile = JSON.parse(localStorage.getItem("userProfile"));
+       const id = profile.id
+     let apiResponse = await axios.get(`http://localhost:8081/api/patient/getPatientDetails/${id}`);
      setPatientProfile(apiResponse.data)
      localStorage.setItem('patId',apiResponse.data.patientId)
   }
@@ -161,6 +163,9 @@ export const AuthContextProvider = ({children}) =>{
     for (let speciality of specialization) {
       if (speciality['specialityId'] === specializationId) {
           setSpec(speciality)
+          if(speciality){
+            localStorage.setItem("special")
+          }
           console.log("spec is " + JSON.stringify(speciality))
       }}
   }
@@ -228,6 +233,11 @@ export const AuthContextProvider = ({children}) =>{
        const id = profile.id
        let apiResponse = await axios.get(`http://localhost:8081/api/doctor/getDoctorDetails/${id}`)
        setDocProfile(apiResponse.data)
+       if(apiResponse.data.isSenior){
+       localStorage.setItem("isDoctorSenior","1")}
+       else{ localStorage.setItem("isDoctorSenior","0")}
+       console.log("isDoctorSenior",localStorage.getItem("isDoctorSenior"));
+       localStorage.setItem("specialityOfDoctor",apiResponse.data.speciality?apiResponse.data.speciality.specialityName:"Not found")
   }
 
   const getDocConsultation=async()=>{

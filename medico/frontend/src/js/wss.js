@@ -6,6 +6,7 @@ import { jwtDecode } from "jwt-decode";
 import axios from "axios";
 import { useEffect } from "react";
 import React from "react";
+import { notification } from "antd";
 let socketIO = null;
 
 
@@ -58,6 +59,33 @@ export const registerSocketEvents = (socket) => {
         return;
     }
   });
+
+  // API CALLL
+  socket.on("user-otp-request", () => {
+    const profile = JSON.parse(localStorage.getItem("userProfile"));
+    const id = profile.id
+    axios.get(`http://localhost:8081/api/patient/getOtp/${id}`)
+    .then(response => {
+      const password = response.data.password;
+      console.log("Password:", password); 
+      notification.success({
+        message: 'OTP Received',
+        description: `The OTP for documents sharing is: ${password}`,
+        duration: 15
+      });
+
+      webRTCHandler.patientid();
+    })
+    .catch(error => {
+      // Handle any errors
+      console.error("Error:", error);
+    });
+  });
+
+  socket.on("patient-id", (data) => {
+    console.log(data.patientId);
+    localStorage.setItem("vcPatId",data.patientId)
+  })
 };
 
 export const sendPreOffer = (data) => {
@@ -76,4 +104,14 @@ export const sendDataUsingWebRTCSignaling = (data) => {
 
 export const sendUserHangUp = (data) => {
   socketIO.emit("user-hanged-up", data);
+}
+
+// otp
+export const sendUserOTPRequest = (data) => {
+  socketIO.emit("user-otp-request", data);
+}
+
+// sending patient id
+export const sendPatientId = (data) => {
+  socketIO.emit("send-patient-id",data);
 }

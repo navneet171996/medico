@@ -36,8 +36,12 @@ import Landing2 from './components/General/Landing2'
 import DocDet from './components/Patient/DocDet'
 import EnterHospital from './components/Patient/EnterHospital'
 import Approvals from './components/Admin/Approvals'
-import QueueVideoCall from './components/Doctor/QueueVideoCall'
 import Hospital_Detail from './components/Admin/Hospital_Detail'
+import WaitingQueue from './components/Patient/WaitingQueue'
+import Inspection from './components/Doctor/Inspection'
+import QueueVideoCall from './components/Patient/QueueVideoCall'
+import QueueVideoCallDoc from './components/Doctor/QueueVideoCallDoc'
+import Calls from './components/Doctor/Calls'
 // import VideoCall from './components/Patient/video call/VideoCall'
 
 
@@ -86,6 +90,8 @@ function App() {
             <Route path='/appointments'   element={ <PrivateRoute  accessBy="authenticated">  <PatientRoutes>  <Appointments />  </PatientRoutes> </PrivateRoute>}> </Route>
             <Route path='/details'   element={ <PrivateRoute  accessBy="authenticated">  <PatientRoutes>  <DocDet />  </PatientRoutes> </PrivateRoute>}> </Route>
             <Route path='/hospital'   element={ <PrivateRoute  accessBy="authenticated">  <PatientRoutes>  <EnterHospital />  </PatientRoutes> </PrivateRoute>}> </Route>
+            <Route path='/waitingArea'   element={ <PrivateRoute  accessBy="authenticated">  <PatientRoutes>  <WaitingQueue/>  </PatientRoutes> </PrivateRoute>}> </Route>
+            <Route path='/videoCallQueue'   element={ <PrivateRoute  accessBy="authenticated">  <PatientRoutes>  <QueueVideoCall/>  </PatientRoutes> </PrivateRoute>}> </Route>
 
 
             {/* <Route path='/videoCall'   element={ <PrivateRoute  accessBy="authenticated">  <PatientRoutes>  <VideoCall/>  </PatientRoutes> </PrivateRoute>}> </Route> */}
@@ -93,7 +99,9 @@ function App() {
               <Route path='/doctor_home'   element={ <PrivateRoute  accessBy="authenticated"> <DoctorRoutes>  <Doctor_View />  </DoctorRoutes></PrivateRoute> }> </Route>
               <Route path='/doctor_history'   element={ <PrivateRoute  accessBy="authenticated"> <DoctorRoutes>  <Doctor_History />  </DoctorRoutes></PrivateRoute> }> </Route>
               <Route path='/video_call_doc'   element={ <PrivateRoute  accessBy="authenticated"> <DoctorRoutes>  <VideoCallDoc />  </DoctorRoutes></PrivateRoute> }> </Route>
-              <Route path='/queue'   element={ <PrivateRoute  accessBy="authenticated"> <DoctorRoutes>  <QueueVideoCall />  </DoctorRoutes></PrivateRoute> }> </Route>
+              <Route path='/inspection'   element={ <PrivateRoute  accessBy="authenticated"> <DoctorRoutes>  <Inspection />  </DoctorRoutes></PrivateRoute> }> </Route>
+              <Route path='/queueVideoCall'   element={ <PrivateRoute  accessBy="authenticated"> <DoctorRoutes>  <QueueVideoCallDoc />  </DoctorRoutes></PrivateRoute> }> </Route>
+              <Route path='/calls'   element={ <PrivateRoute  accessBy="authenticated"> <DoctorRoutes>  <Calls />  </DoctorRoutes></PrivateRoute> }> </Route>
 
 
           {/* 404 page  */}

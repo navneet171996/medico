@@ -233,18 +233,19 @@ public class PatientService {
         }
     }
 
-    public List<PatientFileDto> getPatientFiles(Long patientId){
+    public List<PatientFiles> getPatientFiles(Long patientId){
         Patient patient = patientRepository.findById(patientId)
                 .orElseThrow(() -> new EntityNotFoundException("Patient not found with id: " + patientId));
-        List<PatientFileDto> patientFileDtos = new ArrayList<>();
-        for(PatientFiles patientFiles : patient.getPatientFiles()){
-            PatientFileDto dto = new PatientFileDto();
-            dto.setFileName(patientFiles.getFileName());
-            dto.setPlaceholder(patientFiles.getPlaceholder());
-            dto.setPatientName(patient.getPatName());
-            patientFileDtos.add(dto);
-        }
-        return patientFileDtos;
+        return patientFilesRepository.findPatientFilesByPatient_PatientID(patientId).orElseThrow();
+        // List<PatientFileDto> patientFileDtos = new ArrayList<>();
+        // for(PatientFiles patientFiles : patient.getPatientFiles()){
+        //     PatientFileDto dto = new PatientFileDto();
+        //     dto.setFileName(patientFiles.getFileName());
+        //     dto.setPlaceholder(patientFiles.getPlaceholder());
+        //     dto.setPatientName(patient.getPatName());
+        //     patientFileDtos.add(dto);
+        // }
+        // return patientFileDtos;
     }
 
     public Socket putSocketOfPatient(SocketDto socketDto) {

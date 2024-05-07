@@ -207,7 +207,7 @@ const Landing2 = () => {
               <div className="col-9 col-md-5 me-md-4 me-lg-0 order-3 order-md-1 timeline-content bg-white shadow-lg">
                 <h3 className=" text-light">Register Yourself</h3>
                 <p className='font-bold'>
-                 Resgister yourself as a patient by clicking the register button on the navigation and ready for be disease free.
+                 Register yourself as a patient by clicking the register button on the navigation and ready for be disease free.
                 </p>
               </div>
               <div className="col-3 col-sm-1 order-2 timeline-icons text-md-center">

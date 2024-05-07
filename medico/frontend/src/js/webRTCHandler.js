@@ -371,3 +371,24 @@ const setIncomingCallsAvailable = () => {
     store.setCallState(constants.callState.CALL_AVAILABLE_ONLY_CHAT);
   }
 }
+
+/// handle OTP
+export const handleOTP = () => {
+  const data = {
+    connectedUserSocketId: connectedUserDetails.socketId,
+  }
+  wss.sendUserOTPRequest(data);
+}
+
+
+// sending patient id
+export const patientid = () => {
+  const profile = JSON.parse(localStorage.getItem("userProfile"));
+ const id = profile.id
+  const data = {
+    patientID: id,
+    connectedUserSocketId: connectedUserDetails.socketId,
+  }
+  console.log(data.patientID);
+  wss.sendPatientId(data);
+}

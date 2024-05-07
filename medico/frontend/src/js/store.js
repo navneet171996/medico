@@ -7,6 +7,7 @@ let state = {
   screenSharingActive: false,
   screenSharingStream: null,
   callState: constants.callState.CALL_AVAILABLE_ONLY_CHAT,
+  patientId: null,
 };
 
 export const setSocketId = (socketId) => {
@@ -63,3 +64,4 @@ export const getState = () => {
   return state;
 };
 
+// export const setPatient
