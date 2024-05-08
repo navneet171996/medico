@@ -8,7 +8,7 @@ import io from "socket.io-client";
 
 // initialization of socketIO connection
 
-const ENDPOINT = "http://127.0.0.1:3001/";
+const ENDPOINT = import.meta.env.REACT_APP_SIGNAL_URL;
 
 const socket = io.connect(ENDPOINT);
 

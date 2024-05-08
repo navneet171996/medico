@@ -26,7 +26,7 @@ const Patient_View = () => {
           patientId:id
         }
         console.log("payload is",payload);
-        const response = await axios.post('http://localhost:8081/api/patient/getWaitingList',payload);
+        const response = await axios.post(import.meta.env.REACT_APP_BACKEND_URL +'/api/patient/getWaitingList',payload);
         setWaitingList(response.data);
       } catch (error) {
         console.error('Error fetching waiting list:', error);

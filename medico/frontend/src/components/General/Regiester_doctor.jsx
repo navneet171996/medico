@@ -1,14 +1,23 @@
-import React from 'react'
+import React, { useEffect,useState } from 'react'
 import { Link,useNavigate,useLocation } from 'react-router-dom'
 import { Select } from 'antd';
-import { useState } from 'react'
 import AuthContext from '../../../Context/AuthContext';
 import { useContext } from 'react';
 import { DatePicker, Space } from 'antd';
 import { Flex, Radio } from 'antd';
 import { Checkbox } from 'antd';
+import axios from 'axios';
 
 const Regiester_doctor = () => {
+    const [spec,setSpec] = useState([])
+    const [specId,setSpecId] = useState(0)
+    useEffect(()=>{
+          const fetchData=async()=>{
+              let apiResponse = await axios.get(import.meta.env.REACT_APP_BACKEND_URL+"/api/home/allSpecialities")
+              setSpec(apiResponse.data)
+          }
+          fetchData()
+    },[])
    
    
     const [user,setUser]=useState('');
@@ -54,7 +63,7 @@ const Regiester_doctor = () => {
               rate: 100.0,
               email:docEmail,
               password:docPassword,
-              specialityId: 1,
+              specialityId: specId,
               profilePicture:"",
               
 
@@ -62,6 +71,12 @@ const Regiester_doctor = () => {
              await registerDoc(payload)
   
       }
+      const handleSpecialityChange = (value) => {
+        // Transfer the selected specialityId to a function
+        console.log('Selected specialityId:', value);
+        setSpecId(value)
+        // Call your function here with the selected specialityId
+    };
 
     return (
         <div className="w-full bg-gray-800 h-[1400px]">
@@ -87,6 +102,22 @@ const Regiester_doctor = () => {
                                 <label className="font-semibold leading-none text-gray-300">Email ID</label>
                                 <input type="email" className="leading-none text-gray-50 p-3 focus:outline-none focus:border-blue-700 mt-4 border-0 bg-gray-800 rounded" onChange={(e) => setdocEmail(e.target.value)} value={docEmail} />
                             </div>
+                        </div>
+                        <div className='flex flex-row mt-8 text-gray-300'>
+                            <div className="flex flex-row items-center justify-start py-0 px-[11px]">
+                            <Select
+                                style={{ width: 200,backgroundColor:'black' }}
+                                placeholder="Select Speciality"
+                                onChange={handleSpecialityChange}
+                            >
+                                {spec.map(speciality => (
+                                    <Option key={speciality.specialityId} value={speciality.specialityId}>
+                                        {speciality.specialityName}
+                                    </Option>
+                                ))}
+                                </Select>
+                            </div>
+                           
                         </div>
                         <div className='flex flex-row mt-8 text-gray-300'>
                             <div className="flex flex-row items-center justify-start py-0 px-[11px]">

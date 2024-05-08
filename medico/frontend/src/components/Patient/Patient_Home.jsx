@@ -41,7 +41,7 @@ const fetchDocuments = async () => {
   try {
     const profile = JSON.parse(localStorage.getItem('userProfile'));
     const id = profile.id;
-    const response = await axios.get(`http://localhost:8081/api/patient/files/${id}`);
+    const response = await axios.get(`${import.meta.env.REACT_APP_BACKEND_URL}/api/patient/files/${id}`);
     const data =response.data;
     setDocuments(data);
   } catch (error) {
@@ -69,7 +69,7 @@ const columns = [
 const handleDownload = async (fileName) => {
   try {
     
-    const response = await fetch(`http://localhost:8081/api/patient/downloadOnePatientFile/${fileName}`);
+    const response = await fetch(`${import.meta.env.REACT_APP_BACKEND_URL}/api/patient/downloadOnePatientFile/${fileName}`);
     const blob = await response.blob();
     const url = window.URL.createObjectURL(blob);
     // anchor element to trigger the download
@@ -103,7 +103,7 @@ const handleDownload = async (fileName) => {
 
     console.log("FormData:", formData);
     if(documentName===""){return alert("Please insert the document name to continue.")}
-    let res = await axios.post(`http://localhost:8081/api/patient/uploadPatientsFiles/${patientProfile.patientId}/${documentName}`, formData);
+    let res = await axios.post(`${import.meta.env.REACT_APP_BACKEND_URL}/api/patient/uploadPatientsFiles/${patientProfile.patientId}/${documentName}`, formData);
     console.log("Response:", res);
     setDocStatus(res.data)
     setModalVisible(true);
@@ -168,7 +168,7 @@ const handleCloseModal = () => {
           patBloodGroup:editedDetails.editBloodGroup,
           patPhoneNo:editedDetails.editPhone
       }
-      let res = await axios.post("http://localhost:8081/api/patient/editPatientDetails",payload)
+      let res = await axios.post(import.meta.env.REACT_APP_BACKEND_URL +"/api/patient/editPatientDetails",payload)
       console.log(res);
       closeEditModal();
 

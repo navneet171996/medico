@@ -13,7 +13,7 @@ import axios from "axios";
 import io from "socket.io-client";
 
 
-const ENDPOINT = "http://127.0.0.1:3001/";
+const ENDPOINT = import.meta.env.REACT_APP_SIGNAL_URL;
 
 // const socket = io.connect(ENDPOINT);
 
@@ -44,7 +44,7 @@ function VideoCallPatient() {
         //axios call to fetch socket id 
         let fetchedSocketId = "";
         let x = localStorage.getItem("consulId");
-        let response = axios.get(`http://localhost:8081/api/patient/getSocketOfDoctor/${x}`);
+        let response = axios.get(`${import.meta.env.REACT_APP_BACKEND_URL}/api/patient/getSocketOfDoctor/${x}`);
         response.then(response => {
         if (response && response.data) {
             fetchedSocketId = response.data.socketId;
@@ -65,7 +65,7 @@ function VideoCallPatient() {
         console.log("video button clicked");
         var fetchedSocketId=""
         let x = localStorage.getItem("consulId")
-        let response = axios.get(`http://localhost:8081/api/patient/getSocketOfDoctor/${x}`)
+        let response = axios.get(`${import.meta.env.REACT_APP_BACKEND_URL}/api/patient/getSocketOfDoctor/${x}`)
         response.then(response => {
         
             if (response && response.data) {

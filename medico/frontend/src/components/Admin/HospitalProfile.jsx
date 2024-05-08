@@ -16,7 +16,7 @@ const Hospital_Detail = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`http://localhost:8081/api/admin/getDoctorsOfHospital/${hospitalId}`);
+        const response = await axios.get(`${import.meta.env.REACT_APP_BACKEND_URL}/api/admin/getDoctorsOfHospital/${hospitalId}`);
         if (response.data.length > 0) {
           setHospitalDetails(response.data[0].hospital);
           setNumDoctors(response.data.length); 

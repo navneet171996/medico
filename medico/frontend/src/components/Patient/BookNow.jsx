@@ -46,7 +46,7 @@ const BookNow = () => {
               "consultationTime":time
            }
          
-          let apiResponse = await axios.post('http://localhost:8081/api/patient/bookConsultation',payload);
+          let apiResponse = await axios.post(import.meta.env.REACT_APP_BACKEND_URL +'/api/patient/bookConsultation',payload);
           console.log(apiResponse);
           setSuccess(apiResponse)
           localStorage.setItem('bookedAppointment',JSON.stringify(apiResponse.data))
