@@ -151,4 +151,10 @@ public class PatientController {
         return new ResponseEntity<>(doctorService.getDownloadablePrescription(consultationId), HttpStatus.OK);
     }
 
+    @GetMapping(path = "/getDoctorDetails/{doctorId}")
+    public ResponseEntity<DoctorDTO> getDoctorDetails(@PathVariable Long doctorId) {
+        DoctorDTO doctorDto = doctorService.getDoctorDetails(doctorId);
+        return new ResponseEntity<>(doctorDto, HttpStatus.OK);
+    }
+
 }
