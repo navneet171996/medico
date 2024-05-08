@@ -85,13 +85,16 @@ public class DoctorQueueService {
     }
 
     public Integer getWaitingCount(DoctorQueueDto doctorQueueDto) {
-        Queue<QueueDao> queue = doctorQueuesMap.get(doctorQueueDto.getDocId());
-        int count = 0;
-        for (QueueDao queueDao : queue) {
-            if (Objects.equals(queueDao.getPatientId(), doctorQueueDto.getPatientId())) {
-                return count;
+        if(!doctorQueuesMap.isEmpty()){
+            Queue<QueueDao> queue = doctorQueuesMap.get(doctorQueueDto.getDocId());
+            int count = 0;
+            for (QueueDao queueDao : queue) {
+                if (Objects.equals(queueDao.getPatientId(), doctorQueueDto.getPatientId())) {
+                    return count;
+                }
+                count++;
             }
-            count++;
+            return -1;
         }
         return -1;
     }
